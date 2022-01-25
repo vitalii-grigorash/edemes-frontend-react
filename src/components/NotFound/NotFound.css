@@ -1,0 +1,6 @@
+.not-found {
+    display: flex;
+}
+.not-found__text {
+    margin: auto;
+}

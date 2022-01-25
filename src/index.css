@@ -1,0 +1,15 @@
+@import url(./vendor/normalize.css);
+@import url(./fonts/fonts.css);
+@import url(./components/App/App.css);
+@import url(./components/NotFound/NotFound.css);
+@import url(./components/SideBar/SideBar.css);
+@import url(./components/Header/Header.css);
+@import url(./components/BoxRegistration/BoxRegistration.css);
+@import url(./components/Tracking/Tracking.css);
+@import url(./components/Catalog/Catalog.css);
+@import url(./components/Users/Users.css);
+@import url(./components/BoxRegistrationGeneralInformation/BoxRegistrationGeneralInformation.css);
+@import url(./components/BoxRegistrationExhibits/BoxRegistrationExhibits.css);
+@import url(./components/BoxRegistrationRoute/BoxRegistrationRoute.css);
+@import url(./components/BoxRegistrationQrCode/BoxRegistrationQrCode.css);
+@import url(./components/TablePagination/TablePagination.css);

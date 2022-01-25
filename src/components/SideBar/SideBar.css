@@ -1,0 +1,72 @@
+.side-bar {
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 23px;
+    color: #FFFFFF;
+    letter-spacing: 0.1px;
+    background: #336699;
+    width: 264px;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+.side-bar__main-container {
+    display: flex;
+    flex-direction: column;
+}
+.side-bar__logo-container {
+    display: flex;
+    margin: 28px auto 25px 32px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.side-bar__logo {
+    background-image: url('../../images/logo.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 34px;
+    margin: 0 12px 0 0;
+}
+.side-bar__logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    margin: auto auto auto 0;
+    text-transform: uppercase;
+}
+.side-bar__link-container {
+    display: flex;
+    margin: 25px auto 0 35px;
+    opacity: .7;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+.side-bar__link-container_active {
+    opacity: 1;
+}
+.side-bar__link-icon {
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    margin: 0 16px 0 0;
+}
+.side-bar__link-icon_box-registration {
+    background-image: url('../../images/box-registration.svg');
+}
+.side-bar__link-icon_tracking {
+    background-image: url('../../images/tracking.svg');
+}
+.side-bar__link-icon_catalog {
+    background-image: url('../../images/catalog.svg');
+}
+.side-bar__link-icon_users {
+    background-image: url('../../images/users.svg');
+}
+.side-bar__link-text {
+    margin: auto auto auto 0;
+}

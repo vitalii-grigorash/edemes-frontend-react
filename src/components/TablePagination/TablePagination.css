@@ -1,0 +1,25 @@
+.table-pagination {
+    display: flex;
+    height: 56px;
+}
+.table-pagination__show-result-container {
+
+}
+.table-pagination__show-result-text {
+
+}
+.table-pagination__show-result-icon {
+
+}
+.table-pagination__page {
+
+}
+.table-pagination__page-change-container {
+
+}
+.table-pagination__page-change-prev {
+
+}
+.table-pagination__page-change-next {
+    
+}
