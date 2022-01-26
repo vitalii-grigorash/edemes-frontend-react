@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BoxRegistrationExhibitsTable from '../../utils/BoxRegistrationExhibitsTable.json';
+import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
 import TablePagination from '../TablePagination/TablePagination';
 
 function BoxRegistrationExhibits() {
@@ -23,7 +23,7 @@ function BoxRegistrationExhibits() {
     function onDownloadButtonClick() {
         setDownloadContainerActive(false);
         setTableContainerActive(true);
-        setExhibitsList(BoxRegistrationExhibitsTable);
+        setExhibitsList(BoxRegistrationExhibitsData);
     }
 
     function onImgSortIconClick() {

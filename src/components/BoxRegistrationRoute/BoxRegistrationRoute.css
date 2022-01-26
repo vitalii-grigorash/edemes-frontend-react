@@ -1,6 +1,105 @@
 .box-registration-route {
-
+    display: flex;
+    margin: 32px 0 0;
 }
-.box-registration-route__heading {
-    margin: 32px auto 0 0;
+.box-registration-route__form-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 180px 0 0;
+}
+.box-registration-route__icons-container {
+    display: flex;
+    margin: 0 auto 0 0;
+}
+.box-registration-route__icon-train {
+    background-image: url('../../images/train.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    margin: auto 18px auto 0;
+    opacity: .7;
+    cursor: pointer;
+}
+.box-registration-route__icon-train_active {
+    opacity: 1;
+}
+.box-registration-route__icon-airplane {
+    background-image: url('../../images/airplane.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    margin: auto 18px auto 0;
+    opacity: .7;
+    cursor: pointer;
+}
+.box-registration-route__icon-airplane_active {
+    opacity: 1;
+}
+.box-registration-route__icon-bus {
+    background-image: url('../../images/bus.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    margin: auto 18px auto 0;
+    opacity: .7;
+    cursor: pointer;
+}
+.box-registration-route__icon-bus_active {
+    opacity: 1;
+}
+.box-registration-route__icon-car {
+    background-image: url('../../images/car.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    margin: auto 0;
+    opacity: .7;
+    cursor: pointer;
+}
+.box-registration-route__icon-car_active {
+    opacity: 1;
+}
+.box-registration-route__inputs-container {
+    margin: 25px auto 0 0;
+    display: flex;
+    flex-direction: column;
+}
+.box-registration-route__input-container {
+    display: flex;
+    flex-direction: column;
+}
+.box-registration-route__input-container:last-of-type {
+    margin-top: 16px;
+}
+.box-registration-route__input-label {
+    font-size: 16px;
+    line-height: 19px;
+    margin: 0 auto 0 0;
+}
+.box-registration-route__input {
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 300px;
+    height: 46px;
+    margin-top: 8px;
+    padding: 0 16px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #333333;
+}
+.box-registration-route__travel-time {
+    font-size: 16px;
+    line-height: 24px;
+    color: #333333;
+    margin: 24px auto 0 0;
+}
+.box-registration-route__map-container {
+    width: 568px;
+    height: 258px;
+    margin: 0 auto 0 0;
 }
