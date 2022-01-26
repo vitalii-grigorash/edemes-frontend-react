@@ -9,6 +9,16 @@ function BoxRegistrationExhibits() {
     const [isImgSortActive, setImgSortActive] = useState(false);
     const [isListSortActive, setListSortActive] = useState(true);
     const [exhibitsList, setExhibitsList] = useState([]);
+    const [showResultsFrom, setShowResultsFrom] = useState(0);
+    const [resultsShow, setResultsShow] = useState(10);
+
+    function handleShowResultsFrom(value) {
+        setShowResultsFrom(value);
+    }
+
+    function handleResultsShow(value) {
+        setResultsShow(value);
+    }
 
     function onDownloadButtonClick() {
         setDownloadContainerActive(false);
@@ -58,16 +68,29 @@ function BoxRegistrationExhibits() {
                                 <p className='box-registration-exhibits__storage'>Место хранения</p>
                                 <p className='box-registration-exhibits__requirements'>Требования</p>
                             </div>
-                            {exhibitsList.map((list) => (
-                                <div key={list.id} className='box-registration-exhibits__table-rows'>
-                                    <p className='box-registration-exhibits__name'>{list.name}</p>
-                                    <p className='box-registration-exhibits__weight'>{list.weight}</p>
-                                    <p className='box-registration-exhibits__dimensions'>{list.dimensions}</p>
-                                    <p className='box-registration-exhibits__storage'>{list.storage}</p>
-                                    <p className='box-registration-exhibits__requirements'>{list.requirements}</p>
+                            {exhibitsList !== null ? (
+                                <>
+                                    {exhibitsList.slice(showResultsFrom, resultsShow).map((list) => (
+                                        <div key={list.id} className='box-registration-exhibits__table-rows'>
+                                            <p className='box-registration-exhibits__name'>{list.name}</p>
+                                            <p className='box-registration-exhibits__weight'>{list.weight}</p>
+                                            <p className='box-registration-exhibits__dimensions'>{list.dimensions}</p>
+                                            <p className='box-registration-exhibits__storage'>{list.storage}</p>
+                                            <p className='box-registration-exhibits__requirements'>{list.requirements}</p>
+                                        </div>
+                                    ))}
+                                </>
+                            ) : (
+                                <div className='box-registration-exhibits__table-rows'>
+                                    <p className='box-registration-exhibits__no-results-text'>Необходимо загрузить каталог</p>
                                 </div>
-                            ))}
-                            <TablePagination />
+                            )}
+
+                            <TablePagination
+                                exhibitsList={exhibitsList}
+                                handleShowResultsFrom={handleShowResultsFrom}
+                                handleResultsShow={handleResultsShow}
+                            />
                         </div>
                     )}
                 </div>
