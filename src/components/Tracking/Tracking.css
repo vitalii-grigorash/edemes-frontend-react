@@ -2,7 +2,43 @@
     padding: 32px 32px 32px 296px;
     background: #EEF0F1;
     min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: #666666;
 }
-.tracking__text {
+.tracking__heading {
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: 0.1px;
+    color: #333333;
     margin: 0 auto 0 0;
+}
+.tracking__table {
+    background: #FFFFFF;
+    box-shadow: 0px 6px 16px rgba(54, 58, 72, 0.07);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    margin: 24px auto 0;
+}
+.tracking__tabs-container {
+    display: flex;
+    border-bottom: 2px solid #EBEBEB;
+    height: 29px;
+    margin: 0 auto 0 0;
+}
+.tracking__tab {
+    margin: 0 24px 0 0;
+    cursor: pointer;
+}
+.tracking__tab:last-of-type {
+    margin-right: 0;
+}
+.tracking__tab_active {
+    color: #333333;
+    border-bottom: 2px solid #336699;
 }

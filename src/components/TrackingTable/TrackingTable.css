@@ -1,0 +1,131 @@
+.tracking-table {
+    display: flex;
+    flex-direction: column;
+}
+.tracking-table__under-table-container {
+    display: flex;
+    margin: 32px 0 0;
+}
+.tracking-table__search-container {
+    display: flex;
+    margin: 0 auto 0 0;
+    position: relative;
+}
+.tracking-table__search-icon {
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    background-image: url('../../images/search.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+.tracking-table__search-input {
+    width: 300px;
+    height: 46px;
+    margin: 0 8px 0 0;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #333333;
+    padding: 0 16px 0 50px;
+}
+.tracking-table__search-input::placeholder {
+    font-size: 16px;
+    line-height: 22px;
+    color: #666666;
+    opacity: 0.9;
+}
+.tracking-table__search-button {
+    width: 95px;
+    height: 46px;
+    border: none;
+    background: #336699;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+.tracking-table__img-sort-icon {
+    background-image: url('../../images/view-img.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    margin: auto 18px auto auto;
+    cursor: pointer;
+}
+.tracking-table__img-sort-icon_active {
+    background-image: url('../../images/view-img-active.svg');
+}
+.tracking-table__list-sort-icon {
+    background-image: url('../../images/view-list.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+    margin: auto 0;
+    cursor: pointer;
+}
+.tracking-table__list-sort-icon_active {
+    background-image: url('../../images/view-list-active.svg');
+}
+.tracking-table__container {
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    margin: 16px 0 0;
+}
+.tracking-table__rows {
+    display: flex;
+    height: 52px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #CCCCCC;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.0025em;
+    color: #333333;
+}
+.tracking-table__rows_heading {
+    font-weight: 500;
+}
+.tracking-table__name {
+    min-width: 203px;
+    margin: auto 32px;
+}
+.tracking-table__route {
+    min-width: 170px;
+    margin: auto 32px auto 0;
+}
+.tracking-table__weight {
+    min-width: 50px;
+    margin: auto 32px auto 0;
+}
+.tracking-table__dimensions {
+    min-width: 82px;
+    margin: auto 32px auto 0;
+}
+.tracking-table__departure {
+    min-width: 127px;
+    margin: auto 32px auto 0;
+}
+.tracking-table__arrival {
+    min-width: 103px;
+    margin: auto 32px auto 0;
+}
+.tracking-table__status {
+    min-width: 62px;
+    margin: auto auto auto 0;
+}
+.tracking-table__status_green {
+    color: #0FB971;
+}
+.tracking-table__status_red {
+    color: #E84747;
+}
+.tracking-table__no-results-text {
+    margin: auto;
+}

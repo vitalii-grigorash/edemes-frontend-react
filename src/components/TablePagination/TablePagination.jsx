@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 function TablePagination(props) {
 
     const {
-        exhibitsList,
+        sortList,
         handleShowResultsFrom,
         handleResultsShow
     } = props;
@@ -18,19 +18,19 @@ function TablePagination(props) {
     const [allPages, setAllPages] = useState(0);
 
     useEffect(() => {
-        const pages = exhibitsList.length / selectedResultsShow
+        const pages = sortList.length / selectedResultsShow
         setAllPages(Math.ceil(pages));
-    }, [exhibitsList.length, selectedResultsShow]);
+    }, [sortList.length, selectedResultsShow]);
 
     useEffect(() => {
-        exhibitsList.map((list) => {
+        sortList.map((list) => {
             if (list.id) {
                 return setShowSortOptions(true);
             } else {
                 return setShowSortOptions(false);
             }
         })
-    }, [exhibitsList]);
+    }, [sortList]);
 
     function showPrevResults() {
         if (resultsShow <= result) {
@@ -45,7 +45,7 @@ function TablePagination(props) {
     }
 
     function showNextResults() {
-        if (resultsShow >= exhibitsList.length) {
+        if (resultsShow >= sortList.length) {
             return
         } else {
             setShowResultsFrom(0 + resultsShow);

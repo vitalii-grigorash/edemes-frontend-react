@@ -85,9 +85,8 @@ function BoxRegistrationExhibits() {
                                     <p className='box-registration-exhibits__no-results-text'>Необходимо загрузить каталог</p>
                                 </div>
                             )}
-
                             <TablePagination
-                                exhibitsList={exhibitsList}
+                                sortList={exhibitsList}
                                 handleShowResultsFrom={handleShowResultsFrom}
                                 handleResultsShow={handleResultsShow}
                             />

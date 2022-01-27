@@ -1,0 +1,172 @@
+[
+    {
+        "id": "123439247q5s3q-daw1dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw2dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "В пути"
+    },
+    {
+        "id": "123439247q5s3q-daw3dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw4dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw5dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Отменен"
+    },
+    {
+        "id": "123439247q5s3q-daw6dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw7dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "В пути"
+    },
+    {
+        "id": "123439247q5s3q-daw8dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw9dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw10dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Отменен"
+    },
+    {
+        "id": "123439247q5s3q-daw11dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "В пути"
+    },
+    {
+        "id": "123439247q5s3q-daw12dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw13dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw14dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw15dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Отменен"
+    },
+    {
+        "id": "123439247q5s3q-daw16dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "Прибыл"
+    },
+    {
+        "id": "123439247q5s3q-daw17dbvor",
+        "name": "Ящик 1",
+        "route": "Санкт-Петербург - Париж",
+        "weight": "450",
+        "dimensions": "0,3 * 0,4",
+        "departure": "11.02.2022",
+        "arrival": "11.02.2022",
+        "status": "В пути"
+    }
+]
