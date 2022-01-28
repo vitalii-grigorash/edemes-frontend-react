@@ -2,7 +2,189 @@
     padding: 32px 32px 32px 296px;
     background: #EEF0F1;
     min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: #666666;
 }
-.users__text {
+.users__heading {
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: 0.1px;
+    color: #333333;
     margin: 0 auto 0 0;
+}
+.users__add-user-container {
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    box-shadow: 0px 6px 16px rgba(54, 58, 72, 0.07);
+    border-radius: 4px;
+    margin: 24px 0 0;
+}
+.users__add-user-heading {
+    color: #333333;
+    margin: 32px auto 0 32px;
+}
+.users__add-user-inputs-container {
+    display: flex;
+    margin: 32px auto 0 32px;
+}
+.users__add-user-inputs-container:last-of-type {
+    margin-top: 24px;
+}
+.users__add-user-input-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 24px 0 0;
+}
+.users__add-user-input-container:last-of-type {
+    margin-right: 0;
+}
+.users__add-user-input-label {
+    font-size: 16px;
+    line-height: 19px;
+    color: #666666;
+    opacity: 0.9;
+    margin: 0 auto 0 0;
+}
+.users__add-user-input {
+    width: 300px;
+    height: 46px;
+    margin: 8px 0 0;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0 16px;
+}
+.users__add-user-role-container {
+    display: flex;
+    position: relative;
+    width: 300px;
+    height: 46px;
+    margin: 8px 0 0;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.users__add-user-role-text {
+    font-size: 16px;
+    line-height: 22px;
+    color: #333333;
+    opacity: 0.9;
+    margin: auto auto auto 16px;
+}
+.users__add-user-role-arrow-icon {
+    background-image: url('../../images/arrow-drop-down.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    margin: auto 10px auto auto;
+}
+.users__add-user-role-options-container {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    width: 300px;
+    background: #FFFFFF;
+    box-shadow: 0px 3px 4px rgba(177, 184, 197, 0.14), 0px 3px 3px rgba(177, 184, 197, 0.12), 0px 1px 8px rgba(177, 184, 197, 0.2);
+    border-radius: 4px;
+    z-index: 1;
+    cursor: default;
+}
+.users__add-user-role-options-container_active {
+    display: flex;
+}
+.users__add-user-role-option-container {
+    display: flex;
+    height: 46px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 22px;
+    color: #333333;
+    cursor: pointer;
+}
+.users__add-user-role-option-container:hover {
+    background: #ECEDF3;
+}
+.users__add-user-role-option {
+    margin: auto auto auto 16px;
+}
+.users__user-add-button {
+    width: 122px;
+    height: 46px;
+    border: none;
+    background: #336699;
+    border-radius: 4px;
+    margin: 32px auto 32px 32px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+.users__table-container {
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    box-shadow: 0px 6px 16px rgba(54, 58, 72, 0.07);
+    border-radius: 4px;
+    margin: 59px 0 0;
+}
+.users__table-heading {
+    color: #333333;
+    margin: 32px auto 0 32px;
+}
+.users__table {
+    display: flex;
+    flex-direction: column;
+    margin: 32px;
+    border: 1px solid #DFDEDE;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+.users__table-rows {
+    display: flex;
+    height: 52px;
+    border-bottom: 1px solid #DFDEDE;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.0025em;
+    color: #333333;
+}
+.users__table-rows_heading {
+    font-weight: 500;
+}
+.users__table-last-name {
+    min-width: 137px;
+    margin: auto 32px;
+}
+.users__table-first-name {
+    min-width: 137px;
+    margin: auto 32px auto 0;
+}
+.users__table-middle-name {
+    min-width: 137px;
+    margin: auto 32px auto 0;
+}
+.users__table-login {
+    min-width: 137px;
+    margin: auto 32px auto 0;
+}
+.users__table-password {
+    min-width: 137px;
+    margin: auto 32px auto 0;
+}
+.users__table-role {
+    min-width: 137px;
+    margin: auto auto auto 0;
+}
+.users__no-results-text {
+    margin: auto;
 }
