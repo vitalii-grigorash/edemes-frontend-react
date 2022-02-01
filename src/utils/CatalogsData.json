@@ -73,6 +73,15 @@
                 "dimensions": "0,3 * 0,4",
                 "storage": "Эрмитаж",
                 "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-5",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
             }
         ]
     },
@@ -699,6 +708,202 @@
             },
             {
                 "id": "qwe-16",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            }
+        ]
+    },
+    {
+        "id": "qwe-133",
+        "name": "Каталог 11",
+        "img": "catalog-img-people.svg",
+        "exhibits": [
+            {
+                "id": "qwe-1",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-2",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-3",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-4",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-5",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-6",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-7",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-8",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-9",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-10",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-11",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-12",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-13",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-14",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-15",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-16",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-17",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-18",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-19",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-20",
+                "name": "Девочка с персиками",
+                "category": "Живопись",
+                "weight": "450",
+                "dimensions": "0,3 * 0,4",
+                "storage": "Эрмитаж",
+                "requirements": "Хрупкое, осторожно"
+            },
+            {
+                "id": "qwe-21",
                 "name": "Девочка с персиками",
                 "category": "Живопись",
                 "weight": "450",
