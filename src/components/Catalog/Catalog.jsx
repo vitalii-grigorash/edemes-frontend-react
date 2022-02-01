@@ -20,7 +20,7 @@ function Catalog() {
         setListSortActive(true);
     }
 
-    function handleShowCatalog () {
+    function handleShowCatalog() {
         if (isCatalogShow) {
             setCatalogShow(false);
         } else {
@@ -31,6 +31,20 @@ function Catalog() {
     function onCatalogClick(catalog) {
         handleShowCatalog();
         setCatalogExhibitsList(catalog);
+    }
+
+    const exhibitsText = (array) => {
+        const value = array.length % 10;
+        const doubleValue = array.length;
+        if (doubleValue === 11 || doubleValue === 12 || doubleValue === 13 || doubleValue === 14) {
+            return 'экспонатов'
+        }
+        if (value === 1) {
+            return 'экспонат'
+        } else if (value === 2 || value === 3 || value === 4) {
+            return 'экспоната'
+        }
+        return 'экспонатов'
     }
 
     return (
@@ -55,7 +69,7 @@ function Catalog() {
                                     <div key={catalog.id} className='catalog__grid-item-container' onClick={() => onCatalogClick(catalog)}>
                                         <img className='catalog__img' src={require(`../../images/${catalog.img}`)} alt="Изображение каталога" />
                                         <p className='catalog__name'>{catalog.name}</p>
-                                        <p className='catalog__exhibits-value'>{catalog.exhibits.length} экс.</p>
+                                        <p className='catalog__exhibits-value'>{catalog.exhibits.length} {exhibitsText(catalog.exhibits)}</p>
                                     </div>
                                 ))}
                             </div>
@@ -67,6 +81,7 @@ function Catalog() {
                     catalogName={catalogExhibitsList.name}
                     exhibits={catalogExhibitsList.exhibits}
                     onCatalogBackClick={handleShowCatalog}
+                    exhibitsText={exhibitsText}
                 />
             )}
         </div>

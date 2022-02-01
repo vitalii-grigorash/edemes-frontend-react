@@ -6,7 +6,8 @@ function CatalogTable(props) {
     const {
         catalogName,
         exhibits,
-        onCatalogBackClick
+        onCatalogBackClick,
+        exhibitsText
     } = props;
 
     const [isImgSortActive, setImgSortActive] = useState(false);
@@ -14,23 +15,9 @@ function CatalogTable(props) {
     const [showResultsFrom, setShowResultsFrom] = useState(0);
     const [resultsShow, setResultsShow] = useState(10);
 
-    const exhibitsText = () => {
-        const value = exhibits.length % 10;
-        const doubleValue = exhibits.length;
-        if (doubleValue === 11 || doubleValue === 12 || doubleValue === 13 || doubleValue === 14) {
-            return 'экспонатов'
-        }
-        if (value === 1) {
-            return 'экспонат'
-        } else if (value === 2 || value === 3 || value === 4) {
-            return 'экспоната'
-        }
-        return 'экспонатов'
-    }
-
-    const foundText = () => {
-        const value = exhibits.length % 10;
-        const doubleValue = exhibits.length;
+    const foundText = (array) => {
+        const value = array.length % 10;
+        const doubleValue = array.length;
         if (doubleValue === 11 || doubleValue === 12 || doubleValue === 13 || doubleValue === 14) {
             return 'Найдено'
         }
@@ -68,7 +55,7 @@ function CatalogTable(props) {
             </div>
             <div className='catalog-table__main-container'>
                 <div className='catalog-table__main-container-heading'>
-                    <p className='catalog-table__main-container-results'>{foundText()} {exhibits.length} {exhibitsText()}</p>
+                    <p className='catalog-table__main-container-results'>{foundText(exhibits)} {exhibits.length} {exhibitsText(exhibits)}</p>
                     <div className={`catalog-table__main-container-img-sort-icon ${isImgSortActive && 'catalog-table__main-container-img-sort-icon_active'}`} onClick={onImgSortActiveClick} />
                     <div className={`catalog-table__main-container-list-sort-icon ${isListSortActive && 'catalog-table__main-container-list-sort-icon_active'}`} onClick={onListSortActiveClick} />
                 </div>
