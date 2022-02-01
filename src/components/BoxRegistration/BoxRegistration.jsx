@@ -12,6 +12,36 @@ function BoxRegistration() {
     const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(false);
     const [isBoxRegistrationQrCodeActive, setBoxRegistrationQrCodeActive] = useState(false);
 
+    function onGeneralInformationTabClick () {
+        setBoxRegistrationQrCodeActive(false);
+        setBoxRegistrationRouteActive(false);
+        setBoxRegistrationExhibitsActive(false);
+        setBoxRegistrationGeneralInformationActive(true);
+    }
+
+    function onExhibitsTabClick () {
+        setBoxRegistrationQrCodeActive(false);
+        setBoxRegistrationRouteActive(false);
+        setBoxRegistrationGeneralInformationActive(false);
+        setBoxRegistrationExhibitsActive(true);
+    }
+
+    function onRouteTabClick () {
+        setBoxRegistrationQrCodeActive(false);
+        setBoxRegistrationRouteActive(false);
+        setBoxRegistrationGeneralInformationActive(false);
+        setBoxRegistrationExhibitsActive(false);
+        setBoxRegistrationRouteActive(true);
+    }
+
+    function onQrCodeTabClick () {
+        setBoxRegistrationRouteActive(false);
+        setBoxRegistrationGeneralInformationActive(false);
+        setBoxRegistrationExhibitsActive(false);
+        setBoxRegistrationRouteActive(false);
+        setBoxRegistrationQrCodeActive(true);
+    }
+
     function prevTabClick() {
         if (isBoxRegistrationQrCodeActive) {
             setBoxRegistrationQrCodeActive(false);
@@ -46,10 +76,10 @@ function BoxRegistration() {
             <h1 className='box-registration__heading'>Регистрация ящика</h1>
             <div className='box-registration__form'>
                 <div className='box-registration__form-nav-container'>
-                    <p className={`box-registration__form-nav-text ${isBoxRegistrationGeneralInformationActive && 'box-registration__form-nav-text_active'}`}>Общая информация</p>
-                    <p className={`box-registration__form-nav-text ${isBoxRegistrationExhibitsActive && 'box-registration__form-nav-text_active'}`}>Экспонаты</p>
-                    <p className={`box-registration__form-nav-text ${isBoxRegistrationRouteActive && 'box-registration__form-nav-text_active'}`}>Маршрут</p>
-                    <p className={`box-registration__form-nav-text ${isBoxRegistrationQrCodeActive && 'box-registration__form-nav-text_active'}`}>QR код</p>
+                    <p className={`box-registration__form-nav-text ${isBoxRegistrationGeneralInformationActive && 'box-registration__form-nav-text_active'}`} onClick={onGeneralInformationTabClick}>Общая информация</p>
+                    <p className={`box-registration__form-nav-text ${isBoxRegistrationExhibitsActive && 'box-registration__form-nav-text_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
+                    <p className={`box-registration__form-nav-text ${isBoxRegistrationRouteActive && 'box-registration__form-nav-text_active'}`} onClick={onRouteTabClick}>Маршрут</p>
+                    <p className={`box-registration__form-nav-text ${isBoxRegistrationQrCodeActive && 'box-registration__form-nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
                 </div>
                 {isBoxRegistrationGeneralInformationActive &&
                     (
