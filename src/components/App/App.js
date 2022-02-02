@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Redirect, Route, Switch } from 'react-router-dom';
 import SideBar from "../SideBar/SideBar";
 import Header from "../Header/Header";
@@ -6,9 +6,21 @@ import BoxRegistration from "../BoxRegistration/BoxRegistration";
 import Tracking from "../Tracking/Tracking";
 import Catalog from "../Catalog/Catalog";
 import Users from "../Users/Users";
+import CatalogPopup from "../CatalogPopup/CatalogPopup";
 import NotFound from "../NotFound/NotFound";
+import CatalogsData from '../../utils/CatalogsData.json';
 
 function App() {
+
+  const [isCatalogPopupOpen, setCatalogPopupOpen] = useState(false);
+
+  function handleOpenCatalogPopupClick() {
+    if (isCatalogPopupOpen) {
+      setCatalogPopupOpen(false);
+    } else {
+      setCatalogPopupOpen(true);
+    }
+  }
 
   return (
 
@@ -29,7 +41,10 @@ function App() {
         </Route>
 
         <Route path='/catalog' exact>
-          <Catalog />
+          <Catalog
+            catalogsData={CatalogsData}
+            handleOpenCatalogPopupClick={handleOpenCatalogPopupClick}
+          />
         </Route>
 
         <Route path='/users' exact>
@@ -42,6 +57,12 @@ function App() {
         </Switch>
 
       </Switch>
+
+      <CatalogPopup
+        catalogsData={CatalogsData}
+        isOpen={isCatalogPopupOpen}
+        onClosePopupClick={handleOpenCatalogPopupClick}
+      />
 
     </div>
 
