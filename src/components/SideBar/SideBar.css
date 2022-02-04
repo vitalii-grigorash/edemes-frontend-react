@@ -67,6 +67,12 @@
 .side-bar__link-icon_users {
     background-image: url('../../images/users.svg');
 }
+.side-bar__link-icon_fixation {
+    background-image: url('../../images/fixation.svg');
+}
+.side-bar__link-icon_fixation-history {
+    background-image: url('../../images/fixation-history.svg');
+}
 .side-bar__link-text {
     margin: auto auto auto 0;
 }

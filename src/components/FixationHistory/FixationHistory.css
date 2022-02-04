@@ -1,0 +1,11 @@
+.fixation-history {
+    padding: 32px 32px 32px 296px;
+    background: #EEF0F1;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    color: #666666;
+}
