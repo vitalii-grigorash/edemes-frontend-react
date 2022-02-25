@@ -1,0 +1,7 @@
+.fixation-moving {
+    display: flex;
+    margin: 32px 0 0;
+}
+.fixation-moving__heading {
+    margin: 0 auto 0 0;
+}

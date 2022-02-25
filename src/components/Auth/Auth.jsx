@@ -10,7 +10,7 @@ function Auth(props) {
 
     const [isRoleOptionsActive, setRoleOptionsActive] = useState(false);
     const [authAs, setAuthAs] = useState('Администратор');
-    const [isPasswordShow, setPasswordShow] = useState(false)
+    const [isPasswordShow, setPasswordShow] = useState(false);
     const [isPassword, setPassword] = useState('password');
     const [isPasswordValue, setPasswordValue] = useState(false);
     const [isValidate, setValidate] = useState(true);
