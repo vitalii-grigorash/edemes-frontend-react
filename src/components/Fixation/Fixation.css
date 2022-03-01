@@ -50,6 +50,9 @@
     margin: 0 24px 0 0;
     cursor: pointer;
 }
+.fixation__nav-text:last-of-type {
+    margin: 0;
+}
 .fixation__nav-text_active {
     color: #333333;
     border-bottom: 2px solid #336699;

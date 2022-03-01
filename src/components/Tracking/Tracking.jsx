@@ -57,7 +57,6 @@ function Tracking() {
             </div>
         </section>
     );
-
 }
 
 export default Tracking;

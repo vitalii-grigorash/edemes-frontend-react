@@ -79,7 +79,6 @@ function Users() {
                 </div>
                 <button type='button' className='users__user-add-button'>Добавить</button>
             </div>
-
             <div className='users__table-container'>
                 <p className='users__table-heading'>Список пользователей</p>
                 <div className='users__table'>
@@ -116,10 +115,8 @@ function Users() {
                     />
                 </div>
             </div>
-
         </div>
     );
-
 }
 
 export default Users;

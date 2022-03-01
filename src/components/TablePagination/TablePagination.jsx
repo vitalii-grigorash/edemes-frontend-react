@@ -110,7 +110,6 @@ function TablePagination(props) {
             )}
         </div>
     );
-
 }
 
 export default TablePagination;

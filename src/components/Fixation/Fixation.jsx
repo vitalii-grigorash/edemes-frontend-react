@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import FixationGeneralInformation from "../FixationGeneralInformation/FixationGeneralInformation";
 import FixationMoving from "../FixationMoving/FixationMoving";
 import FixationDocuments from "../FixationDocuments/FixationDocuments";
@@ -36,6 +37,9 @@ function Fixation() {
 
     return (
         <div className='fixation'>
+            <Helmet
+                title='Фиксация'
+            />
             <div className="fixation__heading-container">
                 <p className="fixation__heading">Фиксация</p>
                 <button type="button" className="fixation__scan-button" onClick={onScanButtonClick}>{scanButtonText}</button>
