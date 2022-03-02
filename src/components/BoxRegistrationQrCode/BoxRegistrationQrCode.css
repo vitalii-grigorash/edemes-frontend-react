@@ -9,3 +9,9 @@
     width: 681px;
     height: 360px;
 }
+@media screen and (max-width: 1075px) {
+    .box-registration-qr-code__img {
+        width: 570px;
+        height: 300px;
+    }
+}

@@ -72,7 +72,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(auto, 1fr);
-    grid-gap: 24px;
+    grid-gap: 20px;
 }
 .catalog__grid-item-container {
     display: flex;
@@ -94,4 +94,14 @@
     line-height: 24px;
     color: #999999;
     margin: 4px auto 0 0;
+}
+@media screen and (max-width: 1428px) {
+    .catalog__grid-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media screen and (max-width: 1164px) {
+    .catalog__grid-item-container {
+        width: 197px;
+    }
 }

@@ -126,3 +126,37 @@
 .box-registration-exhibits__no-results-text {
     margin: auto;
 }
+@media screen and (max-width: 1188px) {
+    .box-registration-exhibits__table-heading {
+        width: 633px;
+    }
+    .box-registration-exhibits__table-rows {
+        font-size: 12px;
+        line-height: 18px;
+    }
+    .box-registration-exhibits__name {
+        min-width: 150px;
+        margin: auto 25px;
+    }
+    .box-registration-exhibits__weight {
+        min-width: 40px;
+        margin: auto 25px auto 0;
+    }
+    .box-registration-exhibits__dimensions {
+        min-width: 75px;
+        margin: auto 25px auto 0;
+    }
+    .box-registration-exhibits__storage {
+        min-width: 100px;
+        margin: auto 25px auto 0;
+    }
+    .box-registration-exhibits__requirements {
+        min-width: 125px;
+        margin: auto auto auto 0;
+    }
+}
+@media screen and (max-width: 1130px) {
+    .box-registration-exhibits__download-container {
+        width: 633px;
+    }
+}

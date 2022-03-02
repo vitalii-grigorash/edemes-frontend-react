@@ -129,3 +129,128 @@
 .tracking-table__no-results-text {
     margin: auto;
 }
+@media screen and (max-width: 1430px) {
+    .tracking-table__rows {
+        font-size: 12px;
+        line-height: 18px;
+    }
+    .tracking-table__name {
+        min-width: 150px;
+    }
+}
+@media screen and (max-width: 1370px) {
+    .tracking-table__name {
+        max-width: 100px;
+        margin: auto 25px;
+    }
+    .tracking-table__route {
+        min-width: 160px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__weight {
+        min-width: 45px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__dimensions {
+        min-width: 80px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__departure {
+        min-width: 120px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__arrival {
+        min-width: 95px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__status {
+        min-width: 55px;
+    }
+}
+@media screen and (max-width: 1285px) {
+    .tracking-table__rows {
+        font-size: 10px;
+        line-height: 16px;
+    }
+    .tracking-table__name {
+        max-width: 100px;
+        margin: auto 30px;
+    }
+    .tracking-table__route {
+        min-width: 125px;
+        margin: auto 30px auto 0;
+    }
+    .tracking-table__weight {
+        min-width: 40px;
+        margin: auto 30px auto 0;
+    }
+    .tracking-table__dimensions {
+        min-width: 70px;
+        margin: auto 30px auto 0;
+    }
+    .tracking-table__departure {
+        min-width: 95px;
+        margin: auto 30px auto 0;
+    }
+    .tracking-table__arrival {
+        min-width: 75px;
+        margin: auto 30px auto 0;
+    }
+    .tracking-table__status {
+        min-width: 50px;
+    }
+}
+@media screen and (max-width: 1215px) {
+    .tracking-table__name {
+        min-width: 80px;
+        max-width: 80px;
+        margin: auto 25px;
+    }
+    .tracking-table__route {
+        min-width: 125px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__weight {
+        min-width: 40px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__dimensions {
+        min-width: 70px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__departure {
+        min-width: 95px;
+        margin: auto 25px auto 0;
+    }
+    .tracking-table__arrival {
+        min-width: 75px;
+        margin: auto 25px auto 0;
+    }
+}
+@media screen and (max-width: 1115px) {
+    .tracking-table__name {
+        min-width: 60px;
+        max-width: 60px;
+        margin: auto 20px;
+    }
+    .tracking-table__route {
+        min-width: 125px;
+        margin: auto 15px auto 0;
+    }
+    .tracking-table__weight {
+        min-width: 40px;
+        margin: auto 15px auto 0;
+    }
+    .tracking-table__dimensions {
+        min-width: 70px;
+        margin: auto 15px auto 0;
+    }
+    .tracking-table__departure {
+        min-width: 95px;
+        margin: auto 15px auto 0;
+    }
+    .tracking-table__arrival {
+        min-width: 75px;
+        margin: auto 15px auto 0;
+    }
+}
