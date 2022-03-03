@@ -95,11 +95,21 @@
         width: 330px;
         height: 370px;
     }
+    .fixation-general-information__table-row {
+        height: 46px;
+    }
 }
 @media screen and (max-width: 1110px) {
     .fixation-general-information__img {
         width: 270px;
         height: 300px;
+    }
+    .fixation-general-information__table-row {
+        height: 40px;
+    }
+    .fixation-general-information__table-row-text {
+        font-size: 12px;
+        line-height: 18px;
     }
 }
 @media screen and (max-width: 1050px) {
