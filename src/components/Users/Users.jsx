@@ -38,40 +38,42 @@ function Users() {
             <h1 className='users__heading'>Пользователи</h1>
             <div className='users__add-user-container'>
                 <p className='users__add-user-heading'>Добавить пользователя</p>
-                <div className='users__add-user-inputs-container'>
-                    <div className='users__add-user-input-container'>
-                        <p className='users__add-user-input-label'>Фамилия</p>
-                        <input type="text" placeholder='' className='users__add-user-input' />
+                <div className='users__add-user-inputs-main-container'>
+                    <div className='users__add-user-inputs-container'>
+                        <div className='users__add-user-input-container'>
+                            <p className='users__add-user-input-label'>Фамилия</p>
+                            <input type="text" placeholder='' className='users__add-user-input' />
+                        </div>
+                        <div className='users__add-user-input-container'>
+                            <p className='users__add-user-input-label'>Имя</p>
+                            <input type="text" placeholder='' className='users__add-user-input' />
+                        </div>
+                        <div className='users__add-user-input-container'>
+                            <p className='users__add-user-input-label'>Отчество</p>
+                            <input type="text" placeholder='' className='users__add-user-input' />
+                        </div>
                     </div>
-                    <div className='users__add-user-input-container'>
-                        <p className='users__add-user-input-label'>Имя</p>
-                        <input type="text" placeholder='' className='users__add-user-input' />
-                    </div>
-                    <div className='users__add-user-input-container'>
-                        <p className='users__add-user-input-label'>Отчество</p>
-                        <input type="text" placeholder='' className='users__add-user-input' />
-                    </div>
-                </div>
-                <div className='users__add-user-inputs-container'>
-                    <div className='users__add-user-input-container'>
-                        <p className='users__add-user-input-label'>Логин</p>
-                        <input type="text" placeholder='' className='users__add-user-input' />
-                    </div>
-                    <div className='users__add-user-input-container'>
-                        <p className='users__add-user-input-label'>Почта</p>
-                        <input type="text" placeholder='' className='users__add-user-input' />
-                    </div>
-                    <div className='users__add-user-input-container'>
-                        <p className='users__add-user-input-label'>Роль</p>
-                        <div className='users__add-user-role-container' onClick={handleRoleOptionsContainerOpen}>
-                            <p className='users__add-user-role-text'>{roleOptionsContainerValue}</p>
-                            <div className='users__add-user-role-arrow-icon' />
-                            <div className={`users__add-user-role-options-container ${isRoleOptionsContainerOpen && 'users__add-user-role-options-container_active'}`}>
-                                <div className='users__add-user-role-option-container'>
-                                    <p className='users__add-user-role-option' onClick={() => onRoleOptionClick('Администратор')}>Администратор</p>
-                                </div>
-                                <div className='users__add-user-role-option-container'>
-                                    <p className='users__add-user-role-option' onClick={() => onRoleOptionClick('Оператор')}>Оператор</p>
+                    <div className='users__add-user-inputs-container'>
+                        <div className='users__add-user-input-container'>
+                            <p className='users__add-user-input-label'>Логин</p>
+                            <input type="text" placeholder='' className='users__add-user-input' />
+                        </div>
+                        <div className='users__add-user-input-container'>
+                            <p className='users__add-user-input-label'>Почта</p>
+                            <input type="text" placeholder='' className='users__add-user-input' />
+                        </div>
+                        <div className='users__add-user-input-container'>
+                            <p className='users__add-user-input-label'>Роль</p>
+                            <div className='users__add-user-role-container' onClick={handleRoleOptionsContainerOpen}>
+                                <p className='users__add-user-role-text'>{roleOptionsContainerValue}</p>
+                                <div className='users__add-user-role-arrow-icon' />
+                                <div className={`users__add-user-role-options-container ${isRoleOptionsContainerOpen && 'users__add-user-role-options-container_active'}`}>
+                                    <div className='users__add-user-role-option-container'>
+                                        <p className='users__add-user-role-option' onClick={() => onRoleOptionClick('Администратор')}>Администратор</p>
+                                    </div>
+                                    <div className='users__add-user-role-option-container'>
+                                        <p className='users__add-user-role-option' onClick={() => onRoleOptionClick('Оператор')}>Оператор</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>

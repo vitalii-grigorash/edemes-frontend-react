@@ -40,9 +40,120 @@
     margin: auto 32px auto 0;
 }
 .fixation-documents__price {
-    min-width: 121px;
+    min-width: 110px;
     margin: auto auto auto 0;
 }
 .fixation-documents__no-results-text {
     margin: auto;
+}
+@media screen and (max-width: 1430px) {
+    .fixation-documents__rows {
+        font-size: 12px;
+        line-height: 18px;
+    }
+    .fixation-documents__document {
+        min-width: 180px;
+    }
+    .fixation-documents__date {
+        min-width: 130px;
+    }
+    .fixation-documents__shipper {
+        min-width: 130px;
+    }
+    .fixation-documents__consignee {
+        min-width: 130px;
+    }
+    .fixation-documents__cargoCode {
+        min-width: 80px;
+    }
+    .fixation-documents__price {
+        min-width: 100px;
+    }
+}
+@media screen and (max-width: 1335px) {
+    .fixation-documents__document {
+        margin: auto 24px;
+    }
+    .fixation-documents__date {
+        margin: auto 24px auto 0;
+    }
+    .fixation-documents__shipper {
+        margin: auto 24px auto 0;
+    }
+    .fixation-documents__consignee {
+        margin: auto 24px auto 0;
+    }
+    .fixation-documents__cargoCode {
+        margin: auto 24px auto 0;
+    }
+}
+@media screen and (max-width: 1287px) {
+    .fixation-documents__document {
+        min-width: 160px;
+    }
+    .fixation-documents__date {
+        min-width: 104px;
+    }
+    .fixation-documents__shipper {
+        min-width: 104px;
+    }
+    .fixation-documents__consignee {
+        min-width: 100px;
+    }
+    .fixation-documents__cargoCode {
+        min-width: 70px;
+    }
+    .fixation-documents__price {
+        min-width: 80px;
+    }
+}
+@media screen and (max-width: 1155px) {
+    .fixation-documents__document {
+        min-width: 100px;
+        max-width: 100px;
+    }
+}
+@media screen and (max-width: 1095px) {
+    .fixation-documents__date {
+        min-width: 80px;
+        max-width: 80px;
+    }
+}
+@media screen and (max-width: 1070px) {
+    .fixation-documents__rows {
+        font-size: 10px;
+        line-height: 16px;
+    }
+    .fixation-documents__document {
+        margin: auto 18px;
+    }
+    .fixation-documents__date {
+        margin: auto 18px auto 0;
+    }
+    .fixation-documents__shipper {
+        margin: auto 18px auto 0;
+    }
+    .fixation-documents__consignee {
+        margin: auto 18px auto 0;
+    }
+    .fixation-documents__cargoCode {
+        margin: auto 18px auto 0;
+    }
+}
+@media screen and (max-width: 1035px) {
+    .fixation-documents__document {
+        margin: auto 16px;
+    }
+    .fixation-documents__date {
+        margin: auto 16px auto 0;
+    }
+    .fixation-documents__shipper {
+        margin: auto 16px auto 0;
+    }
+    .fixation-documents__consignee {
+        margin: auto 16px auto 0;
+    }
+    .fixation-documents__cargoCode {
+        margin: auto 16px auto 0;
+    }
 }

@@ -119,3 +119,102 @@
     min-width: 134px;
     margin: auto auto auto 0;
 }
+@media screen and (max-width: 1420px) {
+    .catalog-table__rows {
+        font-size: 12px;
+        line-height: 18px;
+    }
+    .catalog-table__name {
+        min-width: 200px;
+        margin: auto 30px;
+    }
+    .catalog-table__category {
+        min-width: 200px;
+        margin: auto 30px auto 0;
+    }
+    .catalog-table__weight {
+        margin: auto 30px auto 0;
+    }
+    .catalog-table__dimensions {
+        min-width: 80px;
+        margin: auto 30px auto 0;
+    }
+    .catalog-table__storage {
+        min-width: 130px;
+        margin: auto 30px auto 0;
+    }
+    .catalog-table__requirements {
+        min-width: 130px;
+    }
+}
+@media screen and (max-width: 1365px) {
+    .catalog-table__name {
+        min-width: 180px;
+        margin: auto 25px;
+    }
+    .catalog-table__category {
+        min-width: 180px;
+        margin: auto 25px auto 0;
+    }
+    .catalog-table__weight {
+        margin: auto 25px auto 0;
+    }
+    .catalog-table__dimensions {
+        margin: auto 25px auto 0;
+    }
+    .catalog-table__storage {
+        min-width: 120px;
+        margin: auto 25px auto 0;
+    }
+}
+@media screen and (max-width: 1285px) {
+    .catalog-table__name {
+        min-width: 160px;
+        margin: auto 20px;
+    }
+    .catalog-table__category {
+        min-width: 150px;
+        margin: auto 20px auto 0;
+    }
+    .catalog-table__weight {
+        margin: auto 20px auto 0;
+    }
+    .catalog-table__dimensions {
+        margin: auto 20px auto 0;
+    }
+    .catalog-table__storage {
+        min-width: 100px;
+        margin: auto 20px auto 0;
+    }
+}
+@media screen and (max-width: 1185px) {
+    .catalog-table__name {
+        min-width: 140px;
+    }
+    .catalog-table__category {
+        min-width: 110px;
+    }
+    .catalog-table__storage {
+        min-width: 80px;
+    }
+}
+@media screen and (max-width: 1110px) {
+    .catalog-table__name {
+        min-width: 135px;
+        margin: auto 15px;
+    }
+    .catalog-table__category {
+        min-width: 65px;
+        margin: auto 15px auto 0;
+    }
+    .catalog-table__weight {
+        margin: auto 15px auto 0;
+    }
+    .catalog-table__dimensions {
+        margin: auto 15px auto 0;
+    }
+    .catalog-table__storage {
+        min-width: 70px;
+        margin: auto 15px auto 0;
+    }
+}

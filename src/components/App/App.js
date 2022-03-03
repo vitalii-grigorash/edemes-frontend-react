@@ -24,11 +24,11 @@ function App() {
   function login(authAs) {
     setLoggedIn(true);
     if (authAs === 'Администратор') {
-      history.push('/box-registration');
+      // history.push('/box-registration');
       setRole(authAs);
     }
     if (authAs === 'Оператор') {
-      history.push('/fixation');
+      // history.push('/fixation');
       setRole(authAs);
     }
   }
