@@ -160,3 +160,20 @@
         width: 633px;
     }
 }
+@media screen and (max-width: 1020px) {
+    .box-registration-exhibits__download-container {
+        width: 648px;
+        background: rgba(247, 245, 245, 0.74);
+        border: 1px dashed #62A3D0;
+    }
+    .box-registration-exhibits__download-img {
+        background-image: url('../../images/cloud-download-blue.svg');
+    }
+    .box-registration-exhibits__download-button {
+        border: 1px solid #336699;
+        color: #336699;
+    }
+    .box-registration-exhibits__table-heading {
+        width: 648px;
+    }
+}

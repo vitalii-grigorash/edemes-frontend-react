@@ -157,3 +157,11 @@
         margin: auto 16px auto 0;
     }
 }
+@media screen and (max-width: 1020px) {
+    .fixation-documents {
+        margin: 32px auto 0;
+    }
+    .fixation-documents__price {
+        min-width: 96px;
+    }
+}

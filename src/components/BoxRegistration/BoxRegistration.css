@@ -82,3 +82,17 @@
     border: none;
     color: #FFFFFF;
 }
+@media screen and (max-width: 1020px) {
+    .box-registration {
+        padding: 24px 0 0 0;
+    }
+    .box-registration__heading {
+        display: none;
+    }
+    .box-registration__form {
+        width: 696px;
+        padding: 24px;
+        margin: 0 auto;
+        box-sizing: border-box;
+    }
+}

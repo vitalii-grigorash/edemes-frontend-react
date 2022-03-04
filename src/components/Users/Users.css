@@ -256,6 +256,9 @@
     .users__table-password {
         margin: auto 24px auto 0;
     }
+    .users__add-user-role-option-container {
+        height: 43px;
+    }
 }
 @media screen and (max-width: 1295px) {
     .users__table-last-name {
@@ -321,5 +324,29 @@
     }
     .users__table-role {
         min-width: 92px;
+    }
+}
+@media screen and (max-width: 1020px) {
+    .users {
+        padding: 24px 0;
+    }
+    .users__heading {
+        display: none;
+    }
+    .users__add-user-container {
+        width: 696px;
+        margin: 0 auto;
+        box-shadow: 0px 2px 2px rgba(145, 153, 168, 0.14), 0px 3px 1px rgba(145, 153, 168, 0.12), 0px 1px 5px rgba(145, 153, 168, 0.2);
+    }
+    .users__table-container {
+        margin: 24px auto 0;
+        width: 696px;
+        box-shadow: 0px 2px 2px rgba(145, 153, 168, 0.14), 0px 3px 1px rgba(145, 153, 168, 0.12), 0px 1px 5px rgba(145, 153, 168, 0.2);
+    }
+    .users__table-heading {
+        margin: 24px auto 0 24px;
+    }
+    .users__table {
+        margin: 32px 24px 24px;
     }
 }

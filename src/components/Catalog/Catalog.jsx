@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import CatalogTable from '../CatalogTable/CatalogTable';
 
@@ -6,13 +6,18 @@ function Catalog(props) {
 
     const {
         catalogsData,
-        handleOpenCatalogPopupClick
+        handleOpenCatalogPopupClick,
+        handleMobileHeaderNavText
     } = props;
 
     const [isImgSortActive, setImgSortActive] = useState(true);
     const [isListSortActive, setListSortActive] = useState(false);
     const [isCatalogShow, setCatalogShow] = useState(true);
     const [catalogExhibitsList, setCatalogExhibitsList] = useState({});
+
+    useEffect(() => {
+        handleMobileHeaderNavText('Каталог');
+    });
 
     function onImgSortActiveClick() {
         setListSortActive(false);

@@ -1,32 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import BoxRegistrationGeneralInformation from '../BoxRegistrationGeneralInformation/BoxRegistrationGeneralInformation';
 import BoxRegistrationExhibits from '../BoxRegistrationExhibits/BoxRegistrationExhibits';
 import BoxRegistrationRoute from '../BoxRegistrationRoute/BoxRegistrationRoute';
 import BoxRegistrationQrCode from '../BoxRegistrationQrCode/BoxRegistrationQrCode';
 
-function BoxRegistration() {
+function BoxRegistration(props) {
+
+    const {
+        handleMobileHeaderNavText
+    } = props;
 
     const [isBoxRegistrationGeneralInformationActive, setBoxRegistrationGeneralInformationActive] = useState(true);
     const [isBoxRegistrationExhibitsActive, setBoxRegistrationExhibitsActive] = useState(false);
     const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(false);
     const [isBoxRegistrationQrCodeActive, setBoxRegistrationQrCodeActive] = useState(false);
 
-    function onGeneralInformationTabClick () {
+    useEffect(() => {
+        handleMobileHeaderNavText('Регистрация ящика');
+    });
+
+    function onGeneralInformationTabClick() {
         setBoxRegistrationQrCodeActive(false);
         setBoxRegistrationRouteActive(false);
         setBoxRegistrationExhibitsActive(false);
         setBoxRegistrationGeneralInformationActive(true);
     }
 
-    function onExhibitsTabClick () {
+    function onExhibitsTabClick() {
         setBoxRegistrationQrCodeActive(false);
         setBoxRegistrationRouteActive(false);
         setBoxRegistrationGeneralInformationActive(false);
         setBoxRegistrationExhibitsActive(true);
     }
 
-    function onRouteTabClick () {
+    function onRouteTabClick() {
         setBoxRegistrationQrCodeActive(false);
         setBoxRegistrationRouteActive(false);
         setBoxRegistrationGeneralInformationActive(false);
@@ -34,7 +42,7 @@ function BoxRegistration() {
         setBoxRegistrationRouteActive(true);
     }
 
-    function onQrCodeTabClick () {
+    function onQrCodeTabClick() {
         setBoxRegistrationRouteActive(false);
         setBoxRegistrationGeneralInformationActive(false);
         setBoxRegistrationExhibitsActive(false);

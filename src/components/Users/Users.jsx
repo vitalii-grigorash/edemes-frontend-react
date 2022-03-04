@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import UsersListData from '../../utils/UsersListData.json';
 import TablePagination from '../TablePagination/TablePagination';
 
-function Users() {
+function Users(props) {
+
+    const {
+        handleMobileHeaderNavText
+    } = props;
 
     const [isRoleOptionsContainerOpen, setRoleOptionsContainerOpen] = useState(false);
     const [roleOptionsContainerValue, setRoleOptionsContainerValue] = useState('Оператор');
     const [showResultsFrom, setShowResultsFrom] = useState(0);
     const [resultsShow, setResultsShow] = useState(10);
+
+    useEffect(() => {
+        handleMobileHeaderNavText('Пользователи');
+    });
 
     function handleShowResultsFrom(value) {
         setShowResultsFrom(value);

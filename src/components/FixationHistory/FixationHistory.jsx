@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import TrackingTableExhibitsData from '../../utils/TrackingTableExhibitsData.json';
 import TrackingTableBoxesData from '../../utils/TrackingTableBoxesData.json';
 import TrackingTable from '../TrackingTable/TrackingTable';
 
-function FixationHistory() {
+function FixationHistory(props) {
+
+    const {
+        handleMobileHeaderNavText
+    } = props;
 
     const [isBoxesTabActive, setBoxesTabActive] = useState(true);
     const [isExhibitsTabActive, setExhibitsTabActive] = useState(false);
     const boxesTablePlaceholder = 'Введите название ящика';
     const exhibitsTablePlaceholder = 'Введите название экспоната';
+
+    useEffect(() => {
+        handleMobileHeaderNavText('История фиксаций');
+    });
 
     function onBoxesTabClick() {
         setExhibitsTabActive(false);

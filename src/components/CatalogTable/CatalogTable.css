@@ -4,6 +4,7 @@
     font-size: 16px;
     line-height: 24px;
     color: #333333;
+
 }
 .catalog-table__heading-container {
     display: flex;
@@ -216,5 +217,14 @@
     .catalog-table__storage {
         min-width: 70px;
         margin: auto 15px auto 0;
+    }
+}
+@media screen and (max-width: 1020px) {
+    .catalog-table {
+        width: 696px;
+        margin: 0 auto;
+    }
+    .catalog-table__main-container {
+        padding: 24px;
     }
 }

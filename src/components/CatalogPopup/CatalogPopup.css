@@ -297,3 +297,24 @@
     width: 61px;
     height: 61px;
 }
+@media screen and (max-width: 1020px) {
+    .catalog-popup__download-container {
+        background: #F6F5F5;
+        border: 1px dashed #62A3D0;
+        width: 520px;
+    }
+    .catalog-popup__download-img {
+        background-image: url('../../images/cloud-download-blue.svg');
+    }
+    .catalog-popup__download-button {
+        border: 1px solid #336699;
+        color: #336699;
+    }
+    .catalog-popup__downloaded-exhibits-grid-container {
+        grid-template-columns: repeat(8, 1fr);
+    }
+    .catalog-popup__downloaded-exhibit-img {
+        width: 60px;
+        height: 60px;
+    }
+}

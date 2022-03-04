@@ -4,7 +4,9 @@ function Header(props) {
 
     const {
         logout,
-        role
+        role,
+        onOpenMobileSideBar,
+        mobileHeaderNavText
     } = props;
 
     const [isUserOptionsShow, setUserOptionsShow] = useState(false);
@@ -23,13 +25,13 @@ function Header(props) {
                 {role === 'Администратор' && (
                     <div className="header__user-info-container">
                         <p className="header__user-name">Иванов И.И.</p>
-                        <p className="header__user-role">Администратор</p>
+                        <p className="header__user-role">{role}</p>
                     </div>
                 )}
                 {role === 'Оператор' && (
                     <div className="header__user-info-container">
                         <p className="header__user-name">Пушкин А.С.</p>
-                        <p className="header__user-role">Оператор</p>
+                        <p className="header__user-role">{role}</p>
                     </div>
                 )}
                 <div className='header__avatar' />
@@ -43,6 +45,10 @@ function Header(props) {
                         <p className="header__user-logout">Выйти</p>
                     </div>
                 </div>
+            </div>
+            <div className="header__mobile-container">
+                <div className="header__burger-menu-button" onClick={onOpenMobileSideBar} />
+                <h2 className="header__mobile-nav-text">{mobileHeaderNavText}</h2>
             </div>
         </div>
     );

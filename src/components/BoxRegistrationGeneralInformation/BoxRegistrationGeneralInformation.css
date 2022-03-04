@@ -39,7 +39,7 @@
     margin: 8px 0 0;
 }
 .box-registration-general-information__input_dimensions {
-    width: 74px;
+    width: 73px;
     margin: 0;
 }
 .box-registration-general-information__dimensions-cross-icon {
@@ -49,4 +49,9 @@
     width: 24px;
     height: 24px;
     margin: auto 8px;
+}
+@media screen and (max-width: 1020px) {
+    .box-registration-general-information__inputs-container {
+        margin: 0 48px 0 0;;
+    }
 }

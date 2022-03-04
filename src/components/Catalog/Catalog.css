@@ -105,3 +105,27 @@
         width: 197px;
     }
 }
+@media screen and (max-width: 1020px) {
+    .catalog {
+        padding: 24px 0;
+    }
+    .catalog__heading-container {
+        width: 696px;
+        margin: 0 auto;
+    }
+    .catalog__heading {
+        display: none;
+    }
+    .catalog__main {
+        width: 696px;
+        padding: 24px;
+        margin: 24px auto 0;
+        box-sizing: border-box;
+    }
+    .catalog__grid-container {
+        grid-gap: 24px;
+    }
+    .catalog__grid-item-container {
+        width: 200px;
+    }
+}

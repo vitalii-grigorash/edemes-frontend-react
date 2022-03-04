@@ -20,6 +20,20 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isCatalogPopupOpen, setCatalogPopupOpen] = useState(false);
   const [role, setRole] = useState('');
+  const [isMobileSideBarOpen, setMobileSideBarOpen] = useState(false);
+  const [mobileHeaderNavText, setMobileHeaderNavText] = useState('');
+
+  function handleMobileHeaderNavText(text) {
+    setMobileHeaderNavText(text);
+  }
+
+  function handleOpenMobileSideBar() {
+    if (isMobileSideBarOpen) {
+      setMobileSideBarOpen(false);
+    } else {
+      setMobileSideBarOpen(true);
+    }
+  }
 
   function login(authAs) {
     setLoggedIn(true);
@@ -74,11 +88,16 @@ function App() {
         <>
           <SideBar
             role={role}
+            isMobileSideBarOpen={isMobileSideBarOpen}
+            onCloseMobileSideBar={handleOpenMobileSideBar}
+            logout={logout}
           />
 
           <Header
             logout={logout}
             role={role}
+            onOpenMobileSideBar={handleOpenMobileSideBar}
+            mobileHeaderNavText={mobileHeaderNavText}
           />
         </>
       )}
@@ -88,11 +107,13 @@ function App() {
         <ProtectedRoute exact path="/box-registration"
           isLoggedIn={isLoggedIn}
           component={BoxRegistration}
+          handleMobileHeaderNavText={handleMobileHeaderNavText}
         />
 
         <ProtectedRoute exact path="/tracking"
           isLoggedIn={isLoggedIn}
           component={Tracking}
+          handleMobileHeaderNavText={handleMobileHeaderNavText}
         />
 
         <ProtectedRoute exact path="/catalog"
@@ -100,21 +121,25 @@ function App() {
           component={Catalog}
           catalogsData={CatalogsData}
           handleOpenCatalogPopupClick={handleOpenCatalogPopupClick}
+          handleMobileHeaderNavText={handleMobileHeaderNavText}
         />
 
         <ProtectedRoute exact path="/users"
           isLoggedIn={isLoggedIn}
           component={Users}
+          handleMobileHeaderNavText={handleMobileHeaderNavText}
         />
 
         <ProtectedRoute exact path="/fixation"
           isLoggedIn={isLoggedIn}
           component={Fixation}
+          handleMobileHeaderNavText={handleMobileHeaderNavText}
         />
 
         <ProtectedRoute exact path="/fixation-history"
           isLoggedIn={isLoggedIn}
           component={FixationHistory}
+          handleMobileHeaderNavText={handleMobileHeaderNavText}
         />
 
         <Route path='/auth'>

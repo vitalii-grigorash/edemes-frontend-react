@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
 import FixationGeneralInformation from "../FixationGeneralInformation/FixationGeneralInformation";
 import FixationMoving from "../FixationMoving/FixationMoving";
 import FixationDocuments from "../FixationDocuments/FixationDocuments";
 
-function Fixation() {
+function Fixation(props) {
+
+    const {
+        handleMobileHeaderNavText
+    } = props;
 
     const [isScanButtonActive, setScanButtonActive] = useState(false);
     const [scanButtonText, setScanButtonText] = useState('Сканировать');
     const [isGeneralInformationActive, setGeneralInformationActive] = useState(true);
     const [isMovingActive, setMovingActive] = useState(false);
     const [isDocumentsActive, setDocumentsActive] = useState(false);
+
+    useEffect(() => {
+        handleMobileHeaderNavText('Фиксация');
+    });
 
     function onGeneralInformationTabClick() {
         setMovingActive(false);
@@ -62,6 +70,9 @@ function Fixation() {
                     )}
                 </div>
             )}
+            <div className="fixation__bottom-container">
+                <button type="button" className="fixation__scan-button" onClick={onScanButtonClick}>{scanButtonText}</button>
+            </div>
         </div>
     );
 }
