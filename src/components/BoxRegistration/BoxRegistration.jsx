@@ -16,6 +16,18 @@ function BoxRegistration(props) {
     const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(false);
     const [isBoxRegistrationQrCodeActive, setBoxRegistrationQrCodeActive] = useState(false);
 
+    const mobileHeading = (() => {
+        if (isBoxRegistrationGeneralInformationActive) {
+            return 'Общая информация';
+        } else if (isBoxRegistrationExhibitsActive) {
+            return 'Экспонаты';
+        } else if (isBoxRegistrationRouteActive) {
+            return 'Маршрут';
+        } else if (isBoxRegistrationQrCodeActive) {
+            return 'QR код';
+        }
+    })
+
     useEffect(() => {
         handleMobileHeaderNavText('Регистрация ящика');
     });
@@ -89,6 +101,9 @@ function BoxRegistration(props) {
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationRouteActive && 'box-registration__form-nav-text_active'}`} onClick={onRouteTabClick}>Маршрут</p>
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationQrCodeActive && 'box-registration__form-nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
                 </div>
+                <div className='box-registration__heading-mobile-container'>
+                    <p className='box-registration__heading-mobile'>{mobileHeading()}</p>
+                </div>
                 {isBoxRegistrationGeneralInformationActive &&
                     (
                         <BoxRegistrationGeneralInformation />
@@ -117,7 +132,7 @@ function BoxRegistration(props) {
                         (
                             <button type='button' className='box-registration__button-register'>Зарегистрировать</button>
                         ) : (
-                            <button type='button' className='box-registration__button-next' onClick={nextTabClick}>Далее</button>
+                            <button type='button' className={`box-registration__button-next ${isBoxRegistrationGeneralInformationActive && 'box-registration__button-next_big'}`} onClick={nextTabClick}>Далее</button>
                         )
                     }
                 </div>

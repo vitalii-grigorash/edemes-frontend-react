@@ -55,3 +55,21 @@
         margin: 0 48px 0 0;;
     }
 }
+@media screen and (max-width: 740px) {
+    .box-registration-general-information {
+        flex-direction: column;
+        margin: 24px auto 0;
+    }
+    .box-registration-general-information__inputs-container {
+        margin: 0 auto;
+    }
+    .box-registration-general-information__inputs-container:last-of-type {
+        margin: 24px auto 0;
+    }
+    .box-registration-general-information__input {
+        width: 343px;
+    }
+    .box-registration-general-information__input_dimensions {
+        width: 87.5px;
+    }
+}

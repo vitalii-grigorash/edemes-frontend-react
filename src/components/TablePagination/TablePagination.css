@@ -76,3 +76,34 @@
 .table-pagination__show-result-choice-value {
     margin: auto;
 }
+@media screen and (max-width: 740px) {
+    .table-pagination {
+        height: 46px;
+        font-size: 10px;
+        line-height: 14px;
+    }
+    .table-pagination__show-result-container {
+        margin: auto 32px auto auto;
+    }
+    .table-pagination__show-result-icon {
+        width: 18px;
+        height: 18px;
+    }
+    .table-pagination__page-change-container {
+        margin: auto auto auto 0;
+    }
+    .table-pagination__page-change-prev {
+        width: 20px;
+        height: 20px;
+        margin: auto 46px auto 0;
+    }
+    .table-pagination__page-change-next {
+        width: 20px;
+        height: 20px;
+    }
+    .table-pagination__show-result-choice-container {
+        left: -2px;
+        bottom: 25px;
+        width: 80px;
+    }
+}

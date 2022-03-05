@@ -137,3 +137,32 @@
         height: 185px;
     }
 }
+@media screen and (max-width: 740px) {
+    .box-registration-route {
+        flex-direction: column;
+        margin: 24px 0 0;
+    }
+    .box-registration-route__form-container {
+        margin: 0 auto;
+    }
+    .box-registration-route__icon-train {
+        margin: auto 16px auto 0;
+    }
+    .box-registration-route__icon-airplane {
+        margin: auto 16px auto 0;
+    }
+    .box-registration-route__icon-bus {
+        margin: auto 16px auto 0;
+    }
+    .box-registration-route__inputs-container {
+        margin: 16px auto 0 0;
+    }
+    .box-registration-route__input {
+        width: 343px;
+    }
+    .box-registration-route__map-container {
+        width: 343px;
+        height: 228px;
+        margin: 32px auto 0;
+    }
+}

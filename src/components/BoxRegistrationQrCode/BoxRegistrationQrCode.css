@@ -21,3 +21,13 @@
         height: 342px;
     }
 }
+@media screen and (max-width: 740px) {
+    .box-registration-qr-code {
+        margin: 24px auto 0;
+    }
+    .box-registration-qr-code__img {
+        width: 227px;
+        height: 397px;
+        background-position: right;
+    }
+}

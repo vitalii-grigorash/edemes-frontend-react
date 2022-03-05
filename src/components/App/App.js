@@ -38,11 +38,9 @@ function App() {
   function login(authAs) {
     setLoggedIn(true);
     if (authAs === 'Администратор') {
-      // history.push('/box-registration');
       setRole(authAs);
     }
     if (authAs === 'Оператор') {
-      // history.push('/fixation');
       setRole(authAs);
     }
   }

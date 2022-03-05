@@ -16,6 +16,16 @@
     color: #333333;
     margin: 0 auto 0 0;
 }
+.box-registration__heading-mobile-container {
+    display: none;
+    margin: 0 auto 0 0;
+}
+.box-registration__heading-mobile {
+    font-size: 18px;
+    line-height: 21px;
+    color: #333333;
+    margin: 0 auto 0 0;
+}
 .box-registration__form {
     background: #FFFFFF;
     box-shadow: 0px 6px 16px rgba(54, 58, 72, 0.07);
@@ -94,5 +104,29 @@
         padding: 24px;
         margin: 0 auto;
         box-sizing: border-box;
+    }
+}
+@media screen and (max-width: 740px) {
+    .box-registration {
+        padding: 0;
+    }
+    .box-registration__form-nav-container {
+        display: none;
+    }
+    .box-registration__form {
+        width: 375px;
+        padding: 24px 16px 32px;
+    }
+    .box-registration__button-next {
+        width: 230px;
+    }
+    .box-registration__button-next_big {
+        width: 343px;
+    }
+    .box-registration__button-register {
+        width: 230px;
+    }
+    .box-registration__heading-mobile-container {
+        display: flex;
     }
 }
