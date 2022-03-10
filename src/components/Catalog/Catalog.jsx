@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import CatalogTable from '../CatalogTable/CatalogTable';
 
@@ -69,6 +69,9 @@ function Catalog(props) {
                     </div>
                     <div className='catalog__main'>
                         <div className='catalog__display-container'>
+                            <div className='catalog__button-mobile-container'>
+                                <button className='catalog__import-button-mobile' onClick={handleOpenCatalogPopupClick}>Импорт каталога</button>
+                            </div>
                             <div className={`catalog__img-sort-icon ${isImgSortActive && 'catalog__img-sort-icon_active'}`} onClick={onImgSortActiveClick} />
                             <div className={`catalog__list-sort-icon ${isListSortActive && 'catalog__list-sort-icon_active'}`} onClick={onListSortActiveClick} />
                         </div>

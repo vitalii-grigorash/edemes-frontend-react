@@ -54,6 +54,12 @@ function CatalogTable(props) {
                 <button type='button' className='catalog-table__heading-button-back' onClick={onCatalogBackClick}>Вернуться в каталог</button>
             </div>
             <div className='catalog-table__main-container'>
+                <div className='catalog-table__heading-container-mobile'>
+                    <p className='catalog-table__heading-nav-text'>Каталог</p>
+                    <div className='catalog-table__heading-nav-arrow' />
+                    <p className='catalog-table__heading-nav-text catalog-table__heading-nav-text_name'>{catalogName}</p>
+                    <button type='button' className='catalog-table__heading-button-back' onClick={onCatalogBackClick}>Вернуться в каталог</button>
+                </div>
                 <div className='catalog-table__main-container-heading'>
                     <p className='catalog-table__main-container-results'>{foundText(exhibits)} {exhibits.length} {exhibitsText(exhibits)}</p>
                     <div className={`catalog-table__main-container-img-sort-icon ${isImgSortActive && 'catalog-table__main-container-img-sort-icon_active'}`} onClick={onImgSortActiveClick} />

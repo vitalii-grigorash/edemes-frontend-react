@@ -318,3 +318,61 @@
         height: 60px;
     }
 }
+@media screen and (max-width: 740px) {
+    .catalog-popup__main-container {
+        width: 375px;
+        height: 100vh;
+        border-radius: 0;
+        overflow-y: scroll;
+        padding: 24px 16px 32px;
+        box-sizing: border-box;
+    }
+    .catalog-popup__select-container {
+        width: 100%;
+        min-height: 46px;
+    }
+    .catalog-popup__select-catalogs-container {
+        width: calc(100% + 2px);
+    }
+    .catalog-popup__add-catalog-input-container {
+        margin: 18px 0 0;
+    }
+    .catalog-popup__close-button {
+        top: 25px;
+        right: 16px;
+    }
+    .catalog-popup__download-container {
+        margin: 18px 0 auto;
+        width: 343px;
+    }
+    .catalog-popup__download-img {
+        background-image: url('../../images/cloud-download-blue.svg');
+        width: 73px;
+        height: 73px;
+        margin: 12px auto 0;
+    }
+    .catalog-popup__download-button {
+        width: 140px;
+        height: 32px;
+        font-size: 12px;
+        line-height: 14px;
+        margin: 8px auto 20px;
+    }
+    .catalog-popup__buttons-container {
+        margin: 24px 0 0;
+    }
+    .catalog-popup__button-cancel {
+        margin: auto auto auto 0;
+    }
+    .catalog-popup__button-save {
+        width: 221px;
+        margin: auto 0 auto auto;
+    }
+    .catalog-popup__downloaded-exhibits-container {
+        margin: 18px 0 auto;
+    }
+    .catalog-popup__downloaded-exhibits-grid-container {
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 11px;
+    }
+}
