@@ -15,7 +15,7 @@
         "middleName": "Иванович",
         "login": "ivan",
         "password": "12346789",
-        "role": "Оператор"
+        "role": "Администратор"
     },
     {
         "id": "123qwe-3qwe",
@@ -42,7 +42,7 @@
         "middleName": "Иванович",
         "login": "ivan",
         "password": "12346789",
-        "role": "Оператор"
+        "role": "Администратор"
     },
     {
         "id": "123qwe-6qwe",
@@ -60,7 +60,7 @@
         "middleName": "Иванович",
         "login": "ivan",
         "password": "12346789",
-        "role": "Оператор"
+        "role": "Администратор"
     },
     {
         "id": "123qwe-8qwe",
@@ -78,7 +78,7 @@
         "middleName": "Иванович",
         "login": "ivan",
         "password": "12346789",
-        "role": "Оператор"
+        "role": "Администратор"
     },
     {
         "id": "123qwe-10qwe",
@@ -96,7 +96,7 @@
         "middleName": "Иванович",
         "login": "ivan",
         "password": "12346789",
-        "role": "Оператор"
+        "role": "Администратор"
     },
     {
         "id": "123qwe-12qwe",
@@ -123,7 +123,7 @@
         "middleName": "Иванович",
         "login": "ivan",
         "password": "12346789",
-        "role": "Оператор"
+        "role": "Администратор"
     },
     {
         "id": "123qwe-15qwe",
@@ -141,6 +141,6 @@
         "middleName": "Иванович",
         "login": "ivan",
         "password": "12346789",
-        "role": "Оператор"
+        "role": "Администратор"
     }
 ]

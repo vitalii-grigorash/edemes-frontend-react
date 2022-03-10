@@ -338,3 +338,78 @@
         box-sizing: border-box;
     }
 }
+@media screen and (max-width: 740px) {
+    .users {
+        padding: 0;
+    }
+    .users__container {
+        width: 375px;
+        padding: 24px 16px 32px;
+        margin: 0 auto;
+    }
+    .users__add-user-container {
+        margin: 24px auto 0 0;
+    }
+    .users__add-user-inputs-main-container {
+        flex-direction: column;
+    }
+    .users__add-user-inputs-container {
+        margin: 0 auto 0 0;
+    }
+    .users__add-user-inputs-container:last-of-type {
+        margin: 16px auto 0 0;
+    }
+    .users__add-user-input {
+        width: 343px;
+    }
+    .users__add-user-role-container {
+        width: 343px;
+    }
+    .users__add-user-role-options-container {
+        top: 55px;
+        left: -1px;
+        width: 343px;
+    }
+    .users__user-add-button {
+        width: 343px;
+        margin: 53px auto 0;
+        font-size: 15px;
+        line-height: 16px;
+    }
+    .users__table-container {
+        margin: 24px 0 0;
+    }
+    .users__table-rows {
+        font-size: 9px;
+        line-height: 14px;
+    }
+    .users__table-last-name {
+        min-width: 47px;
+        max-width: 47px;
+        margin: auto 9px;
+    }
+    .users__table-first-name {
+        min-width: 40px;
+        max-width: 40px;
+        margin: auto 9px auto 0;
+    }
+    .users__table-middle-name {
+        min-width: 57px;
+        max-width: 57px;
+        margin: auto 9px auto 0;
+    }
+    .users__table-login {
+        min-width: 28px;
+        max-width: 28px;
+        margin: auto 9px auto 0;
+    }
+    .users__table-password {
+        min-width: 40px;
+        max-width: 40px;
+        margin: auto 9px auto 0;
+    }
+    .users__table-role {
+        min-width: 68px;
+        max-width: 68px;
+    }
+}
