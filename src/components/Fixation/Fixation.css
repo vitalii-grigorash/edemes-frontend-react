@@ -85,3 +85,29 @@
         box-sizing: border-box;
     }
 }
+@media screen and (max-width: 740px) {
+    .fixation {
+        padding: 0 0 32px;
+        font-size: 14px;
+        line-height: 16px;
+    }
+    .fixation__main-container {
+        width: 375px;
+        margin: 0 auto;
+        padding: 24px 16px;
+    }
+    .fixation__bottom-container {
+        width: 375px;
+        margin: 0 auto;
+    }
+    .fixation__scan-button {
+        margin: 24px auto 0;
+        width: 100%;
+    }
+    .fixation__nav-container {
+        height: 22px;
+    }
+    .fixation__nav-text {
+        margin: 0 20px 0 0;
+    }
+}

@@ -378,3 +378,20 @@
         width: 391px;
     }
 }
+@media screen and (max-width: 740px) {
+    .fixation-moving__info-row-heading {
+        width: 120px;
+    }
+    .fixation-moving__info-row-text {
+        max-width: 167px;
+    }
+    .fixation-moving__steps-container {
+        margin: 38px auto 0 0;
+    }
+    .fixation-moving__step-line {
+        height: 77px;
+    }
+    .fixation-moving__steps-info-description {
+        width: 235px;
+    }
+}

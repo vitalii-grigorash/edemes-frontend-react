@@ -165,3 +165,37 @@
         min-width: 96px;
     }
 }
+@media screen and (max-width: 740px) {
+    .fixation-documents {
+        margin: 24px auto 0;
+    }
+    .fixation-documents__rows {
+        height: 38px;
+        font-size: 6px;
+        line-height: 12px;
+    }
+    .fixation-documents__document {
+        min-width: 48px;
+        margin: auto 9px;
+    }
+    .fixation-documents__date {
+        min-width: 40px;
+        margin: auto 9px auto 0;
+    }
+    .fixation-documents__shipper {
+        min-width: 60px;
+        margin: auto 9px auto 0;
+    }
+    .fixation-documents__consignee {
+        min-width: 55px;
+        margin: auto 9px auto 0;
+    }
+    .fixation-documents__cargoCode {
+        min-width: 35px;
+        margin: auto 9px auto 0;
+    }
+    .fixation-documents__price {
+        min-width: 40px;
+        margin: auto 9px auto 0;
+    }
+}

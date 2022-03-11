@@ -118,3 +118,31 @@
         height: 280px;
     }
 }
+@media screen and (max-width: 740px) {
+    .fixation-general-information {
+        display: flex;
+        margin: 24px 0 0;
+    }
+    .fixation-general-information__table-container {
+        margin: 0;
+        width: 343px;
+    }
+    .fixation-general-information__table-row {
+        height: 42px;
+    }
+    .fixation-general-information__table-row-text {
+        font-size: 12px;
+        line-height: 16px;
+    }
+    .fixation-general-information__table-row-text_heading {
+        min-width: 150px;
+        margin: auto 16px;
+    }
+    .fixation-general-information__table-row-edit-button {
+        width: 20px;
+        height: 20px;
+    }
+    .fixation-general-information__img-container {
+        display: none;
+    }
+}
