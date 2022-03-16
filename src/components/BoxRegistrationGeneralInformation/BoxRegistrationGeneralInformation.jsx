@@ -12,6 +12,21 @@ function BoxRegistrationGeneralInformation() {
     const humidity = Validation();
     const temperature = Validation();
 
+    const generalInformation = {
+        boxName: boxName.value,
+        dimensions: {
+            length: length.value,
+            width: width.value,
+            height: height.value
+        },
+        weight: weight.value,
+        price: price.value,
+        humidity: humidity.value,
+        temperature: temperature.value
+    }
+
+    console.log(generalInformation);
+
     return (
         <div className='box-registration-general-information'>
             <div className='box-registration-general-information__inputs-container'>

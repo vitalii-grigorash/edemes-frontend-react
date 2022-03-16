@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { YMaps, Map } from 'react-yandex-maps';
+import { Validation } from '../../utils/Validation';
 
 function BoxRegistrationRoute() {
 
@@ -9,7 +10,16 @@ function BoxRegistrationRoute() {
     const [isCarActive, setCarActive] = useState(false);
     const [departureMethod, setDepartureMethod] = useState('airplane');
 
-    console.log(departureMethod);
+    const from = Validation();
+    const to = Validation();
+
+    const route = {
+        departureMethod: departureMethod,
+        from: from.value,
+        to: to.value
+    }
+
+    console.log(route);
 
     function handleTrainActive() {
         setAirplaneActive(false);
@@ -57,16 +67,22 @@ function BoxRegistrationRoute() {
                         <p className='box-registration-route__input-label'>Откуда</p>
                         <input
                             type="text"
-                            placeholder=''
                             className='box-registration-route__input'
+                            name="from"
+                            placeholder=''
+                            value={from.value}
+                            onChange={from.onChange}
                         />
                     </div>
                     <div className='box-registration-route__input-container'>
                         <p className='box-registration-route__input-label'>Куда</p>
                         <input
                             type="text"
-                            placeholder=''
                             className='box-registration-route__input'
+                            name="to"
+                            placeholder=''
+                            value={to.value}
+                            onChange={to.onChange}
                         />
                     </div>
                 </div>
