@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import BoxRegistrationGeneralInformation from '../BoxRegistrationGeneralInformation/BoxRegistrationGeneralInformation';
 import BoxRegistrationExhibits from '../BoxRegistrationExhibits/BoxRegistrationExhibits';
 import BoxRegistrationRoute from '../BoxRegistrationRoute/BoxRegistrationRoute';
 import BoxRegistrationQrCode from '../BoxRegistrationQrCode/BoxRegistrationQrCode';
+import { Validation } from '../../utils/Validation';
 
 function BoxRegistration(props) {
 
@@ -15,6 +15,39 @@ function BoxRegistration(props) {
     const [isBoxRegistrationExhibitsActive, setBoxRegistrationExhibitsActive] = useState(false);
     const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(false);
     const [isBoxRegistrationQrCodeActive, setBoxRegistrationQrCodeActive] = useState(false);
+
+    const boxName = Validation();
+    const length = Validation();
+    const width = Validation();
+    const height = Validation();
+    const weight = Validation();
+    const price = Validation();
+    const humidity = Validation();
+    const temperature = Validation();
+
+    const generalInformation = {
+        boxName: boxName.value,
+        dimensions: {
+            length: length.value,
+            width: width.value,
+            height: height.value
+        },
+        weight: weight.value,
+        price: price.value,
+        humidity: humidity.value,
+        temperature: temperature.value
+    }
+
+    function clearAllBoxRegistrationInputs() {
+        boxName.setValue('');
+        length.setValue('');
+        width.setValue('');
+        height.setValue('');
+        weight.setValue('');
+        price.setValue('');
+        humidity.setValue('');
+        temperature.setValue('');
+    }
 
     const mobileHeading = (() => {
         if (isBoxRegistrationGeneralInformationActive) {
@@ -79,6 +112,7 @@ function BoxRegistration(props) {
         if (isBoxRegistrationGeneralInformationActive) {
             setBoxRegistrationGeneralInformationActive(false);
             setBoxRegistrationExhibitsActive(true);
+            console.log(generalInformation);
         } else if (isBoxRegistrationExhibitsActive) {
             setBoxRegistrationExhibitsActive(false);
             setBoxRegistrationRouteActive(true);
@@ -86,6 +120,14 @@ function BoxRegistration(props) {
             setBoxRegistrationRouteActive(false);
             setBoxRegistrationQrCodeActive(true);
         }
+    }
+
+    function onRegisterButtonClick() {
+        clearAllBoxRegistrationInputs();
+        const dataToRegister = {
+            generalInformation: generalInformation
+        }
+        console.log(dataToRegister);
     }
 
     return (
@@ -105,9 +147,98 @@ function BoxRegistration(props) {
                     <p className='box-registration__heading-mobile'>{mobileHeading()}</p>
                 </div>
                 {isBoxRegistrationGeneralInformationActive &&
-                    (
-                        <BoxRegistrationGeneralInformation />
-                    )
+                    <div className='box-registration-general-information'>
+                        <div className='box-registration-general-information__inputs-container'>
+                            <div className='box-registration-general-information__input-container'>
+                                <p className='box-registration-general-information__input-label box-registration-general-information__input-label_first'>Название ящика</p>
+                                <input
+                                    type="text"
+                                    className='box-registration-general-information__input'
+                                    name="boxName"
+                                    placeholder=''
+                                    value={boxName.value}
+                                    onChange={boxName.onChange}
+                                />
+                            </div>
+                            <div className='box-registration-general-information__input-container'>
+                                <p className='box-registration-general-information__input-label'>Габариты, см</p>
+                                <div className='box-registration-general-information__dimensions-inputs-container'>
+                                    <input
+                                        type="text"
+                                        className='box-registration-general-information__input box-registration-general-information__input_dimensions'
+                                        name="length"
+                                        placeholder=''
+                                        value={length.value}
+                                        onChange={length.onChange}
+                                    />
+                                    <div className='box-registration-general-information__dimensions-cross-icon' />
+                                    <input
+                                        type="text"
+                                        className='box-registration-general-information__input box-registration-general-information__input_dimensions'
+                                        name="width"
+                                        placeholder=''
+                                        value={width.value}
+                                        onChange={width.onChange}
+                                    />
+                                    <div className='box-registration-general-information__dimensions-cross-icon' />
+                                    <input
+                                        type="text"
+                                        className='box-registration-general-information__input box-registration-general-information__input_dimensions'
+                                        name="height"
+                                        placeholder=''
+                                        value={height.value}
+                                        onChange={height.onChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className='box-registration-general-information__input-container'>
+                                <p className='box-registration-general-information__input-label'>Вес, кг</p>
+                                <input
+                                    type="text"
+                                    className='box-registration-general-information__input'
+                                    name="weight"
+                                    placeholder=''
+                                    value={weight.value}
+                                    onChange={weight.onChange}
+                                />
+                            </div>
+                        </div>
+                        <div className='box-registration-general-information__inputs-container'>
+                            <div className='box-registration-general-information__input-container'>
+                                <p className='box-registration-general-information__input-label box-registration-general-information__input-label_first'>Стоимость, ₽</p>
+                                <input
+                                    type="text"
+                                    className='box-registration-general-information__input'
+                                    name="price"
+                                    placeholder=''
+                                    value={price.value}
+                                    onChange={price.onChange}
+                                />
+                            </div>
+                            <div className='box-registration-general-information__input-container'>
+                                <p className='box-registration-general-information__input-label'>Влажность</p>
+                                <input
+                                    type="text"
+                                    className='box-registration-general-information__input'
+                                    name="humidity"
+                                    placeholder=''
+                                    value={humidity.value}
+                                    onChange={humidity.onChange}
+                                />
+                            </div>
+                            <div className='box-registration-general-information__input-container'>
+                                <p className='box-registration-general-information__input-label'>Температура</p>
+                                <input
+                                    type="text"
+                                    className='box-registration-general-information__input'
+                                    name="temperature"
+                                    placeholder=''
+                                    value={temperature.value}
+                                    onChange={temperature.onChange}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 }
                 {isBoxRegistrationExhibitsActive &&
                     (
@@ -130,7 +261,7 @@ function BoxRegistration(props) {
                     )}
                     {isBoxRegistrationQrCodeActive ?
                         (
-                            <button type='button' className='box-registration__button-register'>Зарегистрировать</button>
+                            <button type='button' className='box-registration__button-register' onClick={onRegisterButtonClick}>Зарегистрировать</button>
                         ) : (
                             <button type='button' className={`box-registration__button-next ${isBoxRegistrationGeneralInformationActive && 'box-registration__button-next_big'}`} onClick={nextTabClick}>Далее</button>
                         )
