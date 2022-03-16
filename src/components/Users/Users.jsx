@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import UsersListData from '../../utils/UsersListData.json';
 import TablePagination from '../TablePagination/TablePagination';
+import { Validation } from '../../utils/Validation';
 
 function Users(props) {
 
@@ -16,9 +17,37 @@ function Users(props) {
     const [isAddUserTabActive, setAddUserTabActive] = useState(true);
     const [isListTabActive, setListTabActive] = useState(false);
 
+    const firstName = Validation();
+    const lastName = Validation();
+    const middleName = Validation();
+    const login = Validation();
+    const email = Validation();
+
     useEffect(() => {
         handleMobileHeaderNavText('Пользователи');
     });
+
+    function clearAllInputs() {
+        firstName.setValue('');
+        lastName.setValue('');
+        middleName.setValue('');
+        login.setValue('');
+        email.setValue('');
+        setRoleOptionsContainerValue('Оператор');
+    }
+
+    function onAddUserButtonClick() {
+        const newUser = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            middleName: middleName.value,
+            login: login.value,
+            email: email.value,
+            role: roleOptionsContainerValue
+        }
+        console.log(newUser);
+        clearAllInputs();
+    }
 
     function onAddUserTabClick() {
         setListTabActive(false);
@@ -67,25 +96,60 @@ function Users(props) {
                             <div className='users__add-user-inputs-container'>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Фамилия</p>
-                                    <input type="text" placeholder='' className='users__add-user-input' />
+                                    <input
+                                        type="text"
+                                        className='users__add-user-input'
+                                        name="lastName"
+                                        placeholder=''
+                                        value={lastName.value}
+                                        onChange={lastName.onChange}
+                                    />
                                 </div>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Имя</p>
-                                    <input type="text" placeholder='' className='users__add-user-input' />
+                                    <input
+                                        type="text"
+                                        className='users__add-user-input'
+                                        name="firstName"
+                                        placeholder=''
+                                        value={firstName.value}
+                                        onChange={firstName.onChange}
+                                    />
                                 </div>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Отчество</p>
-                                    <input type="text" placeholder='' className='users__add-user-input' />
+                                    <input
+                                        type="text"
+                                        className='users__add-user-input'
+                                        name="middleName"
+                                        placeholder=''
+                                        value={middleName.value}
+                                        onChange={middleName.onChange}
+                                    />
                                 </div>
                             </div>
                             <div className='users__add-user-inputs-container'>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Логин</p>
-                                    <input type="text" placeholder='' className='users__add-user-input' />
+                                    <input
+                                        type="text"
+                                        className='users__add-user-input'
+                                        name="login"
+                                        placeholder=''
+                                        value={login.value}
+                                        onChange={login.onChange}
+                                    />
                                 </div>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Почта</p>
-                                    <input type="text" placeholder='' className='users__add-user-input' />
+                                    <input
+                                        type="email"
+                                        className='users__add-user-input'
+                                        name="email"
+                                        placeholder=''
+                                        value={email.value}
+                                        onChange={email.onChange}
+                                    />
                                 </div>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Роль</p>
@@ -104,7 +168,7 @@ function Users(props) {
                                 </div>
                             </div>
                         </div>
-                        <button type='button' className='users__user-add-button'>Добавить</button>
+                        <button type='button' className='users__user-add-button' onClick={onAddUserButtonClick}>Добавить</button>
                     </div>
                 )}
                 {isListTabActive && (

@@ -139,7 +139,6 @@ function BoxRegistration(props) {
             </div>
         </section>
     );
-
 }
 
 export default BoxRegistration;
