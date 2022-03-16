@@ -12,7 +12,7 @@
 @import url(./components/BoxRegistration/BoxRegistration.css);
 @import url(./components/BoxRegistration/BoxRegistrationGeneralInformation.css);
 @import url(./components/BoxRegistrationExhibits/BoxRegistrationExhibits.css);
-@import url(./components/BoxRegistrationRoute/BoxRegistrationRoute.css);
+@import url(./components/BoxRegistration/BoxRegistrationRoute.css);
 @import url(./components/BoxRegistrationQrCode/BoxRegistrationQrCode.css);
 @import url(./components/TablePagination/TablePagination.css);
 @import url(./components/TrackingTable/TrackingTable.css);
