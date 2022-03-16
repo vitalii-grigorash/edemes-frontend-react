@@ -72,7 +72,7 @@ function CatalogTable(props) {
                             <p className='catalog-table__category'>Категория</p>
                             <p className='catalog-table__weight'>Вес, кг</p>
                             <p className='catalog-table__dimensions'>Габариты, м</p>
-                            <p className='catalog-table__storage'>Эрмитаж</p>
+                            <p className='catalog-table__storage'>Место хранения</p>
                             <p className='catalog-table__requirements'>Требования</p>
                         </div>
                         {exhibits !== null ? (
