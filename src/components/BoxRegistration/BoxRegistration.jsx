@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { YMaps, Map } from 'react-yandex-maps';
-import BoxRegistrationExhibits from '../BoxRegistrationExhibits/BoxRegistrationExhibits';
-import BoxRegistrationQrCode from '../BoxRegistrationQrCode/BoxRegistrationQrCode';
 import { Validation } from '../../utils/Validation';
+import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
+import TablePagination from '../TablePagination/TablePagination';
 
 function BoxRegistration(props) {
 
@@ -20,6 +20,13 @@ function BoxRegistration(props) {
     const [isBusActive, setBusActive] = useState(false);
     const [isCarActive, setCarActive] = useState(false);
     const [departureMethod, setDepartureMethod] = useState('airplane');
+    const [isDownloadContainerActive, setDownloadContainerActive] = useState(true);
+    const [isTableContainerActive, setTableContainerActive] = useState(false);
+    const [isImgSortActive, setImgSortActive] = useState(false);
+    const [isListSortActive, setListSortActive] = useState(true);
+    const [exhibitsList, setExhibitsList] = useState([]);
+    const [showResultsFrom, setShowResultsFrom] = useState(0);
+    const [resultsShow, setResultsShow] = useState(10);
 
     const from = Validation();
     const to = Validation();
@@ -130,6 +137,31 @@ function BoxRegistration(props) {
         setBoxRegistrationQrCodeActive(true);
     }
 
+    function handleShowResultsFrom(value) {
+        setShowResultsFrom(value);
+    }
+
+    function handleResultsShow(value) {
+        setResultsShow(value);
+    }
+
+    function onDownloadButtonClick() {
+        setDownloadContainerActive(false);
+        setTableContainerActive(true);
+        setExhibitsList(BoxRegistrationExhibitsData);
+    }
+
+    function onImgSortIconClick() {
+        setListSortActive(false);
+        setImgSortActive(true);
+    }
+
+    function onListSortIconClick() {
+        setImgSortActive(false);
+        setListSortActive(true);
+
+    }
+
     function prevTabClick() {
         if (isBoxRegistrationQrCodeActive) {
             setBoxRegistrationQrCodeActive(false);
@@ -170,12 +202,15 @@ function BoxRegistration(props) {
         from.setValue('');
         to.setValue('');
         handleAirplaneActive();
+        setDownloadContainerActive(true);
+        setTableContainerActive(false);
     }
 
     function onRegisterButtonClick() {
         clearAllBoxRegistrationInputs();
         const dataToRegister = {
             generalInformation: generalInformation,
+            exhibits: exhibitsList,
             route: route,
             qrCode: "qrCode.jpg"
         }
@@ -293,9 +328,63 @@ function BoxRegistration(props) {
                     </div>
                 }
                 {isBoxRegistrationExhibitsActive &&
-                    (
-                        <BoxRegistrationExhibits />
-                    )
+                    <div className='box-registration-exhibits'>
+                        {isDownloadContainerActive && (
+                            <div className='box-registration-exhibits__download-container'>
+                                <div className='box-registration-exhibits__download-img' />
+                                <button type='button' className='box-registration-exhibits__download-button' onClick={onDownloadButtonClick}>Загрузить из каталога</button>
+                            </div>
+                        )}
+                        {isTableContainerActive && (
+                            <div className='box-registration-exhibits__table-container'>
+                                <div className='box-registration-exhibits__table-heading'>
+                                    <div className='box-registration-exhibits__table-heading-success-icon' />
+                                    <p className='box-registration-exhibits__table-heading-success-text'>Каталог загружен</p>
+                                    <div
+                                        className={`box-registration-exhibits__table-heading-img-sort-icon ${isImgSortActive && 'box-registration-exhibits__table-heading-img-sort-icon_active'}`}
+                                        onClick={onImgSortIconClick}
+                                    />
+                                    <div
+                                        className={`box-registration-exhibits__table-heading-list-sort-icon ${isListSortActive && 'box-registration-exhibits__table-heading-list-sort-icon_active'}`}
+                                        onClick={onListSortIconClick}
+                                    />
+                                </div>
+                                {isListSortActive && (
+                                    <div className='box-registration-exhibits__table'>
+                                        <div className='box-registration-exhibits__table-rows box-registration-exhibits__table-rows_heading'>
+                                            <p className='box-registration-exhibits__name'>Название</p>
+                                            <p className='box-registration-exhibits__weight'>Вес, кг</p>
+                                            <p className='box-registration-exhibits__dimensions'>Габариты, м</p>
+                                            <p className='box-registration-exhibits__storage'>Место хранения</p>
+                                            <p className='box-registration-exhibits__requirements'>Требования</p>
+                                        </div>
+                                        {exhibitsList !== null ? (
+                                            <>
+                                                {exhibitsList.slice(showResultsFrom, resultsShow).map((list) => (
+                                                    <div key={list.id} className='box-registration-exhibits__table-rows'>
+                                                        <p className='box-registration-exhibits__name'>{list.name}</p>
+                                                        <p className='box-registration-exhibits__weight'>{list.weight}</p>
+                                                        <p className='box-registration-exhibits__dimensions'>{list.dimensions}</p>
+                                                        <p className='box-registration-exhibits__storage'>{list.storage}</p>
+                                                        <p className='box-registration-exhibits__requirements'>{list.requirements}</p>
+                                                    </div>
+                                                ))}
+                                            </>
+                                        ) : (
+                                            <div className='box-registration-exhibits__table-rows'>
+                                                <p className='box-registration-exhibits__no-results-text'>Необходимо загрузить каталог</p>
+                                            </div>
+                                        )}
+                                        <TablePagination
+                                            sortList={exhibitsList}
+                                            handleShowResultsFrom={handleShowResultsFrom}
+                                            handleResultsShow={handleResultsShow}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 }
                 {isBoxRegistrationRouteActive &&
                     <div className='box-registration-route'>
@@ -345,9 +434,9 @@ function BoxRegistration(props) {
                     </div>
                 }
                 {isBoxRegistrationQrCodeActive &&
-                    (
-                        <BoxRegistrationQrCode />
-                    )
+                    <div className='box-registration-qr-code'>
+                        <div className='box-registration-qr-code__img' />
+                    </div>
                 }
                 <div className='box-registration__buttons-container'>
                     {!isBoxRegistrationGeneralInformationActive && (

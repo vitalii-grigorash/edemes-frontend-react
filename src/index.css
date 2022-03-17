@@ -11,9 +11,9 @@
 @import url(./components/Users/Users.css);
 @import url(./components/BoxRegistration/BoxRegistration.css);
 @import url(./components/BoxRegistration/BoxRegistrationGeneralInformation.css);
-@import url(./components/BoxRegistrationExhibits/BoxRegistrationExhibits.css);
+@import url(./components/BoxRegistration/BoxRegistrationExhibits.css);
 @import url(./components/BoxRegistration/BoxRegistrationRoute.css);
-@import url(./components/BoxRegistrationQrCode/BoxRegistrationQrCode.css);
+@import url(./components/BoxRegistration/BoxRegistrationQrCode.css);
 @import url(./components/TablePagination/TablePagination.css);
 @import url(./components/TrackingTable/TrackingTable.css);
 @import url(./components/Auth/Auth.css);
