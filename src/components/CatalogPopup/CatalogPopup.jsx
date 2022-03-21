@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Validation } from '../../utils/Validation';
 
 function CatalogPopup(props) {
 
@@ -18,15 +19,17 @@ function CatalogPopup(props) {
     const [isDownloadedExhibitsContainerOpened, setDownloadedExhibitsContainerOpened] = useState(false);
     const [isSaveButtonActive, setSaveButtonActive] = useState(false);
 
+    const catalogName = Validation();
+
     function onCloseButtonClick () {
         onClosePopupClick();
         onCancelButtonClick();
-
     }
 
     function onCancelCatalogButtonClick() {
         setCatalogAddContainerActive(false);
         setSelectedCategory('Выберете категорию');
+        catalogName.setValue('');
         setCategoryListActive(false);
         setCategorySelected(false);
     }
@@ -51,15 +54,20 @@ function CatalogPopup(props) {
     }
 
     function onAddCatalogButtonClick() {
+        const newCatalog = {
+            name: catalogName.value,
+            category: selectedCategory
+        }
+        console.log(newCatalog);
+        catalogName.setValue('');
         handleShowCatalogAddContainer();
-        console.log(selectedCategory);
         setSelectedCategory('Выберете категорию');
         setCategorySelected(false);
     }
 
     function onSelectCatalogClick(selectedCatalog) {
         setCatalogSelected(true);
-        setSelectedCatalog(selectedCatalog)
+        setSelectedCatalog(selectedCatalog);
     }
 
     function onSelectCategoryClick(selectedCategory) {
@@ -98,7 +106,6 @@ function CatalogPopup(props) {
     }
 
     return (
-
         <div className={`catalog-popup ${isOpen && 'catalog-popup_opened'}`} onMouseDown={handleOverlayClose}>
             <div className='catalog-popup__main-container'>
                 <p className='catalog-popup__name'>Импорт каталога</p>
@@ -126,7 +133,14 @@ function CatalogPopup(props) {
                         <p className='catalog-popup__add-catalog-heading'>Новый каталог</p>
                         <div className='catalog-popup__add-catalog-input-container'>
                             <p className='catalog-popup__add-catalog-input-label'>Название</p>
-                            <input type="text" placeholder='' className='catalog-popup__add-catalog-input' />
+                            <input
+                                type="text" 
+                                className='catalog-popup__add-catalog-input'
+                                name="catalogName"
+                                placeholder='' 
+                                value={catalogName.value}
+                                onChange={catalogName.onChange}
+                            />
                         </div>
                         <div className='catalog-popup__add-catalog-category-container'>
                             <p className='catalog-popup__add-catalog-input-label'>Категория</p>

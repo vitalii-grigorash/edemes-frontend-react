@@ -13,6 +13,7 @@ import CatalogsData from '../../utils/CatalogsData.json';
 import Fixation from "../Fixation/Fixation";
 import FixationHistory from "../FixationHistory/FixationHistory";
 import Auth from "../Auth/Auth";
+import * as Api from "../../Api/Api";
 
 function App() {
 
@@ -61,6 +62,27 @@ function App() {
     }
     localStorage.setItem('auth', JSON.stringify(credentials));
     login(authAs);
+    // ----------------------------------------//
+    // Просто для примера, не работает. Можно использовать данный метод для работы с Api.
+    Api.authorize(authAs, email, password)
+      .then((user) => {
+        login(user.role);
+        console.log(user.firstName, user.middleName, user.lastName);
+        const firstName = user.firstName.charAt(0);
+        const lastName = user.lastName;
+        const middleName = function () {
+          if (user.middleName) {
+            return `${user.middleName.charAt(0)}.`;
+          } else {
+            return ''
+          }
+        };
+        const shortName = `${lastName} ${firstName}.${middleName()}`;
+        const userShortName = { shortName: shortName };
+        console.log(userShortName);
+      })
+      .catch((err) => console.log(`Ошибка: ${err}`));
+    // ----------------------------------------//
   }
 
   function logout() {
