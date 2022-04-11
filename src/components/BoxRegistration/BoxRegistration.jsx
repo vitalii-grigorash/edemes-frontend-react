@@ -11,9 +11,9 @@ function BoxRegistration(props) {
         handleMobileHeaderNavText
     } = props;
 
-    const [isBoxRegistrationGeneralInformationActive, setBoxRegistrationGeneralInformationActive] = useState(true);
+    const [isBoxRegistrationGeneralInformationActive, setBoxRegistrationGeneralInformationActive] = useState(false);
     const [isBoxRegistrationExhibitsActive, setBoxRegistrationExhibitsActive] = useState(false);
-    const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(false);
+    const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(true);
     const [isBoxRegistrationQrCodeActive, setBoxRegistrationQrCodeActive] = useState(false);
     const [isTrainActive, setTrainActive] = useState(false);
     const [isAirplaneActive, setAirplaneActive] = useState(true);
@@ -225,9 +225,9 @@ function BoxRegistration(props) {
             <h1 className='box-registration__heading'>Регистрация ящика</h1>
             <div className='box-registration__form'>
                 <div className='box-registration__form-nav-container'>
+                <p className={`box-registration__form-nav-text ${isBoxRegistrationRouteActive && 'box-registration__form-nav-text_active'}`} onClick={onRouteTabClick}>Маршрут</p>
+                <p className={`box-registration__form-nav-text ${isBoxRegistrationExhibitsActive && 'box-registration__form-nav-text_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationGeneralInformationActive && 'box-registration__form-nav-text_active'}`} onClick={onGeneralInformationTabClick}>Общая информация</p>
-                    <p className={`box-registration__form-nav-text ${isBoxRegistrationExhibitsActive && 'box-registration__form-nav-text_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
-                    <p className={`box-registration__form-nav-text ${isBoxRegistrationRouteActive && 'box-registration__form-nav-text_active'}`} onClick={onRouteTabClick}>Маршрут</p>
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationQrCodeActive && 'box-registration__form-nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
                 </div>
                 <div className='box-registration__heading-mobile-container'>
