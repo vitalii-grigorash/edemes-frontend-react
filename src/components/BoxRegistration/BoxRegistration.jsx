@@ -165,27 +165,27 @@ function BoxRegistration(props) {
     function prevTabClick() {
         if (isBoxRegistrationQrCodeActive) {
             setBoxRegistrationQrCodeActive(false);
-            setBoxRegistrationRouteActive(true);
-        } else if (isBoxRegistrationRouteActive) {
-            setBoxRegistrationRouteActive(false);
+            setBoxRegistrationGeneralInformationActive(true);
+        } else if (isBoxRegistrationGeneralInformationActive) {
+            setBoxRegistrationGeneralInformationActive(false);
             setBoxRegistrationExhibitsActive(true);
         } else if (isBoxRegistrationExhibitsActive) {
             setBoxRegistrationExhibitsActive(false);
-            setBoxRegistrationGeneralInformationActive(true);
+            setBoxRegistrationRouteActive(true);
         }
     }
 
     function nextTabClick() {
         if (isBoxRegistrationGeneralInformationActive) {
             setBoxRegistrationGeneralInformationActive(false);
-            setBoxRegistrationExhibitsActive(true);
+            setBoxRegistrationQrCodeActive(true)
             console.log(generalInformation);
         } else if (isBoxRegistrationExhibitsActive) {
             setBoxRegistrationExhibitsActive(false);
-            setBoxRegistrationRouteActive(true);
+            setBoxRegistrationGeneralInformationActive(true);
         } else if (isBoxRegistrationRouteActive) {
             setBoxRegistrationRouteActive(false);
-            setBoxRegistrationQrCodeActive(true);
+            setBoxRegistrationExhibitsActive(true);
             console.log(route);
         }
     }
@@ -439,14 +439,14 @@ function BoxRegistration(props) {
                     </div>
                 }
                 <div className='box-registration__buttons-container'>
-                    {!isBoxRegistrationGeneralInformationActive && (
+                    {!isBoxRegistrationRouteActive && (
                         <button type='button' className='box-registration__button-prev' onClick={prevTabClick}>Назад</button>
                     )}
                     {isBoxRegistrationQrCodeActive ?
                         (
                             <button type='button' className='box-registration__button-register' onClick={onRegisterButtonClick}>Зарегистрировать</button>
                         ) : (
-                            <button type='button' className={`box-registration__button-next ${isBoxRegistrationGeneralInformationActive && 'box-registration__button-next_big'}`} onClick={nextTabClick}>Далее</button>
+                            <button type='button' className={`box-registration__button-next ${isBoxRegistrationRouteActive && 'box-registration__button-next_big'}`} onClick={nextTabClick}>Далее</button>
                         )
                     }
                 </div>
