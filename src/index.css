@@ -16,6 +16,8 @@
 @import url(./components/BoxRegistration/BoxRegistrationQrCode.css);
 @import url(./components/TablePagination/TablePagination.css);
 @import url(./components/TrackingTable/TrackingTable.css);
+@import url(./components/Register/Register.css);
+@import url(./components/Login/Login.css);
 @import url(./components/Auth/Auth.css);
 @import url(./components/Fixation/Fixation.css);
 @import url(./components/FixationHistory/FixationHistory.css);

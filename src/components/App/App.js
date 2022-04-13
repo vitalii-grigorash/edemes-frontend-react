@@ -12,7 +12,8 @@ import NotFound from "../NotFound/NotFound";
 import CatalogsData from '../../utils/CatalogsData.json';
 import Fixation from "../Fixation/Fixation";
 import FixationHistory from "../FixationHistory/FixationHistory";
-import Auth from "../Auth/Auth";
+import Login from "../Login/Login";
+import Register from "../Register/Register";
 import * as Api from "../../Api/Api";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
   const [mobileHeaderNavText, setMobileHeaderNavText] = useState('');
   const [userName, setUserName] = useState('');
   const [authError, setAuthError] = useState('');
+  const [registerError, setRegisterError] = useState('');
   const [isAuthValidate, setAuthValidate] = useState(true);
 
   const userDefaultName = {
@@ -33,7 +35,6 @@ function App() {
   }
 
   function createUserName(user) {
-    console.log(user);
     const firstName = function () {
       if (user.firstName === "") {
         return `${userDefaultName.firstName.charAt(0)}`;
@@ -76,7 +77,7 @@ function App() {
       localStorage.removeItem('user');
     }
     setLoggedIn(false);
-    history.push('/auth')
+    history.push('/login')
     setRole('');
   }
 
@@ -121,6 +122,17 @@ function App() {
         if (err.message === 'Неправильная почта или пароль') {
           setAuthValidate(false);
         }
+      })
+  }
+
+  function handleRegister(registerData) {
+    Api.registration(registerData)
+      .then(() => {
+        setRegisterError('');
+        history.push('/login');
+      })
+      .catch((err) => {
+        setRegisterError(err.message);
       })
   }
 
@@ -196,8 +208,15 @@ function App() {
           handleMobileHeaderNavText={handleMobileHeaderNavText}
         />
 
-        <Route path='/auth'>
-          <Auth
+        <Route path='/register'>
+          <Register
+            onRegister={handleRegister}
+            authError={registerError}
+          />
+        </Route>
+
+        <Route path='/login'>
+          <Login
             onLogin={handleLogin}
             authError={authError}
             isValidate={isAuthValidate}
@@ -205,7 +224,7 @@ function App() {
         </Route>
 
         <Route>
-          {!isLoggedIn && <Redirect from='/' to='/auth' />}
+          {!isLoggedIn && <Redirect from='/' to='/login' />}
         </Route>
 
         <Switch>

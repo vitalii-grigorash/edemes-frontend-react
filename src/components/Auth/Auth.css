@@ -8,34 +8,44 @@
     display: flex;
     background: #336699;
 }
+
 .auth__container {
     background: #FFFFFF;
     border-radius: 4px;
     margin: auto;
     display: flex;
     flex-direction: column;
-    padding: 32px 32px 16px;
+    padding: 32px 32px 32px;
 }
+
 .auth__heading {
     font-size: 24px;
     line-height: 24px;
     margin: 0 auto 0 0;
 }
+
 .auth__input-container {
     display: flex;
     flex-direction: column;
     margin: 24px auto 0 0;
 }
+
 .auth__input-container_password {
     margin-top: 5px;
     position: relative;
 }
+
+.auth__input-container_name {
+    margin-top: 5px;
+}
+
 .auth__input-label {
     font-size: 16px;
     line-height: 19px;
     color: #666666;
     margin: 0 auto 0 0;
 }
+
 .auth__input {
     width: 300px;
     height: 46px;
@@ -47,9 +57,11 @@
     font-size: 16px;
     line-height: 22px;
 }
+
 .auth__input_error {
     border: 1px solid #EB5757;
 }
+
 .auth__input__password-eye {
     position: absolute;
     top: 38px;
@@ -58,6 +70,7 @@
     height: 24px;
     cursor: pointer;
 }
+
 .auth__input_error-span {
     max-width: 300px;
     height: 18px;
@@ -66,11 +79,13 @@
     line-height: 10px;
     margin: 2px auto 0 0;
 }
+
 .auth__role-container {
     display: flex;
     flex-direction: column;
-    margin: 5px auto 0 0;
+    margin: 5px auto 24px 0;
 }
+
 .auth__role-select-container {
     display: flex;
     width: 300px;
@@ -84,9 +99,11 @@
     position: relative;
     cursor: pointer;
 }
+
 .auth__selected-role {
-   margin: auto auto auto 16px;
+    margin: auto auto auto 16px;
 }
+
 .auth__selected-role-arrow {
     background-image: url('../../images/arrow-drop-down.svg');
     background-size: cover;
@@ -95,6 +112,7 @@
     height: 24px;
     margin: auto 16px auto auto;
 }
+
 .auth__role-options-container {
     position: absolute;
     left: -1px;
@@ -109,31 +127,37 @@
     background-color: #FFFFFF;
     z-index: 1;
 }
+
 .auth__role-options-container_active {
     display: flex;
 }
+
 .auth__role-option-container {
     height: 46px;
     border-bottom: 1px solid #CCCCCC;
     display: flex;
     cursor: pointer;
 }
+
 .auth__role-option-container:last-of-type {
     border-bottom: none;
 }
+
 .auth__role-option-container:hover {
     background: #ECEDF3;
 }
+
 .auth__role-option {
     font-size: 16px;
     line-height: 22px;
     margin: auto auto auto 16px;
 }
+
 .auth__submit-button {
     width: 300px;
     height: 46px;
     border: none;
-    margin: 24px 0 0;
+    margin: 6px 0 0;
     background: #336699;
     border-radius: 4px;
     cursor: pointer;
@@ -141,6 +165,7 @@
     line-height: 22px;
     color: #FFFFFF;
 }
+
 .auth__button-error {
     max-width: 300px;
     height: 22px;
@@ -149,4 +174,32 @@
     line-height: 12px;
     margin: 8px auto 0;
     text-align: center;
+}
+
+.auth__change-container {
+    display: flex;
+    max-width: 300px;
+    margin: 8px auto 0;
+}
+
+.auth__change-question {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.0025em;
+    color: #666666;
+    margin: 0 5px 0 0;
+}
+
+.auth__change-link-container {
+    text-decoration: none;
+    color: #336699;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.0025em;
+}
+
+.auth__change-link-text {
+    margin: 0;
 }
