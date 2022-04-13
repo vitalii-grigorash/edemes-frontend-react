@@ -23,6 +23,41 @@ function App() {
   const [role, setRole] = useState('');
   const [isMobileSideBarOpen, setMobileSideBarOpen] = useState(false);
   const [mobileHeaderNavText, setMobileHeaderNavText] = useState('');
+  const [userName, setUserName] = useState('');
+  const [authError, setAuthError] = useState('');
+  const [isAuthValidate, setAuthValidate] = useState(true);
+
+  const userDefaultName = {
+    lastName: "Неизвестный",
+    firstName: "Пользователь"
+  }
+
+  function createUserName(user) {
+    console.log(user);
+    const firstName = function () {
+      if (user.firstName === "") {
+        return `${userDefaultName.firstName.charAt(0)}`;
+      } else {
+        return `${user.firstName.charAt(0)}`;
+      }
+    }
+    const lastName = function () {
+      if (user.lastName === "") {
+        return userDefaultName.lastName
+      } else {
+        return user.lastName;
+      }
+    }
+    const middleName = function () {
+      if (user.middleName === "") {
+        return ""
+      } else {
+        return `${user.middleName.charAt(0)}.`;
+      }
+    };
+    const shortName = `${lastName()} ${firstName()}.${middleName()}`;
+    setUserName(shortName);
+  }
 
   function handleMobileHeaderNavText(text) {
     setMobileHeaderNavText(text);
@@ -36,60 +71,57 @@ function App() {
     }
   }
 
-  function login(authAs) {
-    setLoggedIn(true);
-    if (authAs === 'Администратор') {
-      setRole(authAs);
+  function logout() {
+    if (localStorage.getItem('user')) {
+      localStorage.removeItem('user');
     }
-    if (authAs === 'Оператор') {
-      setRole(authAs);
+    setLoggedIn(false);
+    history.push('/auth')
+    setRole('');
+  }
+
+  function login(user) {
+    if (user.isAuth) {
+      setRole(user.role);
+      setLoggedIn(true);
+      createUserName(user);
+      setAuthError('');
+      setAuthValidate(true);
+    } else {
+      logout();
     }
   }
 
   useEffect(() => {
-    if (localStorage.getItem('auth')) {
-      const auth = localStorage.getItem('auth');
-      const credentials = JSON.parse(auth);
-      login(credentials.authAs);
+    if (localStorage.getItem('user')) {
+      const userData = localStorage.getItem('user');
+      const user = JSON.parse(userData);
+      login(user);
     }
-  });
+    // eslint-disable-next-line
+  }, [history]);
 
-  function handleLogin(email, password, authAs) {
-    const credentials = {
-      email: email,
-      password: password,
-      authAs: authAs
-    }
-    localStorage.setItem('auth', JSON.stringify(credentials));
-    login(authAs);
-    // ----------------------------------------//
-    // Просто для примера, не работает. Можно использовать данный метод для работы с Api.
-    Api.authorize(authAs, email, password)
-      .then((user) => {
-        login(user.role);
-        console.log(user.firstName, user.middleName, user.lastName);
-        const firstName = user.firstName.charAt(0);
-        const lastName = user.lastName;
-        const middleName = function () {
-          if (user.middleName) {
-            return `${user.middleName.charAt(0)}.`;
-          } else {
-            return ''
-          }
-        };
-        const shortName = `${lastName} ${firstName}.${middleName()}`;
-        const userShortName = { shortName: shortName };
-        console.log(userShortName);
+  function handleLogin(email, password) {
+    Api.authorize(email, password)
+      .then((data) => {
+        const user = {
+          id: data.user.id,
+          email: data.user.email,
+          role: data.user.role,
+          firstName: data.user.firstName,
+          lastName: data.user.lastName,
+          middleName: data.user.middleName,
+          isAuth: data.user.isAuth
+        }
+        localStorage.setItem('user', JSON.stringify(user));
+        login(user);
       })
-      .catch((err) => console.log(`Ошибка: ${err}`));
-    // ----------------------------------------//
-  }
-
-  function logout() {
-    localStorage.removeItem('auth');
-    setLoggedIn(false);
-    history.push('/auth')
-    setRole('');
+      .catch((err) => {
+        setAuthError(err.message);
+        if (err.message === 'Неправильная почта или пароль') {
+          setAuthValidate(false);
+        }
+      })
   }
 
   function handleOpenCatalogPopupClick() {
@@ -107,10 +139,11 @@ function App() {
       {isLoggedIn && (
         <>
           <SideBar
-            role={role}
-            isMobileSideBarOpen={isMobileSideBarOpen}
-            onCloseMobileSideBar={handleOpenMobileSideBar}
             logout={logout}
+            role={role}
+            onCloseMobileSideBar={handleOpenMobileSideBar}
+            isMobileSideBarOpen={isMobileSideBarOpen}
+            userName={userName}
           />
 
           <Header
@@ -118,6 +151,7 @@ function App() {
             role={role}
             onOpenMobileSideBar={handleOpenMobileSideBar}
             mobileHeaderNavText={mobileHeaderNavText}
+            userName={userName}
           />
         </>
       )}
@@ -165,6 +199,8 @@ function App() {
         <Route path='/auth'>
           <Auth
             onLogin={handleLogin}
+            authError={authError}
+            isValidate={isAuthValidate}
           />
         </Route>
 

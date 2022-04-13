@@ -1,28 +1,30 @@
 import { apiOptions } from '../config';
 
-const BASE_URL = apiOptions.baseUrl;
+const API_URL = apiOptions.apiUrl;
 
-// Просто для примера, пока не работает. Можно взять за основу и работать по такому принципу.
-
-export const authorize = (authAs, email, password) => fetch(`${BASE_URL}/auth`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ authAs, email, password }),
-})
-    .then((res) => {
-        if (res.status === 400) {
-            throw new Error('Не передано одно из полей');
-        }
-        else if (res.status === 401) {
-            throw new Error('Пользователь с таким email не найден');
-        }
-        return res.json();
+export const authorize = (email, password) => {
+    return fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
     })
-    .then((data) => {
-        if (data.id) {
-            localStorage.setItem('userId', data.id);
-            return data;
-        }
-    });
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .catch((err) => {
+            if (err.status === 500) {
+                throw new Error('Сервер временно недоступен');
+            }
+            else if (err.status === 401) {
+                throw new Error('Неправильная почта или пароль');
+            }
+        });
+};

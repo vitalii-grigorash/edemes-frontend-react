@@ -5,7 +5,9 @@ import eye from '../../images/visibility-icon.svg';
 function Auth(props) {
 
     const {
-        onLogin
+        onLogin,
+        authError,
+        isValidate
     } = props;
 
     const [isRoleOptionsActive, setRoleOptionsActive] = useState(false);
@@ -13,20 +15,9 @@ function Auth(props) {
     const [isPasswordShow, setPasswordShow] = useState(false);
     const [isPassword, setPassword] = useState('password');
     const [isPasswordValue, setPasswordValue] = useState(false);
-    const [isValidate, setValidate] = useState(true);
 
     const email = Validation();
     const password = Validation();
-
-    const admin = {
-        email: "admin@mail.ru",
-        pass: "123"
-    }
-
-    const operator = {
-        email: "operator@mail.ru",
-        pass: "123"
-    }
 
     function handlePassword() {
         if (isPasswordShow === true) {
@@ -50,40 +41,9 @@ function Auth(props) {
         }
     }
 
-    function authAsAdmin() {
-        if ((email.value === admin.email) && (password.value === admin.pass)) {
-            onLogin(email.value, password.value, authAs);
-            email.setErrorMessage('');
-            password.setErrorMessage('');
-            setValidate(true);
-        } else {
-            email.setErrorMessage('Неверный логин или пароль');
-            password.setErrorMessage('Неверный логин или пароль');
-            setValidate(false);
-        }
-    }
-
-    function authAsOperator() {
-        if ((email.value === operator.email) && (password.value === operator.pass)) {
-            onLogin(email.value, password.value, authAs);
-            email.setErrorMessage('');
-            password.setErrorMessage('');
-            setValidate(true);
-        } else {
-            email.setErrorMessage('Неверный логин или пароль');
-            password.setErrorMessage('Неверный логин или пароль');
-            setValidate(false);
-        }
-    }
-
     function submitForm(evt) {
         evt.preventDefault();
-        if (authAs === 'Администратор') {
-            authAsAdmin();
-        }
-        if (authAs === 'Оператор') {
-            authAsOperator();
-        }
+        onLogin(email.value, password.value);
     }
 
     useEffect(() => {
@@ -124,7 +84,7 @@ function Auth(props) {
                         id="login-password-input"
                         name="password"
                         placeholder='Введите пароль'
-                        minLength="2"
+                        minLength="6"
                         maxLength="30"
                         required
                         value={password.value}
@@ -153,6 +113,7 @@ function Auth(props) {
                     </div>
                 </div>
                 <button type='submit' className="auth__submit-button">Войти</button>
+                <span className="auth__button-error">{authError}</span>
             </form>
         </div>
     );

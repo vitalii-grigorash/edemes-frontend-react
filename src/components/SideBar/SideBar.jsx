@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
 function SideBar(props) {
@@ -7,22 +7,19 @@ function SideBar(props) {
         logout,
         role,
         isMobileSideBarOpen,
-        onCloseMobileSideBar
+        onCloseMobileSideBar,
+        userName
     } = props;
 
     const { pathname } = useLocation();
     const history = useHistory();
 
-    const [userName, setUserName] = useState('');
-
     useEffect(() => {
         if (role === "Администратор") {
             history.push('/box-registration');
-            setUserName('Иванов И.И.');
         }
         if (role === "Оператор") {
             history.push('/fixation');
-            setUserName('Пушкин А.С.');
         }
     }, [history, role]);
 
