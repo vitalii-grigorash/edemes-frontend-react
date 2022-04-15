@@ -9,12 +9,11 @@ import Catalog from "../Catalog/Catalog";
 import Users from "../Users/Users";
 import CatalogPopup from "../CatalogPopup/CatalogPopup";
 import NotFound from "../NotFound/NotFound";
-import CatalogsData from '../../utils/CatalogsData.json';
 import Fixation from "../Fixation/Fixation";
 import FixationHistory from "../FixationHistory/FixationHistory";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
-import * as Api from "../../Api/Api";
+import * as Auth from "../../Api/Auth";
 
 function App() {
 
@@ -103,8 +102,9 @@ function App() {
   }, [history]);
 
   function handleLogin(email, password) {
-    Api.authorize(email, password)
+    Auth.authorize(email, password)
       .then((data) => {
+        console.log(data);
         const user = {
           id: data.user.id,
           email: data.user.email,
@@ -126,7 +126,7 @@ function App() {
   }
 
   function handleRegister(registerData) {
-    Api.registration(registerData)
+    Auth.registration(registerData)
       .then(() => {
         setRegisterError('');
         history.push('/login');
@@ -185,7 +185,6 @@ function App() {
         <ProtectedRoute exact path="/catalog"
           isLoggedIn={isLoggedIn}
           component={Catalog}
-          catalogsData={CatalogsData}
           handleOpenCatalogPopupClick={handleOpenCatalogPopupClick}
           handleMobileHeaderNavText={handleMobileHeaderNavText}
         />
@@ -235,7 +234,6 @@ function App() {
       </Switch>
 
       <CatalogPopup
-        catalogsData={CatalogsData}
         isOpen={isCatalogPopupOpen}
         onClosePopupClick={handleOpenCatalogPopupClick}
       />

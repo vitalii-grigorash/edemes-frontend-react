@@ -1,19 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import CatalogTable from '../CatalogTable/CatalogTable';
+import * as Catalogs from "../../Api/Catalogs";
 
 function Catalog(props) {
 
     const {
-        catalogsData,
         handleOpenCatalogPopupClick,
-        handleMobileHeaderNavText
+        handleMobileHeaderNavText,
     } = props;
 
+    const { pathname } = useLocation();
     const [isImgSortActive, setImgSortActive] = useState(true);
     const [isListSortActive, setListSortActive] = useState(false);
     const [isCatalogShow, setCatalogShow] = useState(true);
     const [catalogExhibitsList, setCatalogExhibitsList] = useState({});
+    const [catalogs, setCatalogs] = useState([]);
+
+    useEffect(() => {
+        console.log('Try to get Catalogs')
+        if (pathname === '/catalog') {
+            Catalogs.getAllCatalogs()
+                .then((data) => {
+                    setCatalogs(data);
+                    console.log(data);
+                })
+                .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
+        }
+    });
 
     useEffect(() => {
         handleMobileHeaderNavText('Каталог');
@@ -77,11 +92,11 @@ function Catalog(props) {
                         </div>
                         {isImgSortActive && (
                             <div className='catalog__grid-container'>
-                                {catalogsData.map((catalog) => (
+                                {catalogs.map((catalog) => (
                                     <div key={catalog.id} className='catalog__grid-item-container' onClick={() => onCatalogClick(catalog)}>
                                         <img className='catalog__img' src={require(`../../images/${catalog.img}`)} alt="Изображение каталога" />
                                         <p className='catalog__name'>{catalog.name}</p>
-                                        <p className='catalog__exhibits-value'>{catalog.exhibits.length} {exhibitsText(catalog.exhibits)}</p>
+                                        {/* <p className='catalog__exhibits-value'>{catalog.exhibits.length} {exhibitsText(catalog.exhibits)}</p> */}
                                     </div>
                                 ))}
                             </div>

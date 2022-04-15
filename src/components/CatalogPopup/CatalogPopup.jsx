@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Validation } from '../../utils/Validation';
+import * as Catalogs from "../../Api/Catalogs";
 
 function CatalogPopup(props) {
 
     const {
-        catalogsData,
         isOpen,
         onClosePopupClick
     } = props;
 
+    const { pathname } = useLocation();
     const [isSelectCatalogListActive, setSelectCatalogListActive] = useState(false);
     const [isCatalogAddContainerActive, setCatalogAddContainerActive] = useState(false);
     const [isCategoryListActive, setCategoryListActive] = useState(false);
@@ -18,10 +20,22 @@ function CatalogPopup(props) {
     const [isCategorySelected, setCategorySelected] = useState(false);
     const [isDownloadedExhibitsContainerOpened, setDownloadedExhibitsContainerOpened] = useState(false);
     const [isSaveButtonActive, setSaveButtonActive] = useState(false);
+    const [catalogs, setCatalogs] = useState([]);
 
     const catalogName = Validation();
 
-    function onCloseButtonClick () {
+    useEffect(() => {
+        if (pathname === '/catalog') {
+            Catalogs.getAllCatalogs()
+                .then((data) => {
+                    setCatalogs(data);
+                    console.log(data);
+                })
+                .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
+        }
+    }, []);
+
+    function onCloseButtonClick() {
         onClosePopupClick();
         onCancelButtonClick();
     }
@@ -116,7 +130,7 @@ function CatalogPopup(props) {
                     <div className='catalog-popup__select-catalog-arrow' />
                     {isSelectCatalogListActive && (
                         <div className='catalog-popup__select-catalogs-container'>
-                            {catalogsData.map((catalog) => (
+                            {catalogs.map((catalog) => (
                                 <div key={catalog.id} className='catalog-popup__select-catalog-container' onClick={() => onSelectCatalogClick(catalog.name)}>
                                     <p className='catalog-popup__select-catalog'>{catalog.name}</p>
                                 </div>
@@ -134,10 +148,10 @@ function CatalogPopup(props) {
                         <div className='catalog-popup__add-catalog-input-container'>
                             <p className='catalog-popup__add-catalog-input-label'>Название</p>
                             <input
-                                type="text" 
+                                type="text"
                                 className='catalog-popup__add-catalog-input'
                                 name="catalogName"
-                                placeholder='' 
+                                placeholder=''
                                 value={catalogName.value}
                                 onChange={catalogName.onChange}
                             />
@@ -176,15 +190,11 @@ function CatalogPopup(props) {
                             <div className='catalog-popup__downloaded-exhibits-success-icon' />
                             <p className='catalog-popup__downloaded-exhibits-success-text'>Экспонаты загружены</p>
                         </div>
-                        <div className='catalog-popup__downloaded-exhibits-grid-container'>
-                            {/* Несколько повторений рендеринга для большей наглядности, потом оставить один */}
+                        {/* <div className='catalog-popup__downloaded-exhibits-grid-container'>
                             {catalogsData.map((catalog) => (
                                 <img key={catalog.id} className='catalog-popup__downloaded-exhibit-img' src={require(`../../images/${catalog.img}`)} alt="Изображение экспоната" />
                             ))}
-                            {catalogsData.map((catalog) => (
-                                <img key={catalog.id} className='catalog-popup__downloaded-exhibit-img' src={require(`../../images/${catalog.img}`)} alt="Изображение экспоната" />
-                            ))}
-                        </div>
+                        </div> */}
                     </div>
                 )}
                 <div className='catalog-popup__buttons-container'>
