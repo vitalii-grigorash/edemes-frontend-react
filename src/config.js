@@ -1,5 +1,5 @@
 export const apiOptions = {
 
-    apiUrl: 'http://evote65-vm.dltc.spbu.ru:5500'
+    apiUrl: 'http://localhost:5500'
 
 };

@@ -5,6 +5,7 @@ function CatalogTable(props) {
 
     const {
         catalogName,
+        category,
         exhibits,
         onCatalogBackClick,
         exhibitsText
@@ -80,7 +81,7 @@ function CatalogTable(props) {
                                 {exhibits.slice(showResultsFrom, resultsShow).map((list) => (
                                     <div key={list.id} className='catalog-table__rows'>
                                         <p className='catalog-table__name'>{list.name}</p>
-                                        <p className='catalog-table__category'>{list.category}</p>
+                                        <p className='catalog-table__category'>{category}</p>
                                         <p className='catalog-table__weight'>{list.weight}</p>
                                         <p className='catalog-table__dimensions'>{list.dimensions}</p>
                                         <p className='catalog-table__storage'>{list.storage}</p>

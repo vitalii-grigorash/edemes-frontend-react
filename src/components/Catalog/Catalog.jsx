@@ -9,26 +9,29 @@ function Catalog(props) {
     const {
         handleOpenCatalogPopupClick,
         handleMobileHeaderNavText,
+        addCatalogs
     } = props;
 
     const { pathname } = useLocation();
     const [isImgSortActive, setImgSortActive] = useState(true);
     const [isListSortActive, setListSortActive] = useState(false);
     const [isCatalogShow, setCatalogShow] = useState(true);
-    const [catalogExhibitsList, setCatalogExhibitsList] = useState({});
+    const [catalogExhibitsList, setCatalogExhibitsList] = useState([]);
     const [catalogs, setCatalogs] = useState([]);
+    const [catalogName, setCatalogName] = useState('');
+    const [catalogCategory, setCatalogCategory] = useState('');
 
     useEffect(() => {
-        console.log('Try to get Catalogs')
         if (pathname === '/catalog') {
             Catalogs.getAllCatalogs()
                 .then((data) => {
-                    setCatalogs(data);
-                    console.log(data);
+                    setCatalogs(data.catalogs);
+                    addCatalogs(data.catalogs);
+                    console.log(data.catalogs);
                 })
                 .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
         }
-    });
+    }, []);
 
     useEffect(() => {
         handleMobileHeaderNavText('Каталог');
@@ -52,9 +55,25 @@ function Catalog(props) {
         }
     }
 
+    function artObjects() {
+        Catalogs.getArtObjects()
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
+    }
+
     function onCatalogClick(catalog) {
-        handleShowCatalog();
-        setCatalogExhibitsList(catalog);
+        Catalogs.getCatalog(catalog.id)
+            .then((data) => {
+                console.log(data);
+                setCatalogName(catalog.name);
+                setCatalogCategory(catalog.category);
+                setCatalogExhibitsList(data.catalog.ArtObjects);
+                handleShowCatalog();
+                artObjects();
+            })
+            .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
     }
 
     const exhibitsText = (array) => {
@@ -94,9 +113,8 @@ function Catalog(props) {
                             <div className='catalog__grid-container'>
                                 {catalogs.map((catalog) => (
                                     <div key={catalog.id} className='catalog__grid-item-container' onClick={() => onCatalogClick(catalog)}>
-                                        <img className='catalog__img' src={require(`../../images/${catalog.img}`)} alt="Изображение каталога" />
+                                        <img className='catalog__img' src={`${catalog.picture}`} alt="Изображение каталога" />
                                         <p className='catalog__name'>{catalog.name}</p>
-                                        {/* <p className='catalog__exhibits-value'>{catalog.exhibits.length} {exhibitsText(catalog.exhibits)}</p> */}
                                     </div>
                                 ))}
                             </div>
@@ -105,8 +123,9 @@ function Catalog(props) {
                 </>
             ) : (
                 <CatalogTable
-                    catalogName={catalogExhibitsList.name}
-                    exhibits={catalogExhibitsList.exhibits}
+                    catalogName={catalogName}
+                    category={catalogCategory}
+                    exhibits={catalogExhibitsList}
                     onCatalogBackClick={handleShowCatalog}
                     exhibitsText={exhibitsText}
                 />

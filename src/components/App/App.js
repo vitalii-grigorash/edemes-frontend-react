@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import SideBar from "../SideBar/SideBar";
 import Header from "../Header/Header";
@@ -18,6 +18,7 @@ import * as Auth from "../../Api/Auth";
 function App() {
 
   const history = useHistory();
+  const { pathname } = useLocation();
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isCatalogPopupOpen, setCatalogPopupOpen] = useState(false);
   const [role, setRole] = useState('');
@@ -27,10 +28,15 @@ function App() {
   const [authError, setAuthError] = useState('');
   const [registerError, setRegisterError] = useState('');
   const [isAuthValidate, setAuthValidate] = useState(true);
+  const [catalogsData, setCatalogsData] = useState([]);
 
   const userDefaultName = {
     lastName: "Неизвестный",
     firstName: "Пользователь"
+  }
+
+  function addCatalogs(catalogs) {
+    setCatalogsData(catalogs);
   }
 
   function createUserName(user) {
@@ -104,7 +110,6 @@ function App() {
   function handleLogin(email, password) {
     Auth.authorize(email, password)
       .then((data) => {
-        console.log(data);
         const user = {
           id: data.user.id,
           email: data.user.email,
@@ -183,6 +188,7 @@ function App() {
         />
 
         <ProtectedRoute exact path="/catalog"
+          addCatalogs={addCatalogs}
           isLoggedIn={isLoggedIn}
           component={Catalog}
           handleOpenCatalogPopupClick={handleOpenCatalogPopupClick}
@@ -233,10 +239,13 @@ function App() {
 
       </Switch>
 
-      <CatalogPopup
-        isOpen={isCatalogPopupOpen}
-        onClosePopupClick={handleOpenCatalogPopupClick}
-      />
+      {pathname === "/catalog" && (
+        <CatalogPopup
+          isOpen={isCatalogPopupOpen}
+          onClosePopupClick={handleOpenCatalogPopupClick}
+          catalogs={catalogsData}
+        />
+      )}
 
     </div>
 

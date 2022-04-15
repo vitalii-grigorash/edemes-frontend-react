@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Validation } from '../../utils/Validation';
-import * as Catalogs from "../../Api/Catalogs";
 
 function CatalogPopup(props) {
 
     const {
+        catalogs,
         isOpen,
         onClosePopupClick
     } = props;
 
-    const { pathname } = useLocation();
     const [isSelectCatalogListActive, setSelectCatalogListActive] = useState(false);
     const [isCatalogAddContainerActive, setCatalogAddContainerActive] = useState(false);
     const [isCategoryListActive, setCategoryListActive] = useState(false);
@@ -20,20 +18,8 @@ function CatalogPopup(props) {
     const [isCategorySelected, setCategorySelected] = useState(false);
     const [isDownloadedExhibitsContainerOpened, setDownloadedExhibitsContainerOpened] = useState(false);
     const [isSaveButtonActive, setSaveButtonActive] = useState(false);
-    const [catalogs, setCatalogs] = useState([]);
 
     const catalogName = Validation();
-
-    useEffect(() => {
-        if (pathname === '/catalog') {
-            Catalogs.getAllCatalogs()
-                .then((data) => {
-                    setCatalogs(data);
-                    console.log(data);
-                })
-                .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
-        }
-    }, []);
 
     function onCloseButtonClick() {
         onClosePopupClick();
