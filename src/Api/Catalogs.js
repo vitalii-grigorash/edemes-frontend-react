@@ -81,8 +81,5 @@ export const createNewCatalog = (catalog) => {
             if (err.status === 500) {
                 throw new Error('Сервер временно недоступен');
             }
-            else if (err.status === 401) {
-                throw new Error('Пользователь с таким email уже существует');
-            }
         });
 };
