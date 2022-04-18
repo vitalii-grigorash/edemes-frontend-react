@@ -31,6 +31,7 @@ function Catalog(props) {
                 })
                 .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
         }
+        // eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -55,14 +56,6 @@ function Catalog(props) {
         }
     }
 
-    function artObjects() {
-        Catalogs.getArtObjects()
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
-    }
-
     function onCatalogClick(catalog) {
         Catalogs.getCatalog(catalog.id)
             .then((data) => {
@@ -71,7 +64,6 @@ function Catalog(props) {
                 setCatalogCategory(catalog.category);
                 setCatalogExhibitsList(data.catalog.ArtObjects);
                 handleShowCatalog();
-                artObjects();
             })
             .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
     }

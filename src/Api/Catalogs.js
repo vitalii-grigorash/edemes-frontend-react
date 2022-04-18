@@ -58,3 +58,31 @@ export const getArtObjects = () => {
             throw new Error(err.message);
         });
 };
+
+export const createNewCatalog = (catalog) => {
+    return fetch(`${API_URL}/catalogs`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: catalog.name,
+            category: catalog.category,
+            picture: catalog.picture
+        })
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .catch((err) => {
+            if (err.status === 500) {
+                throw new Error('Сервер временно недоступен');
+            }
+            else if (err.status === 401) {
+                throw new Error('Пользователь с таким email уже существует');
+            }
+        });
+};

@@ -72,26 +72,26 @@ function CatalogTable(props) {
                             <p className='catalog-table__name'>Название</p>
                             <p className='catalog-table__category'>Категория</p>
                             <p className='catalog-table__weight'>Вес, кг</p>
-                            <p className='catalog-table__dimensions'>Габариты, м</p>
-                            <p className='catalog-table__storage'>Место хранения</p>
+                            <p className='catalog-table__dimensions'>Габариты</p>
+                            <p className='catalog-table__storage'>Цена</p>
                             <p className='catalog-table__requirements'>Требования</p>
                         </div>
-                        {exhibits !== null ? (
+                        {exhibits.length !== 0 ? (
                             <>
                                 {exhibits.slice(showResultsFrom, resultsShow).map((list) => (
                                     <div key={list.id} className='catalog-table__rows'>
                                         <p className='catalog-table__name'>{list.name}</p>
                                         <p className='catalog-table__category'>{category}</p>
                                         <p className='catalog-table__weight'>{list.weight}</p>
-                                        <p className='catalog-table__dimensions'>{list.dimensions}</p>
-                                        <p className='catalog-table__storage'>{list.storage}</p>
-                                        <p className='catalog-table__requirements'>{list.requirements}</p>
+                                        <p className='catalog-table__dimensions'>{list.depth}*{list.width}*{list.height}</p>
+                                        <p className='catalog-table__storage'>{list.price}</p>
+                                        <p className='catalog-table__requirements'>нет информации</p>
                                     </div>
                                 ))}
                             </>
                         ) : (
                             <div className='tracking-table__rows'>
-                                <p className='tracking-table__no-results-text'>Нет данных для отображения</p>
+                                <p className='tracking-table__no-results-text'>Необходимо добавить экспонаты</p>
                             </div>
                         )}
                         <TablePagination

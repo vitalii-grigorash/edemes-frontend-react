@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Validation } from '../../utils/Validation';
+import * as Catalogs from "../../Api/Catalogs";
 
 function CatalogPopup(props) {
 
@@ -54,15 +55,20 @@ function CatalogPopup(props) {
     }
 
     function onAddCatalogButtonClick() {
-        const newCatalog = {
+        const catalog = {
             name: catalogName.value,
-            category: selectedCategory
+            category: selectedCategory,
+            picture: "https://static.kulturologia.ru/files/u18214/jpeg2.jpg"
         }
-        console.log(newCatalog);
-        catalogName.setValue('');
-        handleShowCatalogAddContainer();
-        setSelectedCategory('Выберете категорию');
-        setCategorySelected(false);
+        Catalogs.createNewCatalog(catalog)
+            .then((data) => {
+                console.log(data);
+                catalogName.setValue('');
+                handleShowCatalogAddContainer();
+                setSelectedCategory('Выберете категорию');
+                setCategorySelected(false);
+            })
+            .catch((err) => console.log(`Ошибка при создании каталога: ${err}`));
     }
 
     function onSelectCatalogClick(selectedCatalog) {
