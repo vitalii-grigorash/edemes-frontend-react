@@ -9,7 +9,8 @@ function Catalog(props) {
     const {
         handleOpenCatalogPopupClick,
         handleMobileHeaderNavText,
-        addCatalogs
+        getCatalogs,
+        catalogs
     } = props;
 
     const { pathname } = useLocation();
@@ -17,19 +18,12 @@ function Catalog(props) {
     const [isListSortActive, setListSortActive] = useState(false);
     const [isCatalogShow, setCatalogShow] = useState(true);
     const [catalogExhibitsList, setCatalogExhibitsList] = useState([]);
-    const [catalogs, setCatalogs] = useState([]);
     const [catalogName, setCatalogName] = useState('');
     const [catalogCategory, setCatalogCategory] = useState('');
 
     useEffect(() => {
         if (pathname === '/catalog') {
-            Catalogs.getAllCatalogs()
-                .then((data) => {
-                    setCatalogs(data.catalogs);
-                    addCatalogs(data.catalogs);
-                    console.log(data.catalogs);
-                })
-                .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
+            getCatalogs();
         }
         // eslint-disable-next-line
     }, []);
@@ -65,7 +59,7 @@ function Catalog(props) {
                 setCatalogExhibitsList(data.catalog.ArtObjects);
                 handleShowCatalog();
             })
-            .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
+            .catch((err) => console.log(`Ошибка при загрузке каталога: ${err}`));
     }
 
     const exhibitsText = (array) => {

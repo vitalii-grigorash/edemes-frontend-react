@@ -14,6 +14,7 @@ import FixationHistory from "../FixationHistory/FixationHistory";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import * as Auth from "../../Api/Auth";
+import * as Catalogs from "../../Api/Catalogs";
 
 function App() {
 
@@ -28,15 +29,20 @@ function App() {
   const [authError, setAuthError] = useState('');
   const [registerError, setRegisterError] = useState('');
   const [isAuthValidate, setAuthValidate] = useState(true);
-  const [catalogsData, setCatalogsData] = useState([]);
+  const [catalogs, setCatalogs] = useState([]);
 
   const userDefaultName = {
     lastName: "Неизвестный",
     firstName: "Пользователь"
   }
 
-  function addCatalogs(catalogs) {
-    setCatalogsData(catalogs);
+  function getCatalogs() {
+    Catalogs.getAllCatalogs()
+      .then((data) => {
+        setCatalogs(data.catalogs);
+        console.log(data.catalogs);
+      })
+      .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
   }
 
   function createUserName(user) {
@@ -188,7 +194,8 @@ function App() {
         />
 
         <ProtectedRoute exact path="/catalog"
-          addCatalogs={addCatalogs}
+          getCatalogs={getCatalogs}
+          catalogs={catalogs}
           isLoggedIn={isLoggedIn}
           component={Catalog}
           handleOpenCatalogPopupClick={handleOpenCatalogPopupClick}
@@ -243,7 +250,8 @@ function App() {
         <CatalogPopup
           isOpen={isCatalogPopupOpen}
           onClosePopupClick={handleOpenCatalogPopupClick}
-          catalogs={catalogsData}
+          catalogs={catalogs}
+          getCatalogs={getCatalogs}
         />
       )}
 

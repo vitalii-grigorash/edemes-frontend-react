@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Validation } from '../../utils/Validation';
+import catalogsData from '../../utils/CatalogsData.json';
 import * as Catalogs from "../../Api/Catalogs";
 
 function CatalogPopup(props) {
@@ -7,7 +8,8 @@ function CatalogPopup(props) {
     const {
         catalogs,
         isOpen,
-        onClosePopupClick
+        onClosePopupClick,
+        getCatalogs
     } = props;
 
     const [isSelectCatalogListActive, setSelectCatalogListActive] = useState(false);
@@ -67,6 +69,7 @@ function CatalogPopup(props) {
                 handleShowCatalogAddContainer();
                 setSelectedCategory('Выберете категорию');
                 setCategorySelected(false);
+                getCatalogs();
             })
             .catch((err) => console.log(`Ошибка при создании каталога: ${err}`));
     }
@@ -182,11 +185,11 @@ function CatalogPopup(props) {
                             <div className='catalog-popup__downloaded-exhibits-success-icon' />
                             <p className='catalog-popup__downloaded-exhibits-success-text'>Экспонаты загружены</p>
                         </div>
-                        {/* <div className='catalog-popup__downloaded-exhibits-grid-container'>
+                        <div className='catalog-popup__downloaded-exhibits-grid-container'>
                             {catalogsData.map((catalog) => (
                                 <img key={catalog.id} className='catalog-popup__downloaded-exhibit-img' src={require(`../../images/${catalog.img}`)} alt="Изображение экспоната" />
                             ))}
-                        </div> */}
+                        </div>
                     </div>
                 )}
                 <div className='catalog-popup__buttons-container'>
