@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Validation } from '../../utils/Validation';
 import eye from '../../images/visibility-icon.svg';
 import { Link, useLocation } from 'react-router-dom';
+import * as AuthApi from "../../Api/Auth";
 
 function Auth(props) {
 
@@ -19,16 +20,33 @@ function Auth(props) {
     const { pathname } = useLocation();
 
     const [isRoleOptionsActive, setRoleOptionsActive] = useState(false);
+    const [isCompanyOptionsActive, setCompanyOptionsActive] = useState(false);
     const [authAs, setAuthAs] = useState('Администратор');
     const [isPasswordShow, setPasswordShow] = useState(false);
     const [isPassword, setPassword] = useState('password');
     const [isPasswordValue, setPasswordValue] = useState(false);
+    const [company, setCompany] = useState('Выберите компанию');
+    const [companies, setCompanies] = useState([]);
+    const [companyId, setCompanyId] = useState('');
+    const [isCompanySelected, setCompanySelected] = useState(false);
 
     const email = Validation();
     const password = Validation();
     const firstName = Validation();
     const lastName = Validation();
     const middleName = Validation();
+
+    useEffect(() => {
+        if (pathname === '/register') {
+            AuthApi.getCompanies()
+                .then((companies) => {
+                    console.log(companies.companies);
+                    setCompanies(companies.companies);
+                })
+                .catch((err) => console.log(`Ошибка при загрузке списка компаний: ${err}`));
+        }
+    }, [pathname]);
+
 
     function handlePassword() {
         if (isPasswordShow === true) {
@@ -44,11 +62,25 @@ function Auth(props) {
         setAuthAs(role);
     }
 
+    function onCompanySelectClick(company) {
+        setCompany(company.name);
+        setCompanyId(company.id);
+        setCompanySelected(true);
+    }
+
     function handleRoleOptionsShow() {
         if (isRoleOptionsActive) {
             setRoleOptionsActive(false);
         } else {
             setRoleOptionsActive(true);
+        }
+    }
+
+    function handleCompanyOptionsShow() {
+        if (isCompanyOptionsActive) {
+            setCompanyOptionsActive(false);
+        } else {
+            setCompanyOptionsActive(true);
         }
     }
 
@@ -58,7 +90,8 @@ function Auth(props) {
         firstName: firstName.value,
         lastName: lastName.value,
         middleName: middleName.value,
-        role: authAs
+        role: authAs,
+        companyId: companyId
     }
 
     function submitForm(evt) {
@@ -178,6 +211,20 @@ function Auth(props) {
                                     <div className="auth__role-option-container" onClick={() => onRoleSelectClick('Оператор')}>
                                         <p className="auth__role-option">Оператор</p>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="auth__role-container">
+                            <p className="auth__input-label">Компания</p>
+                            <div className="auth__role-select-container" onClick={handleCompanyOptionsShow}>
+                                <p className={`auth__selected-company ${isCompanySelected && 'auth__selected-company_active'}`}>{company}</p>
+                                <div className="auth__selected-role-arrow" />
+                                <div className={`auth__role-options-container ${isCompanyOptionsActive && 'auth__role-options-container_active'}`}>
+                                    {companies.map((company) => (
+                                        <div key={company.id} className="auth__role-option-container" onClick={() => onCompanySelectClick(company)}>
+                                            <p className="auth__role-option">{company.name}</p>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>

@@ -123,10 +123,12 @@ function App() {
           firstName: data.user.firstName,
           lastName: data.user.lastName,
           middleName: data.user.middleName,
-          isAuth: data.user.isAuth
+          isAuth: data.user.isAuth,
+          company: data.user.companyId
         }
         localStorage.setItem('user', JSON.stringify(user));
         login(user);
+        console.log(data);
       })
       .catch((err) => {
         setAuthError(err.message);

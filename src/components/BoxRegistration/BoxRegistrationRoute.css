@@ -80,18 +80,6 @@
     line-height: 19px;
     margin: 0 auto 0 0;
 }
-.box-registration-route__input {
-    border: 1px solid #CCCCCC;
-    box-sizing: border-box;
-    border-radius: 4px;
-    width: 300px;
-    height: 46px;
-    margin-top: 8px;
-    padding: 0 16px;
-    font-size: 16px;
-    line-height: 22px;
-    color: #333333;
-}
 .box-registration-route__travel-time {
     font-size: 16px;
     line-height: 24px;
@@ -102,6 +90,76 @@
     width: 568px;
     height: 258px;
     margin: 0 auto 0 0;
+}
+.box-registration-route__select-container {
+    display: flex;
+    position: relative;
+    font-size: 14px;
+    line-height: 18px;
+    width: 300px;
+    height: 46px;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin: 8px auto 0 0;
+    cursor: pointer;
+}
+.box-registration-route__select-route-name {
+    margin: auto auto auto 16px;
+    color: #666666;
+}
+.box-registration-route__select-route-name_selected {
+    color: #333333;
+}
+.box-registration-route__select-route-arrow {
+    background-image: url('../../images/arrow-drop-down.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    margin: auto 10px auto auto;
+}
+.box-registration-route__select-routs-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    max-height: 229px;
+    background: #FFFFFF;
+    overflow-y: scroll;
+    top: 54px;
+    left: -1px;
+    width: 300px;
+    box-shadow: 0px 3px 4px rgba(177, 184, 197, 0.14), 0px 3px 3px rgba(177, 184, 197, 0.12), 0px 1px 8px rgba(177, 184, 197, 0.2);
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: default;
+    z-index: 1;
+}
+.box-registration-route__select-routs-container::-webkit-scrollbar {
+    width: 10px;
+    background: #ECEDF3;
+    border-radius: 4px;
+}
+.box-registration-route__select-routs-container::-webkit-scrollbar-thumb {
+    background: #CFD4DD;
+    border-radius: 4px;
+}
+.box-registration-route__select-route-container {
+    display: flex;
+    min-height: 46px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.box-registration-route__select-route-container:last-of-type {
+    border-bottom: none;
+}
+.box-registration-route__select-route-container:hover {
+    background: #ECEDF3;
+}
+.box-registration-route__select-route {
+    margin: auto auto auto 16px;
 }
 @media screen and (max-width: 1436px) {
     .box-registration-route__form-container {
@@ -157,7 +215,10 @@
     .box-registration-route__inputs-container {
         margin: 16px auto 0 0;
     }
-    .box-registration-route__input {
+    .box-registration-route__select-container {
+        width: 343px;
+    }
+    .box-registration-route__select-routs-container {
         width: 343px;
     }
     .box-registration-route__map-container {

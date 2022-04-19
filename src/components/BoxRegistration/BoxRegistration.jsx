@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { YMaps, Map } from 'react-yandex-maps';
+import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import { Validation } from '../../utils/Validation';
 import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
 import TablePagination from '../TablePagination/TablePagination';
+import * as BoxRegistrationApi from '../../Api/BoxRegistrationApi';
 
 function BoxRegistration(props) {
 
@@ -11,6 +13,7 @@ function BoxRegistration(props) {
         handleMobileHeaderNavText
     } = props;
 
+    const { pathname } = useLocation();
     const [isBoxRegistrationGeneralInformationActive, setBoxRegistrationGeneralInformationActive] = useState(false);
     const [isBoxRegistrationExhibitsActive, setBoxRegistrationExhibitsActive] = useState(false);
     const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(true);
@@ -27,14 +30,22 @@ function BoxRegistration(props) {
     const [exhibitsList, setExhibitsList] = useState([]);
     const [showResultsFrom, setShowResultsFrom] = useState(0);
     const [resultsShow, setResultsShow] = useState(10);
+    const [locations, setLocations] = useState([]);
+    const [isSelectRouteFromActive, setSelectRouteFromActive] = useState(false);
+    const [isRouteFromSelected, setRouteFromSelected] = useState(false);
+    const [selectedRouteFrom, setSelectedRouteFrom] = useState('Выберите компанию');
+
+    const [isSelectRouteToActive, setSelectRouteToActive] = useState(false);
+    const [isRouteToSelected, setRouteToSelected] = useState(false);
+    const [selectedRouteTo, setSelectedRouteTo] = useState('Выберите компанию');
 
     const from = Validation();
     const to = Validation();
 
     const route = {
         departureMethod: departureMethod,
-        from: from.value,
-        to: to.value
+        locationFrom: selectedRouteFrom,
+        locationTo: selectedRouteTo
     }
 
     const boxName = Validation();
@@ -57,6 +68,48 @@ function BoxRegistration(props) {
         price: price.value,
         humidity: humidity.value,
         temperature: temperature.value
+    }
+
+    function showLocations() {
+        BoxRegistrationApi.getLocations()
+            .then((locations) => {
+                console.log(locations);
+                setLocations(locations.locations);
+            })
+            .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
+    }
+
+    useEffect(() => {
+        if (pathname === '/box-registration') {
+            showLocations();
+        }
+        // eslint-disable-next-line
+    }, []);
+
+    function handleSelectRouteFrom() {
+        if (isSelectRouteFromActive) {
+            setSelectRouteFromActive(false);
+        } else {
+            setSelectRouteFromActive(true);
+        }
+    }
+
+    function onSelectRouteFromClick(selectedRoute) {
+        setRouteFromSelected(true);
+        setSelectedRouteFrom(selectedRoute);
+    }
+
+    function handleSelectRouteTo() {
+        if (isSelectRouteToActive) {
+            setSelectRouteToActive(false);
+        } else {
+            setSelectRouteToActive(true);
+        }
+    }
+
+    function onSelectRouteToClick(selectedRoute) {
+        setRouteToSelected(true);
+        setSelectedRouteTo(selectedRoute);
     }
 
     const mobileHeading = (() => {
@@ -211,7 +264,8 @@ function BoxRegistration(props) {
         const dataToRegister = {
             generalInformation: generalInformation,
             exhibits: exhibitsList,
-            route: route,
+            locationFrom: route.locationFrom,
+            locationTo: route.locationTo,
             qrCode: "qrCode.jpg"
         }
         console.log(dataToRegister);
@@ -225,8 +279,8 @@ function BoxRegistration(props) {
             <h1 className='box-registration__heading'>Регистрация ящика</h1>
             <div className='box-registration__form'>
                 <div className='box-registration__form-nav-container'>
-                <p className={`box-registration__form-nav-text ${isBoxRegistrationRouteActive && 'box-registration__form-nav-text_active'}`} onClick={onRouteTabClick}>Маршрут</p>
-                <p className={`box-registration__form-nav-text ${isBoxRegistrationExhibitsActive && 'box-registration__form-nav-text_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
+                    <p className={`box-registration__form-nav-text ${isBoxRegistrationRouteActive && 'box-registration__form-nav-text_active'}`} onClick={onRouteTabClick}>Маршрут</p>
+                    <p className={`box-registration__form-nav-text ${isBoxRegistrationExhibitsActive && 'box-registration__form-nav-text_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationGeneralInformationActive && 'box-registration__form-nav-text_active'}`} onClick={onGeneralInformationTabClick}>Общая информация</p>
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationQrCodeActive && 'box-registration__form-nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
                 </div>
@@ -398,25 +452,35 @@ function BoxRegistration(props) {
                             <div className='box-registration-route__inputs-container'>
                                 <div className='box-registration-route__input-container'>
                                     <p className='box-registration-route__input-label'>Откуда</p>
-                                    <input
-                                        type="text"
-                                        className='box-registration-route__input'
-                                        name="from"
-                                        placeholder=''
-                                        value={from.value}
-                                        onChange={from.onChange}
-                                    />
+                                    <div className='box-registration-route__select-container' onClick={handleSelectRouteFrom}>
+                                        <p className={`box-registration-route__select-route-name ${isRouteFromSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedRouteFrom}</p>
+                                        <div className='box-registration-route__select-route-arrow' />
+                                        {isSelectRouteFromActive && (
+                                            <div className='box-registration-route__select-routs-container'>
+                                                {locations.map((location) => (
+                                                    <div key={location.id} className='box-registration-route__select-route-container' onClick={() => onSelectRouteFromClick(location.name)}>
+                                                        <p className='box-registration-route__select-route'>{location.name}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className='box-registration-route__input-container'>
                                     <p className='box-registration-route__input-label'>Куда</p>
-                                    <input
-                                        type="text"
-                                        className='box-registration-route__input'
-                                        name="to"
-                                        placeholder=''
-                                        value={to.value}
-                                        onChange={to.onChange}
-                                    />
+                                    <div className='box-registration-route__select-container' onClick={handleSelectRouteTo}>
+                                        <p className={`box-registration-route__select-route-name ${isRouteToSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedRouteTo}</p>
+                                        <div className='box-registration-route__select-route-arrow' />
+                                        {isSelectRouteToActive && (
+                                            <div className='box-registration-route__select-routs-container'>
+                                                {locations.map((location) => (
+                                                    <div key={location.id} className='box-registration-route__select-route-container' onClick={() => onSelectRouteToClick(location.name)}>
+                                                        <p className='box-registration-route__select-route'>{location.name}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                             <p className='box-registration-route__travel-time'>Расчетное время в пути 3 ч 35 мин</p>
@@ -428,6 +492,8 @@ function BoxRegistration(props) {
                                     width={"100%"}
                                     height={"100%"}
                                 >
+                                    <Placemark geometry={[60.188510, 29.808661]} />
+                                    <Placemark geometry={[55.611256, 37.200880]} />
                                 </Map>
                             </div>
                         </YMaps>

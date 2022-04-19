@@ -42,6 +42,7 @@ export const registration = (userData) => {
             firstName: userData.firstName,
             lastName: userData.lastName,
             middleName: userData.middleName,
+            companyId: userData.companyId
         })
     })
         .then(res => res.ok ? res : Promise.reject(res))
@@ -57,5 +58,24 @@ export const registration = (userData) => {
             else if (err.status === 401) {
                 throw new Error('Пользователь с таким email уже существует');
             }
+        });
+};
+
+export const getCompanies = () => {
+    return fetch(`${API_URL}/companies`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .then(data => data)
+        .catch((err) => {
+            throw new Error(err.message);
         });
 };

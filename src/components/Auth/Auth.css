@@ -104,6 +104,15 @@
     margin: auto auto auto 16px;
 }
 
+.auth__selected-company {
+    margin: auto auto auto 16px;
+    color: #666666;
+    opacity: 0.9;
+}
+.auth__selected-company_active {
+    color: #333333;
+}
+
 .auth__selected-role-arrow {
     background-image: url('../../images/arrow-drop-down.svg');
     background-size: cover;
@@ -119,6 +128,8 @@
     top: 54px;
     display: none;
     flex-direction: column;
+    max-height: 140px;
+    overflow-y: scroll;
     width: 300px;
     border: 1px solid #CCCCCC;
     border-radius: 4px;
@@ -127,13 +138,22 @@
     background-color: #FFFFFF;
     z-index: 1;
 }
+.auth__role-options-container::-webkit-scrollbar {
+    width: 10px;
+    background: #ECEDF3;
+    border-radius: 4px;
+}
+.auth__role-options-container::-webkit-scrollbar-thumb {
+    background: #CFD4DD;
+    border-radius: 4px;
+}
 
 .auth__role-options-container_active {
     display: flex;
 }
 
 .auth__role-option-container {
-    height: 46px;
+    min-height: 46px;
     border-bottom: 1px solid #CCCCCC;
     display: flex;
     cursor: pointer;
