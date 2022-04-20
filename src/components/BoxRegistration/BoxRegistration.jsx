@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import { YMaps, Map, GeoObject, ZoomControl } from 'react-yandex-maps';
 import { Validation } from '../../utils/Validation';
 import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
 import TablePagination from '../TablePagination/TablePagination';
@@ -18,11 +18,6 @@ function BoxRegistration(props) {
     const [isBoxRegistrationExhibitsActive, setBoxRegistrationExhibitsActive] = useState(false);
     const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(true);
     const [isBoxRegistrationQrCodeActive, setBoxRegistrationQrCodeActive] = useState(false);
-    const [isTrainActive, setTrainActive] = useState(false);
-    const [isAirplaneActive, setAirplaneActive] = useState(true);
-    const [isBusActive, setBusActive] = useState(false);
-    const [isCarActive, setCarActive] = useState(false);
-    const [departureMethod, setDepartureMethod] = useState('airplane');
     const [isDownloadContainerActive, setDownloadContainerActive] = useState(true);
     const [isTableContainerActive, setTableContainerActive] = useState(false);
     const [isImgSortActive, setImgSortActive] = useState(false);
@@ -31,21 +26,45 @@ function BoxRegistration(props) {
     const [showResultsFrom, setShowResultsFrom] = useState(0);
     const [resultsShow, setResultsShow] = useState(10);
     const [locations, setLocations] = useState([]);
+    const [companies, setCompanies] = useState([]);
+    const [companyLocations, setCompanyLocations] = useState([]);
+
     const [isSelectRouteFromActive, setSelectRouteFromActive] = useState(false);
     const [isRouteFromSelected, setRouteFromSelected] = useState(false);
-    const [selectedRouteFrom, setSelectedRouteFrom] = useState('Выберите компанию');
+    const [selectedRouteFrom, setSelectedRouteFrom] = useState('Выберите адрес');
+    const [locationIdFrom, setLocationIdFrom] = useState('');
+    const [coordinatesFrom, setCoordinatesFrom] = useState({});
 
     const [isSelectRouteToActive, setSelectRouteToActive] = useState(false);
     const [isRouteToSelected, setRouteToSelected] = useState(false);
     const [selectedRouteTo, setSelectedRouteTo] = useState('Выберите компанию');
+    const [companyIdTo, setCompanyIdTo] = useState('');
 
-    const from = Validation();
-    const to = Validation();
+    const [isSelectAddressActive, setSelectAddressActive] = useState(false);
+    const [isAddressSelected, setAddressSelected] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState('Выберите адрес');
+    const [locationIdTo, setLocationIdTo] = useState('');
+    const [coordinatesTo, setCoordinatesTo] = useState({});
+
+    const myGeoObject = {
+        geometry: {
+            type: "LineString",
+            coordinates: [
+                [`${coordinatesFrom.geoX}`, `${coordinatesFrom.geoY}`],
+                [`${coordinatesTo.geoX}`, `${coordinatesTo.geoY}`]
+            ]
+        },
+        options: {
+            geodesic: true,
+            strokeWidth: 5,
+            strokeColor: "#336699",
+        }
+    }
 
     const route = {
-        departureMethod: departureMethod,
-        locationFrom: selectedRouteFrom,
-        locationTo: selectedRouteTo
+        locationIdFrom: locationIdFrom,
+        companyIdTo: companyIdTo,
+        locationIdTo: locationIdTo,
     }
 
     const boxName = Validation();
@@ -79,9 +98,19 @@ function BoxRegistration(props) {
             .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
     }
 
+    function showCompanies() {
+        BoxRegistrationApi.getCompaniesWithLocations()
+            .then((companies) => {
+                console.log(companies.companiesList);
+                setCompanies(companies.companiesList);
+            })
+            .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
+    }
+
     useEffect(() => {
         if (pathname === '/box-registration') {
             showLocations();
+            showCompanies();
         }
         // eslint-disable-next-line
     }, []);
@@ -94,9 +123,31 @@ function BoxRegistration(props) {
         }
     }
 
-    function onSelectRouteFromClick(selectedRoute) {
+    useEffect(() => {
+        if (isBoxRegistrationRouteActive) {
+            if (isRouteFromSelected === false) {
+                setCoordinatesFrom({
+                    geoX: 59.939098,
+                    geoY: 30.315868
+                })
+            } else if (isAddressSelected === false) {
+                setCoordinatesTo({
+                    geoX: 59.939098,
+                    geoY: 30.315868
+                })
+            }
+        }
+        // eslint-disable-next-line
+    }, [])
+
+    function onSelectRouteFromClick(location) {
         setRouteFromSelected(true);
-        setSelectedRouteFrom(selectedRoute);
+        setSelectedRouteFrom(location.name);
+        setLocationIdFrom(location.id);
+        setCoordinatesFrom({
+            geoX: location.geoX,
+            geoY: location.geoY
+        })
     }
 
     function handleSelectRouteTo() {
@@ -107,9 +158,32 @@ function BoxRegistration(props) {
         }
     }
 
-    function onSelectRouteToClick(selectedRoute) {
+    function onSelectRouteToClick(company) {
         setRouteToSelected(true);
-        setSelectedRouteTo(selectedRoute);
+        setSelectedRouteTo(company.name);
+        setCompanyIdTo(company.id);
+        setCompanyLocations(company.Locations);
+        setAddressSelected(false);
+        setSelectedAddress('Выберите адрес');
+        setLocationIdTo('');
+    }
+
+    function handleSelectAddress() {
+        if (isSelectAddressActive) {
+            setSelectAddressActive(false);
+        } else {
+            setSelectAddressActive(true);
+        }
+    }
+
+    function onSelectAddressClick(location) {
+        setAddressSelected(true);
+        setSelectedAddress(location.name);
+        setLocationIdTo(location.id);
+        setCoordinatesTo({
+            geoX: location.geoX,
+            geoY: location.geoY
+        })
     }
 
     const mobileHeading = (() => {
@@ -127,38 +201,6 @@ function BoxRegistration(props) {
     useEffect(() => {
         handleMobileHeaderNavText('Регистрация ящика');
     });
-
-    function handleTrainActive() {
-        setAirplaneActive(false);
-        setBusActive(false);
-        setCarActive(false);
-        setTrainActive(true);
-        setDepartureMethod('train');
-    }
-
-    function handleAirplaneActive() {
-        setTrainActive(false);
-        setBusActive(false);
-        setCarActive(false);
-        setAirplaneActive(true);
-        setDepartureMethod('airplane');
-    }
-
-    function handleBusActive() {
-        setTrainActive(false);
-        setAirplaneActive(false);
-        setCarActive(false);
-        setBusActive(true);
-        setDepartureMethod('bus');
-    }
-
-    function handleCarActive() {
-        setTrainActive(false);
-        setAirplaneActive(false);
-        setBusActive(false);
-        setCarActive(true);
-        setDepartureMethod('car');
-    }
 
     function onGeneralInformationTabClick() {
         setBoxRegistrationQrCodeActive(false);
@@ -252,11 +294,21 @@ function BoxRegistration(props) {
         price.setValue('');
         humidity.setValue('');
         temperature.setValue('');
-        from.setValue('');
-        to.setValue('');
-        handleAirplaneActive();
         setDownloadContainerActive(true);
         setTableContainerActive(false);
+        setCompanyLocations([]);
+        setSelectRouteFromActive(false);
+        setRouteFromSelected(false);
+        setSelectedRouteFrom('Выберите адрес');
+        setLocationIdFrom('');
+        setSelectRouteToActive(false);
+        setRouteToSelected(false);
+        setSelectedRouteTo('Выберите компанию');
+        setCompanyIdTo('');
+        setSelectAddressActive(false);
+        setAddressSelected(false);
+        setSelectedAddress('Выберите адрес');
+        setLocationIdTo('');
     }
 
     function onRegisterButtonClick() {
@@ -264,8 +316,9 @@ function BoxRegistration(props) {
         const dataToRegister = {
             generalInformation: generalInformation,
             exhibits: exhibitsList,
-            locationFrom: route.locationFrom,
-            locationTo: route.locationTo,
+            locationIdFrom: route.locationIdFrom,
+            companyIdTo: route.companyIdTo,
+            locationIdTo: route.locationIdTo,
             qrCode: "qrCode.jpg"
         }
         console.log(dataToRegister);
@@ -443,22 +496,48 @@ function BoxRegistration(props) {
                 {isBoxRegistrationRouteActive &&
                     <div className='box-registration-route'>
                         <div className='box-registration-route__form-container'>
-                            <div className='box-registration-route__icons-container'>
-                                <div className={`box-registration-route__icon-train ${isTrainActive && 'box-registration-route__icon-train_active'}`} onClick={handleTrainActive} />
-                                <div className={`box-registration-route__icon-airplane ${isAirplaneActive && 'box-registration-route__icon-airplane_active'}`} onClick={handleAirplaneActive} />
-                                <div className={`box-registration-route__icon-bus ${isBusActive && 'box-registration-route__icon-bus_active'}`} onClick={handleBusActive} />
-                                <div className={`box-registration-route__icon-car ${isCarActive && 'box-registration-route__icon-car_active'}`} onClick={handleCarActive} />
+                            <div className='box-registration-route__input-container'>
+                                <p className='box-registration-route__input-label'>Откуда</p>
+                                <div className='box-registration-route__select-container' onClick={handleSelectRouteFrom}>
+                                    <p className={`box-registration-route__select-route-name ${isRouteFromSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedRouteFrom}</p>
+                                    <div className='box-registration-route__select-route-arrow' />
+                                    {isSelectRouteFromActive && (
+                                        <div className='box-registration-route__select-routs-container'>
+                                            {locations.map((location) => (
+                                                <div key={location.id} className='box-registration-route__select-route-container' onClick={() => onSelectRouteFromClick(location)}>
+                                                    <p className='box-registration-route__select-route'>{location.name}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                            <div className='box-registration-route__inputs-container'>
+                            <div className='box-registration-route__input-container'>
+                                <p className='box-registration-route__input-label'>Куда</p>
+                                <div className='box-registration-route__select-container' onClick={handleSelectRouteTo}>
+                                    <p className={`box-registration-route__select-route-name ${isRouteToSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedRouteTo}</p>
+                                    <div className='box-registration-route__select-route-arrow' />
+                                    {isSelectRouteToActive && (
+                                        <div className='box-registration-route__select-routs-container'>
+                                            {companies.map((company) => (
+                                                <div key={company.id} className='box-registration-route__select-route-container' onClick={() => onSelectRouteToClick(company)}>
+                                                    <p className='box-registration-route__select-route'>{company.name}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            {isRouteToSelected && (
                                 <div className='box-registration-route__input-container'>
-                                    <p className='box-registration-route__input-label'>Откуда</p>
-                                    <div className='box-registration-route__select-container' onClick={handleSelectRouteFrom}>
-                                        <p className={`box-registration-route__select-route-name ${isRouteFromSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedRouteFrom}</p>
+                                    <p className='box-registration-route__input-label'>Адрес</p>
+                                    <div className='box-registration-route__select-container' onClick={handleSelectAddress}>
+                                        <p className={`box-registration-route__select-route-name ${isAddressSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedAddress}</p>
                                         <div className='box-registration-route__select-route-arrow' />
-                                        {isSelectRouteFromActive && (
+                                        {isSelectAddressActive && (
                                             <div className='box-registration-route__select-routs-container'>
-                                                {locations.map((location) => (
-                                                    <div key={location.id} className='box-registration-route__select-route-container' onClick={() => onSelectRouteFromClick(location.name)}>
+                                                {companyLocations.map((location) => (
+                                                    <div key={location.id} className='box-registration-route__select-route-container' onClick={() => onSelectAddressClick(location)}>
                                                         <p className='box-registration-route__select-route'>{location.name}</p>
                                                     </div>
                                                 ))}
@@ -466,35 +545,34 @@ function BoxRegistration(props) {
                                         )}
                                     </div>
                                 </div>
-                                <div className='box-registration-route__input-container'>
-                                    <p className='box-registration-route__input-label'>Куда</p>
-                                    <div className='box-registration-route__select-container' onClick={handleSelectRouteTo}>
-                                        <p className={`box-registration-route__select-route-name ${isRouteToSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedRouteTo}</p>
-                                        <div className='box-registration-route__select-route-arrow' />
-                                        {isSelectRouteToActive && (
-                                            <div className='box-registration-route__select-routs-container'>
-                                                {locations.map((location) => (
-                                                    <div key={location.id} className='box-registration-route__select-route-container' onClick={() => onSelectRouteToClick(location.name)}>
-                                                        <p className='box-registration-route__select-route'>{location.name}</p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            <p className='box-registration-route__travel-time'>Расчетное время в пути 3 ч 35 мин</p>
+                            )}
                         </div>
                         <YMaps>
                             <div className="box-registration-route__map-container">
-                                <Map
-                                    defaultState={{ center: [59.939098, 30.315868], zoom: 8 }}
-                                    width={"100%"}
-                                    height={"100%"}
-                                >
-                                    <Placemark geometry={[60.188510, 29.808661]} />
-                                    <Placemark geometry={[55.611256, 37.200880]} />
-                                </Map>
+                                {isRouteFromSelected && isAddressSelected ? (
+                                    <Map
+                                        defaultState={{ center: [59.939098, 30.315868], zoom: 8 }}
+                                        width={"100%"}
+                                        height={"100%"}
+                                        instanceRef={(ref) => {
+                                            if (ref) {
+                                                ref.behaviors.disable('scrollZoom');
+                                                ref.setBounds(ref.geoObjects.getBounds());
+                                            }
+                                        }}
+                                    >
+                                        <GeoObject {...myGeoObject} />
+                                        <ZoomControl options={{ float: 'right' }} />
+                                    </Map>
+                                ) : (
+                                    <Map
+                                        defaultState={{ center: [59.939098, 30.315868], zoom: 8 }}
+                                        width={"100%"}
+                                        height={"100%"}
+                                    >
+                                        <GeoObject {...myGeoObject} />
+                                    </Map>
+                                )}
                             </div>
                         </YMaps>
                     </div>
