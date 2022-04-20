@@ -63,6 +63,7 @@ function Auth(props) {
     }
 
     function onCompanySelectClick(company) {
+        console.log(company);
         setCompany(company.name);
         setCompanyId(company.id);
         setCompanySelected(true);

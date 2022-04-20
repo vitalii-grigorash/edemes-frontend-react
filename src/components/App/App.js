@@ -8,6 +8,7 @@ import Tracking from "../Tracking/Tracking";
 import Catalog from "../Catalog/Catalog";
 import Users from "../Users/Users";
 import CatalogPopup from "../CatalogPopup/CatalogPopup";
+import SuccessPopup from "../SuccessPopup/SuccessPopup";
 import NotFound from "../NotFound/NotFound";
 import Fixation from "../Fixation/Fixation";
 import FixationHistory from "../FixationHistory/FixationHistory";
@@ -22,6 +23,7 @@ function App() {
   const { pathname } = useLocation();
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isCatalogPopupOpen, setCatalogPopupOpen] = useState(false);
+  const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
   const [role, setRole] = useState('');
   const [isMobileSideBarOpen, setMobileSideBarOpen] = useState(false);
   const [mobileHeaderNavText, setMobileHeaderNavText] = useState('');
@@ -124,11 +126,11 @@ function App() {
           lastName: data.user.lastName,
           middleName: data.user.middleName,
           isAuth: data.user.isAuth,
-          company: data.user.companyId
+          userCompanyInfo: data.user.userCompanyInfo
         }
         localStorage.setItem('user', JSON.stringify(user));
         login(user);
-        console.log(data);
+        console.log(user);
       })
       .catch((err) => {
         setAuthError(err.message);
@@ -140,9 +142,10 @@ function App() {
 
   function handleRegister(registerData) {
     Auth.registration(registerData)
-      .then(() => {
+      .then((data) => {
+        console.log(data);
         setRegisterError('');
-        history.push('/login');
+        handleOpenSuccessPopupClick();
       })
       .catch((err) => {
         setRegisterError(err.message);
@@ -154,6 +157,14 @@ function App() {
       setCatalogPopupOpen(false);
     } else {
       setCatalogPopupOpen(true);
+    }
+  }
+
+  function handleOpenSuccessPopupClick() {
+    if (isSuccessPopupOpen) {
+      setSuccessPopupOpen(false);
+    } else {
+      setSuccessPopupOpen(true);
     }
   }
 
@@ -254,6 +265,13 @@ function App() {
           onClosePopupClick={handleOpenCatalogPopupClick}
           catalogs={catalogs}
           getCatalogs={getCatalogs}
+        />
+      )}
+
+      {pathname === "/register" && (
+        <SuccessPopup
+          isOpen={isSuccessPopupOpen}
+          onClosePopupClick={handleOpenSuccessPopupClick}
         />
       )}
 
