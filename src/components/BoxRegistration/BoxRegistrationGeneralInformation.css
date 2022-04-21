@@ -34,6 +34,23 @@
     padding: 0 16px;
     margin: 8px 0 0;
 }
+.box-registration-general-information__fix-info-container {
+    display: flex;
+    width: 300px;
+    height: 46px;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #333333;
+    font-size: 16px;
+    line-height: 22px;
+    margin: 8px 0 0;
+    padding: 0 16px;
+}
+.box-registration-general-information__fix-info-text {
+    margin: auto 0;
+    opacity: 0.9;
+}
 .box-registration-general-information__dimensions-inputs-container {
     display: flex;
     margin: 8px 0 0;
@@ -41,6 +58,10 @@
 .box-registration-general-information__input_dimensions {
     width: 73px;
     margin: 0;
+}
+.box-registration-general-information__input_dimensions::placeholder {
+    font-size: 10px;
+    line-height: 14px;
 }
 .box-registration-general-information__dimensions-cross-icon {
     background-image: url('../../images/cross.svg');
@@ -67,6 +88,9 @@
         margin: 24px auto 0;
     }
     .box-registration-general-information__input {
+        width: 343px;
+    }
+    .box-registration-general-information__fix-info-container {
         width: 343px;
     }
     .box-registration-general-information__input_dimensions {

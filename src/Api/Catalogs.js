@@ -59,6 +59,25 @@ export const getArtObjects = () => {
         });
 };
 
+export const getCategories = () => {
+    return fetch(`${API_URL}/categories`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .then(data => data)
+        .catch((err) => {
+            throw new Error(err.message);
+        });
+};
+
 export const createNewCatalog = (catalog) => {
     return fetch(`${API_URL}/catalogs`, {
         method: 'POST',
@@ -67,7 +86,7 @@ export const createNewCatalog = (catalog) => {
         },
         body: JSON.stringify({
             name: catalog.name,
-            category: catalog.category,
+            categoryId: catalog.categoryId,
             picture: catalog.picture
         })
     })

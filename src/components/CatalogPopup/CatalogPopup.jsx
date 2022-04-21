@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Validation } from '../../utils/Validation';
 import catalogsData from '../../utils/CatalogsData.json';
 import * as Catalogs from "../../Api/Catalogs";
@@ -18,11 +18,25 @@ function CatalogPopup(props) {
     const [selectedCatalog, setSelectedCatalog] = useState('Выберете каталог');
     const [isCatalogSelected, setCatalogSelected] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState('Выберете категорию');
+    const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [isCategorySelected, setCategorySelected] = useState(false);
     const [isDownloadedExhibitsContainerOpened, setDownloadedExhibitsContainerOpened] = useState(false);
     const [isSaveButtonActive, setSaveButtonActive] = useState(false);
+    const [categories, setCategories] = useState([]);
 
     const catalogName = Validation();
+
+    useEffect(() => {
+        if (isOpen) {
+            Catalogs.getCategories()
+                .then((data) => {
+                    setCategories(data.categories);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }, [isOpen])
 
     function onCloseButtonClick() {
         onClosePopupClick();
@@ -59,7 +73,7 @@ function CatalogPopup(props) {
     function onAddCatalogButtonClick() {
         const catalog = {
             name: catalogName.value,
-            category: selectedCategory,
+            categoryId: selectedCategoryId,
             picture: "https://static.kulturologia.ru/files/u18214/jpeg2.jpg"
         }
         Catalogs.createNewCatalog(catalog)
@@ -69,6 +83,7 @@ function CatalogPopup(props) {
                 handleShowCatalogAddContainer();
                 setSelectedCategory('Выберете категорию');
                 setCategorySelected(false);
+                setSelectedCategoryId('');
                 getCatalogs();
             })
             .catch((err) => console.log(`Ошибка при создании каталога: ${err}`));
@@ -80,8 +95,10 @@ function CatalogPopup(props) {
     }
 
     function onSelectCategoryClick(selectedCategory) {
+        console.log(selectedCategory)
         setCategorySelected(true);
-        setSelectedCategory(selectedCategory);
+        setSelectedCategoryId(selectedCategory.id);
+        setSelectedCategory(selectedCategory.name);
     }
 
     function handleSelectCatalogListShow() {
@@ -158,12 +175,11 @@ function CatalogPopup(props) {
                                 <div className='catalog-popup__select-catalog-arrow' />
                                 {isCategoryListActive && (
                                     <div className='catalog-popup__select-catalogs-container'>
-                                        <div className='catalog-popup__select-catalog-container' onClick={() => onSelectCategoryClick('Живопись')}>
-                                            <p className='catalog-popup__select-catalog'>Живопись</p>
-                                        </div>
-                                        <div className='catalog-popup__select-catalog-container' onClick={() => onSelectCategoryClick('Экспонат')}>
-                                            <p className='catalog-popup__select-catalog'>Экспонат</p>
-                                        </div>
+                                        {categories.map((category) => (
+                                            <div key={category.id} className='catalog-popup__select-catalog-container' onClick={() => onSelectCategoryClick(category)}>
+                                                <p className='catalog-popup__select-catalog'>{category.name}</p>
+                                            </div>
+                                        ))}
                                     </div>
                                 )}
                             </div>

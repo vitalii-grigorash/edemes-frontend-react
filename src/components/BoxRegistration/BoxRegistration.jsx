@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { YMaps, Map, GeoObject, ZoomControl } from 'react-yandex-maps';
+import { YMaps, Map, GeoObject } from 'react-yandex-maps';
 import { Validation } from '../../utils/Validation';
 import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
 import TablePagination from '../TablePagination/TablePagination';
@@ -46,6 +46,12 @@ function BoxRegistration(props) {
     const [locationIdTo, setLocationIdTo] = useState('');
     const [coordinatesTo, setCoordinatesTo] = useState({});
 
+    const [senderCompanyName, setSenderCompanyName] = useState('');
+    const [recipientCompanyName, setRecipientCompanyName] = useState('');
+    const [totalArtObjectsPrice, setTotalArtObjectsPrice] = useState('');
+
+    const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
+
     const myGeoObject = {
         geometry: {
             type: "LineString",
@@ -61,6 +67,12 @@ function BoxRegistration(props) {
         }
     }
 
+    useEffect(() => {
+        if (isRouteFromSelected && isAddressSelected) {
+            setMapWithCoordinatesActive(true);
+        }
+    }, [isAddressSelected, isRouteFromSelected])
+
     const route = {
         locationIdFrom: locationIdFrom,
         companyIdTo: companyIdTo,
@@ -72,9 +84,6 @@ function BoxRegistration(props) {
     const width = Validation();
     const height = Validation();
     const weight = Validation();
-    const price = Validation();
-    const humidity = Validation();
-    const temperature = Validation();
 
     const generalInformation = {
         boxName: boxName.value,
@@ -83,10 +92,7 @@ function BoxRegistration(props) {
             width: width.value,
             height: height.value
         },
-        weight: weight.value,
-        price: price.value,
-        humidity: humidity.value,
-        temperature: temperature.value
+        weight: weight.value
     }
 
     function showLocations() {
@@ -101,7 +107,6 @@ function BoxRegistration(props) {
     function showCompanies() {
         BoxRegistrationApi.getCompaniesWithLocations()
             .then((companies) => {
-                console.log(companies.companiesList);
                 setCompanies(companies.companiesList);
             })
             .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
@@ -111,6 +116,11 @@ function BoxRegistration(props) {
         if (pathname === '/box-registration') {
             showLocations();
             showCompanies();
+            if (localStorage.getItem('user')) {
+                const userData = localStorage.getItem('user');
+                const user = JSON.parse(userData);
+                setSenderCompanyName(user.userCompanyInfo.name);
+            }
         }
         // eslint-disable-next-line
     }, []);
@@ -122,23 +132,6 @@ function BoxRegistration(props) {
             setSelectRouteFromActive(true);
         }
     }
-
-    useEffect(() => {
-        if (isBoxRegistrationRouteActive) {
-            if (isRouteFromSelected === false) {
-                setCoordinatesFrom({
-                    geoX: 59.939098,
-                    geoY: 30.315868
-                })
-            } else if (isAddressSelected === false) {
-                setCoordinatesTo({
-                    geoX: 59.939098,
-                    geoY: 30.315868
-                })
-            }
-        }
-        // eslint-disable-next-line
-    }, [])
 
     function onSelectRouteFromClick(location) {
         setRouteFromSelected(true);
@@ -163,6 +156,7 @@ function BoxRegistration(props) {
         setSelectedRouteTo(company.name);
         setCompanyIdTo(company.id);
         setCompanyLocations(company.Locations);
+        setRecipientCompanyName(company.name);
         setAddressSelected(false);
         setSelectedAddress('Выберите адрес');
         setLocationIdTo('');
@@ -291,9 +285,6 @@ function BoxRegistration(props) {
         width.setValue('');
         height.setValue('');
         weight.setValue('');
-        price.setValue('');
-        humidity.setValue('');
-        temperature.setValue('');
         setDownloadContainerActive(true);
         setTableContainerActive(false);
         setCompanyLocations([]);
@@ -349,7 +340,7 @@ function BoxRegistration(props) {
                                     type="text"
                                     className='box-registration-general-information__input'
                                     name="boxName"
-                                    placeholder=''
+                                    placeholder='Введите название ящика'
                                     value={boxName.value}
                                     onChange={boxName.onChange}
                                 />
@@ -361,7 +352,7 @@ function BoxRegistration(props) {
                                         type="text"
                                         className='box-registration-general-information__input box-registration-general-information__input_dimensions'
                                         name="length"
-                                        placeholder=''
+                                        placeholder='Длина'
                                         value={length.value}
                                         onChange={length.onChange}
                                     />
@@ -370,7 +361,7 @@ function BoxRegistration(props) {
                                         type="text"
                                         className='box-registration-general-information__input box-registration-general-information__input_dimensions'
                                         name="width"
-                                        placeholder=''
+                                        placeholder='Ширина'
                                         value={width.value}
                                         onChange={width.onChange}
                                     />
@@ -379,7 +370,7 @@ function BoxRegistration(props) {
                                         type="text"
                                         className='box-registration-general-information__input box-registration-general-information__input_dimensions'
                                         name="height"
-                                        placeholder=''
+                                        placeholder='Высота'
                                         value={height.value}
                                         onChange={height.onChange}
                                     />
@@ -391,7 +382,7 @@ function BoxRegistration(props) {
                                     type="text"
                                     className='box-registration-general-information__input'
                                     name="weight"
-                                    placeholder=''
+                                    placeholder='Введите вес ящика'
                                     value={weight.value}
                                     onChange={weight.onChange}
                                 />
@@ -399,37 +390,22 @@ function BoxRegistration(props) {
                         </div>
                         <div className='box-registration-general-information__inputs-container'>
                             <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label box-registration-general-information__input-label_first'>Стоимость, ₽</p>
-                                <input
-                                    type="text"
-                                    className='box-registration-general-information__input'
-                                    name="price"
-                                    placeholder=''
-                                    value={price.value}
-                                    onChange={price.onChange}
-                                />
+                                <p className='box-registration-general-information__input-label  box-registration-general-information__input-label_first'>Отправитель</p>
+                                <div className='box-registration-general-information__fix-info-container'>
+                                    <p className='box-registration-general-information__fix-info-text'>{senderCompanyName}</p>
+                                </div>
                             </div>
                             <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label'>Влажность</p>
-                                <input
-                                    type="text"
-                                    className='box-registration-general-information__input'
-                                    name="humidity"
-                                    placeholder=''
-                                    value={humidity.value}
-                                    onChange={humidity.onChange}
-                                />
+                                <p className='box-registration-general-information__input-label'>Получатель</p>
+                                <div className='box-registration-general-information__fix-info-container'>
+                                    <p className='box-registration-general-information__fix-info-text'>{recipientCompanyName}</p>
+                                </div>
                             </div>
                             <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label'>Температура</p>
-                                <input
-                                    type="text"
-                                    className='box-registration-general-information__input'
-                                    name="temperature"
-                                    placeholder=''
-                                    value={temperature.value}
-                                    onChange={temperature.onChange}
-                                />
+                                <p className='box-registration-general-information__input-label'>Стоимость, ₽</p>
+                                <div className='box-registration-general-information__fix-info-container'>
+                                    <p className='box-registration-general-information__fix-info-text'>{totalArtObjectsPrice}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -549,29 +525,28 @@ function BoxRegistration(props) {
                         </div>
                         <YMaps>
                             <div className="box-registration-route__map-container">
-                                {isRouteFromSelected && isAddressSelected ? (
+                                {isMapWithCoordinatesActive ? (
                                     <Map
                                         defaultState={{ center: [59.939098, 30.315868], zoom: 8 }}
                                         width={"100%"}
                                         height={"100%"}
                                         instanceRef={(ref) => {
                                             if (ref) {
-                                                ref.behaviors.disable('scrollZoom');
-                                                ref.setBounds(ref.geoObjects.getBounds());
+                                                ref.setBounds([
+                                                    [`${coordinatesFrom.geoX}`, `${coordinatesFrom.geoY}`],
+                                                    [`${coordinatesTo.geoX}`, `${coordinatesTo.geoY}`]
+                                                ]);
                                             }
                                         }}
                                     >
                                         <GeoObject {...myGeoObject} />
-                                        <ZoomControl options={{ float: 'right' }} />
                                     </Map>
                                 ) : (
                                     <Map
                                         defaultState={{ center: [59.939098, 30.315868], zoom: 8 }}
                                         width={"100%"}
                                         height={"100%"}
-                                    >
-                                        <GeoObject {...myGeoObject} />
-                                    </Map>
+                                    ></Map>
                                 )}
                             </div>
                         </YMaps>
