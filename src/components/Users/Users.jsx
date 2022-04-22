@@ -19,11 +19,66 @@ function Users(props) {
     const [isAddUserTabActive, setAddUserTabActive] = useState(true);
     const [isListTabActive, setListTabActive] = useState(false);
     const [users, setUsers] = useState([]);
+    const [isFilterOpen, setFilterOpen] = useState(false);
+    const [isOptionsOpen, setOptionsOpen] = useState(false);
+    const [isOptionSelected, setOptionSelected] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('Выберите тип сортировки');
+    const [stateMethod, setStateMethod] = useState('Все');
+    const [roleMethod, setRoleMethod] = useState('Все');
+
+    function handleShowFilter() {
+        if (isFilterOpen) {
+            setFilterOpen(false);
+        } else {
+            setFilterOpen(true);
+        }
+    }
+    function handleShowOptions() {
+        if (isOptionsOpen) {
+            setOptionsOpen(false);
+        } else {
+            setOptionsOpen(true);
+        }
+    }
+
+    function onStateRadioСhange(evt) {
+        setStateMethod(evt.target.value);
+        console.log(evt.target.value);
+    };
+
+    function onRoleRadioСhange(evt) {
+        setRoleMethod(evt.target.value);
+        console.log(evt.target.value);
+    }
+
+    function onApplyClick() {
+        console.log(stateMethod);
+        console.log(roleMethod);
+        if (isOptionSelected) {
+            console.log(selectedOption);
+        }
+        handleShowFilter();
+        setOptionsOpen(false);
+    }
+
+    function onResetClick() {
+
+    }
 
     const firstName = Validation();
     const lastName = Validation();
     const middleName = Validation();
     const email = Validation();
+
+    function onSelectOptionClick(option) {
+        setSelectedOption(option);
+        setOptionSelected(true);
+    }
+
+    function onDefaultOptionClick() {
+        setSelectedOption('Выберите тип сортировки');
+        setOptionSelected(false);
+    }
 
     useEffect(() => {
         handleMobileHeaderNavText('Пользователи');
@@ -183,37 +238,143 @@ function Users(props) {
                     </div>
                 )}
                 {isListTabActive && (
-                    <div className='users__table-container'>
-                        <div className='users__table-rows users__table-rows_heading'>
-                            <p className='users__table-name'>ФИО</p>
-                            <p className='users__table-email'>Почта</p>
-                            <p className='users__table-role'>Роль</p>
-                        </div>
-                        {users !== null ? (
-                            <>
-                                {users.slice(showResultsFrom, resultsShow).map((user) => (
-                                    <div key={user.id} className='users__table-rows'>
-                                        <p className='users__table-name'>{user.lastName} {user.firstName} {user.middleName}</p>
-                                        <p className='users__table-email'>{user.email}</p>
-                                        <p className='users__table-role'>{user.role}</p>
-                                        <div className={`users__table-button-container ${!user.active && 'users__table-button-container_disabled'}`} onClick={() => handleUserActive(user)}>
-                                            <div className={`users__table-button ${!user.active && 'users__table-button_disabled'}`} />
-                                        </div>
-                                        <p className={`users__table-button-text ${!user.active && 'users__table-button-text_disabled'}`}>Заблокировать</p>
+                    <>
+                        <div className='users__table-heading'>
+                            <p className='users__table-users-value'>Найдено {users.length} пользователей</p>
+                            <div className='users__table-sort-main-container'>
+                                <div className='users__table-sort-container' onClick={handleShowFilter}>
+                                    <div className='users__table-sort-icon' />
+                                    <p className='users__table-sort-text'>Фильтр</p>
+                                </div>
+                                <div className={`filter ${isFilterOpen && 'filter_opened'}`}>
+                                    <div className='filter__heading-container'>
+                                        <p className='filter__heading'>Фильтр</p>
+                                        <div className='filter__close-icon' onClick={handleShowFilter} />
                                     </div>
-                                ))}
-                            </>
-                        ) : (
-                            <div className='users__table-rows'>
-                                <p className='users__no-results-text'>Нет данных для отображения</p>
+                                    <div className='filter__sort-main-container'>
+                                        <p className='filter__sort-heading'>Сортировка</p>
+                                        <div className='filter__sort-container' onClick={handleShowOptions}>
+                                            <p className={`filter__sort-value ${isOptionSelected && 'filter__sort-value_selected'}`}>{selectedOption}</p>
+                                            <div className='filter__sort-arrow' />
+                                            <div className={`filter__sort-options-container ${isOptionsOpen && 'filter__sort-options-container_opened'}`}>
+                                                <div className='filter__sort-option-container' onClick={() => onSelectOptionClick('По дате')}>
+                                                    <p className='filter__sort-option'>По дате</p>
+                                                </div>
+                                                <div className='filter__sort-option-container' onClick={onDefaultOptionClick}>
+                                                    <p className='filter__sort-option'>Без сортировки</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='filter__radio-buttons-main-container'>
+                                        <div className='filter__radio-buttons-container'>
+                                            <p className='filter__radio-buttons-heading'>Состояние</p>
+                                            <div className="filter__radio">
+                                                <input
+                                                    id="stateAll"
+                                                    type="radio"
+                                                    name="state"
+                                                    value="Все"
+                                                    onChange={onStateRadioСhange}
+                                                    defaultChecked
+                                                />
+                                                <label htmlFor="stateAll">Все</label>
+                                            </div>
+                                            <div className="filter__radio">
+                                                <input
+                                                    id="stateBlocket"
+                                                    type="radio"
+                                                    name="state"
+                                                    value="Заблокирован"
+                                                    onChange={onStateRadioСhange}
+                                                />
+                                                <label htmlFor="stateBlocket">Заблокирован</label>
+                                            </div>
+                                            <div className="filter__radio">
+                                                <input
+                                                    id="stateUnblocket"
+                                                    type="radio"
+                                                    name="state"
+                                                    value="Разблокирован"
+                                                    onChange={onStateRadioСhange}
+                                                />
+                                                <label htmlFor="stateUnblocket">Разблокирован</label>
+                                            </div>
+                                        </div>
+                                        <div className='filter__radio-buttons-container'>
+                                            <p className='filter__radio-buttons-heading'>Роль</p>
+                                            <div className="filter__radio">
+                                                <input
+                                                    id="roleAll"
+                                                    type="radio"
+                                                    name="role"
+                                                    value="Все"
+                                                    onChange={onRoleRadioСhange}
+                                                    defaultChecked
+                                                />
+                                                <label htmlFor="roleAll">Все</label>
+                                            </div>
+                                            <div className="filter__radio">
+                                                <input
+                                                    id="roleOperator"
+                                                    type="radio"
+                                                    name="role"
+                                                    value="Оператор"
+                                                    onChange={onRoleRadioСhange}
+                                                />
+                                                <label htmlFor="roleOperator">Оператор</label>
+                                            </div>
+                                            <div className="filter__radio">
+                                                <input
+                                                    id="roleAdmin"
+                                                    type="radio"
+                                                    name="role"
+                                                    value="Администратор"
+                                                    onChange={onRoleRadioСhange}
+                                                />
+                                                <label htmlFor="roleAdmin">Администратор</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='filter__buttons-container'>
+                                        <button className='filter__button-apply' onClick={onApplyClick}>Применить</button>
+                                        <p className='filter__button-reset' onClick={onResetClick}>Сбросить фильтры</p>
+                                    </div>
+                                </div>
                             </div>
-                        )}
-                        <TablePagination
-                            sortList={users}
-                            handleShowResultsFrom={handleShowResultsFrom}
-                            handleResultsShow={handleResultsShow}
-                        />
-                    </div>
+                        </div>
+                        <div className='users__table-container'>
+                            <div className='users__table-rows users__table-rows_heading'>
+                                <p className='users__table-name'>ФИО</p>
+                                <p className='users__table-email'>Почта</p>
+                                <p className='users__table-role'>Роль</p>
+                            </div>
+                            {users !== null ? (
+                                <>
+                                    {users.slice(showResultsFrom, resultsShow).map((user) => (
+                                        <div key={user.id} className='users__table-rows'>
+                                            <p className='users__table-name'>{user.lastName} {user.firstName} {user.middleName}</p>
+                                            <p className='users__table-email'>{user.email}</p>
+                                            <p className='users__table-role'>{user.role}</p>
+                                            <div className={`users__table-button-container ${!user.active && 'users__table-button-container_disabled'}`} onClick={() => handleUserActive(user)}>
+                                                <div className={`users__table-button ${!user.active && 'users__table-button_disabled'}`} />
+                                            </div>
+                                            <p className={`users__table-button-text ${!user.active && 'users__table-button-text_disabled'}`}>Заблокировать</p>
+                                        </div>
+                                    ))}
+                                </>
+                            ) : (
+                                <div className='users__table-rows'>
+                                    <p className='users__no-results-text'>Нет данных для отображения</p>
+                                </div>
+                            )}
+                            <TablePagination
+                                sortList={users}
+                                handleShowResultsFrom={handleShowResultsFrom}
+                                handleResultsShow={handleResultsShow}
+                            />
+                        </div>
+                    </>
                 )}
             </div>
         </div>
