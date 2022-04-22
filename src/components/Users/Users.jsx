@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import UsersListData from '../../utils/UsersListData.json';
 import TablePagination from '../TablePagination/TablePagination';
 import { Validation } from '../../utils/Validation';
+import * as UsersApi from '../../Api/UsersApi';
 
 function Users(props) {
 
@@ -10,28 +11,50 @@ function Users(props) {
         handleMobileHeaderNavText
     } = props;
 
+    const { pathname } = useLocation();
     const [isRoleOptionsContainerOpen, setRoleOptionsContainerOpen] = useState(false);
     const [roleOptionsContainerValue, setRoleOptionsContainerValue] = useState('Оператор');
     const [showResultsFrom, setShowResultsFrom] = useState(0);
     const [resultsShow, setResultsShow] = useState(10);
     const [isAddUserTabActive, setAddUserTabActive] = useState(true);
     const [isListTabActive, setListTabActive] = useState(false);
+    const [users, setUsers] = useState([]);
 
     const firstName = Validation();
     const lastName = Validation();
     const middleName = Validation();
-    const login = Validation();
     const email = Validation();
 
     useEffect(() => {
         handleMobileHeaderNavText('Пользователи');
     });
 
+    function getUsers() {
+        UsersApi.getAllUsers()
+            .then((data) => {
+                setUsers(data.users);
+            })
+            .catch((err) => console.log(`Ошибка при загрузке списка пользователей: ${err}`));
+    }
+
+    useEffect(() => {
+        if (pathname === '/users') {
+            getUsers();
+        }
+    }, [pathname])
+
+    function handleUserActive(user) {
+        UsersApi.changeActiveUser(user.id)
+            .then(() => {
+                getUsers();
+            })
+            .catch((err) => console.log(`Ошибка при загрузке списка пользователей: ${err}`));
+    }
+
     function clearAllInputs() {
         firstName.setValue('');
         lastName.setValue('');
         middleName.setValue('');
-        login.setValue('');
         email.setValue('');
         setRoleOptionsContainerValue('Оператор');
     }
@@ -41,7 +64,6 @@ function Users(props) {
             firstName: firstName.value,
             lastName: lastName.value,
             middleName: middleName.value,
-            login: login.value,
             email: email.value,
             role: roleOptionsContainerValue
         }
@@ -100,7 +122,7 @@ function Users(props) {
                                         type="text"
                                         className='users__add-user-input'
                                         name="lastName"
-                                        placeholder=''
+                                        placeholder='Иванов'
                                         value={lastName.value}
                                         onChange={lastName.onChange}
                                     />
@@ -129,17 +151,6 @@ function Users(props) {
                                 </div>
                             </div>
                             <div className='users__add-user-inputs-container'>
-                                <div className='users__add-user-input-container'>
-                                    <p className='users__add-user-input-label'>Логин</p>
-                                    <input
-                                        type="text"
-                                        className='users__add-user-input'
-                                        name="login"
-                                        placeholder=''
-                                        value={login.value}
-                                        onChange={login.onChange}
-                                    />
-                                </div>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Почта</p>
                                     <input
@@ -174,23 +185,21 @@ function Users(props) {
                 {isListTabActive && (
                     <div className='users__table-container'>
                         <div className='users__table-rows users__table-rows_heading'>
-                            <p className='users__table-last-name'>Фамилия</p>
-                            <p className='users__table-first-name'>Имя</p>
-                            <p className='users__table-middle-name'>Отчество</p>
-                            <p className='users__table-login'>Логин</p>
-                            <p className='users__table-password'>Пароль</p>
+                            <p className='users__table-name'>ФИО</p>
+                            <p className='users__table-email'>Почта</p>
                             <p className='users__table-role'>Роль</p>
                         </div>
-                        {UsersListData !== null ? (
+                        {users !== null ? (
                             <>
-                                {UsersListData.slice(showResultsFrom, resultsShow).map((list) => (
-                                    <div key={list.id} className='users__table-rows'>
-                                        <p className='users__table-last-name'>{list.lastName}</p>
-                                        <p className='users__table-first-name'>{list.firstName}</p>
-                                        <p className='users__table-middle-name'>{list.middleName}</p>
-                                        <p className='users__table-login'>{list.login}</p>
-                                        <p className='users__table-password'>{list.password}</p>
-                                        <p className='users__table-role'>{list.role}</p>
+                                {users.slice(showResultsFrom, resultsShow).map((user) => (
+                                    <div key={user.id} className='users__table-rows'>
+                                        <p className='users__table-name'>{user.lastName} {user.firstName} {user.middleName}</p>
+                                        <p className='users__table-email'>{user.email}</p>
+                                        <p className='users__table-role'>{user.role}</p>
+                                        <div className={`users__table-button-container ${!user.active && 'users__table-button-container_disabled'}`} onClick={() => handleUserActive(user)}>
+                                            <div className={`users__table-button ${!user.active && 'users__table-button_disabled'}`} />
+                                        </div>
+                                        <p className={`users__table-button-text ${!user.active && 'users__table-button-text_disabled'}`}>Заблокировать</p>
                                     </div>
                                 ))}
                             </>
@@ -200,7 +209,7 @@ function Users(props) {
                             </div>
                         )}
                         <TablePagination
-                            sortList={UsersListData}
+                            sortList={users}
                             handleShowResultsFrom={handleShowResultsFrom}
                             handleResultsShow={handleResultsShow}
                         />
