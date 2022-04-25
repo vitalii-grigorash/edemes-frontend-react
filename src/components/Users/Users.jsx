@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import TablePagination from '../TablePagination/TablePagination';
 import { Validation } from '../../utils/Validation';
+import Filter from '../../components/Filter/Filter';
 import * as UsersApi from '../../Api/UsersApi';
 
 function Users(props) {
@@ -25,6 +26,46 @@ function Users(props) {
     const [selectedOption, setSelectedOption] = useState('Выберите тип сортировки');
     const [stateMethod, setStateMethod] = useState('Все');
     const [roleMethod, setRoleMethod] = useState('Все');
+    const [stateAllChecked, setStateAllChecked] = useState(true);
+    const [stateBlocketChecked, setStateBlocketChecked] = useState(false);
+    const [stateUnblocketChecked, setStateUnblocketChecked] = useState(false);
+    const [roleAllChecked, setRoleAllChecked] = useState(true);
+    const [roleOperatorChecked, setRoleOperatorChecked] = useState(false);
+    const [roleAdminChecked, setRoleAdminChecked] = useState(false);
+
+    function onStateRadioСhange(evt) {
+        setStateMethod(evt.target.value);
+        if (evt.target.value === 'Все') {
+            setStateAllChecked(true);
+            setStateBlocketChecked(false);
+            setStateUnblocketChecked(false);
+        } else if (evt.target.value === 'Заблокирован') {
+            setStateBlocketChecked(true);
+            setStateAllChecked(false);
+            setStateUnblocketChecked(false);
+        } else if (evt.target.value === 'Разблокирован') {
+            setStateUnblocketChecked(true);
+            setStateBlocketChecked(false);
+            setStateAllChecked(false);
+        }
+    };
+
+    function onRoleRadioСhange(evt) {
+        setRoleMethod(evt.target.value);
+        if (evt.target.value === 'Все') {
+            setRoleAllChecked(true);
+            setRoleOperatorChecked(false);
+            setRoleAdminChecked(false);
+        } else if (evt.target.value === 'Оператор') {
+            setRoleOperatorChecked(true);
+            setRoleAllChecked(false);
+            setRoleAdminChecked(false);
+        } else if (evt.target.value === 'Администратор') {
+            setRoleAdminChecked(true);
+            setRoleOperatorChecked(false);
+            setRoleAllChecked(false);
+        }
+    }
 
     function handleShowFilter() {
         if (isFilterOpen) {
@@ -33,6 +74,7 @@ function Users(props) {
             setFilterOpen(true);
         }
     }
+
     function handleShowOptions() {
         if (isOptionsOpen) {
             setOptionsOpen(false);
@@ -40,35 +82,6 @@ function Users(props) {
             setOptionsOpen(true);
         }
     }
-
-    function onStateRadioСhange(evt) {
-        setStateMethod(evt.target.value);
-        console.log(evt.target.value);
-    };
-
-    function onRoleRadioСhange(evt) {
-        setRoleMethod(evt.target.value);
-        console.log(evt.target.value);
-    }
-
-    function onApplyClick() {
-        console.log(stateMethod);
-        console.log(roleMethod);
-        if (isOptionSelected) {
-            console.log(selectedOption);
-        }
-        handleShowFilter();
-        setOptionsOpen(false);
-    }
-
-    function onResetClick() {
-
-    }
-
-    const firstName = Validation();
-    const lastName = Validation();
-    const middleName = Validation();
-    const email = Validation();
 
     function onSelectOptionClick(option) {
         setSelectedOption(option);
@@ -79,6 +92,35 @@ function Users(props) {
         setSelectedOption('Выберите тип сортировки');
         setOptionSelected(false);
     }
+
+    function applyFilter() {
+        handleShowFilter();
+        setOptionsOpen(false);
+        console.log(stateMethod);
+        console.log(roleMethod);
+        if (selectedOption !== 'Выберите тип сортировки') {
+            console.log(selectedOption);
+        }
+    }
+
+    function resetFilter() {
+        setOptionsOpen(false);
+        setOptionSelected(false);
+        setSelectedOption('Выберите тип сортировки');
+        setStateMethod('Все');
+        setStateAllChecked(true);
+        setStateBlocketChecked(false);
+        setStateUnblocketChecked(false);
+        setRoleMethod('Все');
+        setRoleAllChecked(true);
+        setRoleOperatorChecked(false);
+        setRoleAdminChecked(false);
+    }
+
+    const firstName = Validation();
+    const lastName = Validation();
+    const middleName = Validation();
+    const email = Validation();
 
     useEffect(() => {
         handleMobileHeaderNavText('Пользователи');
@@ -246,101 +288,28 @@ function Users(props) {
                                     <div className='users__table-sort-icon' />
                                     <p className='users__table-sort-text'>Фильтр</p>
                                 </div>
-                                <div className={`filter ${isFilterOpen && 'filter_opened'}`}>
-                                    <div className='filter__heading-container'>
-                                        <p className='filter__heading'>Фильтр</p>
-                                        <div className='filter__close-icon' onClick={handleShowFilter} />
-                                    </div>
-                                    <div className='filter__sort-main-container'>
-                                        <p className='filter__sort-heading'>Сортировка</p>
-                                        <div className='filter__sort-container' onClick={handleShowOptions}>
-                                            <p className={`filter__sort-value ${isOptionSelected && 'filter__sort-value_selected'}`}>{selectedOption}</p>
-                                            <div className='filter__sort-arrow' />
-                                            <div className={`filter__sort-options-container ${isOptionsOpen && 'filter__sort-options-container_opened'}`}>
-                                                <div className='filter__sort-option-container' onClick={() => onSelectOptionClick('По дате')}>
-                                                    <p className='filter__sort-option'>По дате</p>
-                                                </div>
-                                                <div className='filter__sort-option-container' onClick={onDefaultOptionClick}>
-                                                    <p className='filter__sort-option'>Без сортировки</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='filter__radio-buttons-main-container'>
-                                        <div className='filter__radio-buttons-container'>
-                                            <p className='filter__radio-buttons-heading'>Состояние</p>
-                                            <div className="filter__radio">
-                                                <input
-                                                    id="stateAll"
-                                                    type="radio"
-                                                    name="state"
-                                                    value="Все"
-                                                    onChange={onStateRadioСhange}
-                                                    defaultChecked
-                                                />
-                                                <label htmlFor="stateAll">Все</label>
-                                            </div>
-                                            <div className="filter__radio">
-                                                <input
-                                                    id="stateBlocket"
-                                                    type="radio"
-                                                    name="state"
-                                                    value="Заблокирован"
-                                                    onChange={onStateRadioСhange}
-                                                />
-                                                <label htmlFor="stateBlocket">Заблокирован</label>
-                                            </div>
-                                            <div className="filter__radio">
-                                                <input
-                                                    id="stateUnblocket"
-                                                    type="radio"
-                                                    name="state"
-                                                    value="Разблокирован"
-                                                    onChange={onStateRadioСhange}
-                                                />
-                                                <label htmlFor="stateUnblocket">Разблокирован</label>
-                                            </div>
-                                        </div>
-                                        <div className='filter__radio-buttons-container'>
-                                            <p className='filter__radio-buttons-heading'>Роль</p>
-                                            <div className="filter__radio">
-                                                <input
-                                                    id="roleAll"
-                                                    type="radio"
-                                                    name="role"
-                                                    value="Все"
-                                                    onChange={onRoleRadioСhange}
-                                                    defaultChecked
-                                                />
-                                                <label htmlFor="roleAll">Все</label>
-                                            </div>
-                                            <div className="filter__radio">
-                                                <input
-                                                    id="roleOperator"
-                                                    type="radio"
-                                                    name="role"
-                                                    value="Оператор"
-                                                    onChange={onRoleRadioСhange}
-                                                />
-                                                <label htmlFor="roleOperator">Оператор</label>
-                                            </div>
-                                            <div className="filter__radio">
-                                                <input
-                                                    id="roleAdmin"
-                                                    type="radio"
-                                                    name="role"
-                                                    value="Администратор"
-                                                    onChange={onRoleRadioСhange}
-                                                />
-                                                <label htmlFor="roleAdmin">Администратор</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='filter__buttons-container'>
-                                        <button className='filter__button-apply' onClick={onApplyClick}>Применить</button>
-                                        <p className='filter__button-reset' onClick={onResetClick}>Сбросить фильтры</p>
-                                    </div>
-                                </div>
+                                {isFilterOpen && (
+                                    <Filter
+                                        handleShowFilter={handleShowFilter}
+                                        isFilterOpen={isFilterOpen}
+                                        applyFilter={applyFilter}
+                                        resetFilter={resetFilter}
+                                        handleShowOptions={handleShowOptions}
+                                        isOptionsOpen={isOptionsOpen}
+                                        onSelectOptionClick={onSelectOptionClick}
+                                        isOptionSelected={isOptionSelected}
+                                        selectedOption={selectedOption}
+                                        onDefaultOptionClick={onDefaultOptionClick}
+                                        onStateRadioСhange={onStateRadioСhange}
+                                        onRoleRadioСhange={onRoleRadioСhange}
+                                        stateAllChecked={stateAllChecked}
+                                        stateBlocketChecked={stateBlocketChecked}
+                                        stateUnblocketChecked={stateUnblocketChecked}
+                                        roleAllChecked={roleAllChecked}
+                                        roleOperatorChecked={roleOperatorChecked}
+                                        roleAdminChecked={roleAdminChecked}
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className='users__table-container'>

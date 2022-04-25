@@ -130,6 +130,8 @@ function BoxRegistration(props) {
             setSelectRouteFromActive(false);
         } else {
             setSelectRouteFromActive(true);
+            setSelectRouteToActive(false);
+            setSelectAddressActive(false);
         }
     }
 
@@ -148,6 +150,8 @@ function BoxRegistration(props) {
             setSelectRouteToActive(false);
         } else {
             setSelectRouteToActive(true);
+            setSelectRouteFromActive(false);
+            setSelectAddressActive(false);
         }
     }
 
@@ -167,6 +171,8 @@ function BoxRegistration(props) {
             setSelectAddressActive(false);
         } else {
             setSelectAddressActive(true);
+            setSelectRouteToActive(false);
+            setSelectRouteFromActive(false);
         }
     }
 
