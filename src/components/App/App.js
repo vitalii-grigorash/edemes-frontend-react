@@ -42,7 +42,6 @@ function App() {
     Catalogs.getAllCatalogs()
       .then((data) => {
         setCatalogs(data.catalogs);
-        console.log(data.catalogs);
       })
       .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
   }
@@ -130,7 +129,6 @@ function App() {
         }
         localStorage.setItem('user', JSON.stringify(user));
         login(user);
-        console.log(user);
       })
       .catch((err) => {
         setAuthError(err.message);
@@ -143,7 +141,6 @@ function App() {
   function handleRegister(registerData) {
     Auth.registration(registerData)
       .then((data) => {
-        console.log(data);
         setRegisterError('');
         handleOpenSuccessPopupClick();
       })

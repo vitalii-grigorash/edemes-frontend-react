@@ -31,7 +31,8 @@ function UsersTable(props) {
         stateMethod,
         roleMethod,
         handleApplyClicked,
-        isApplyClicked
+        isApplyClicked,
+        byField
     } = props;
 
     const [showResultsFrom, setShowResultsFrom] = useState(0);
@@ -48,24 +49,33 @@ function UsersTable(props) {
 
     useEffect(() => {
         if (isApplyClicked) {
-            console.log(stateFilteredUsers);
-            console.log(roleFilteredUsers);
             if (stateMethod === 'Все' && roleMethod === 'Все') {
-                setFilteredUser(allUsers);
-                console.log(allUsers);
+                if (isOptionSelected) {
+                    setFilteredUser(allUsers.sort(byField('createdAt')));
+                } else {
+                    setFilteredUser(allUsers);
+                }
             } else {
                 if (roleMethod === 'Все') {
                     const filtered = roleFilteredUsers.filter(role => stateFilteredUsers.every(state => role.active === state.active));
-                    setFilteredUser(filtered);
+                    if (isOptionSelected) {
+                        setFilteredUser(filtered.sort(byField('createdAt')));
+                    } else {
+                        setFilteredUser(filtered);
+                    }
                 } else {
                     const filtered = stateFilteredUsers.filter(state => roleFilteredUsers.every(role => state.role === role.role));
-                    setFilteredUser(filtered);
+                    if (isOptionSelected) {
+                        setFilteredUser(filtered.sort(byField('createdAt')));
+                    } else {
+                        setFilteredUser(filtered);
+                    }
                 }
             }
             handleApplyClicked();
         }
 
-    }, [isApplyClicked, roleFilteredUsers, stateFilteredUsers, allUsers, roleMethod, stateMethod, handleApplyClicked]);
+    }, [isApplyClicked, roleFilteredUsers, stateFilteredUsers, allUsers, roleMethod, stateMethod, handleApplyClicked, isOptionSelected, byField]);
 
     return (
         <>

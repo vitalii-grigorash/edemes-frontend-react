@@ -35,6 +35,10 @@ function Users(props) {
     const [isApplyClicked, setApplyClicked] = useState(false);
     const [isReloadUsersList, setReloadUsersList] = useState(false);
 
+    function byField(field) {
+        return (a, b) => a[field] > b[field] ? 1 : -1;
+    }
+
     function handleApplyClicked() {
         if (isApplyClicked) {
             setApplyClicked(false);
@@ -141,19 +145,6 @@ function Users(props) {
         }
     }
 
-    function applyFilter() {
-        setFilterOpen(false);
-        setOptionsOpen(false);
-        setFilterActive(true);
-        handleApplyClicked();
-        userStateFilter();
-        userRoleFilter();
-
-        if (selectedOption === 'По дате') {
-            console.log(selectedOption);
-        }
-    }
-
     function resetFilter() {
         setOptionsOpen(false);
         setOptionSelected(false);
@@ -182,13 +173,21 @@ function Users(props) {
     function getUsers() {
         UsersApi.getAllUsers()
             .then((data) => {
-                setUsers(data.users);
-                console.log(data.users);
+                setUsers(data.users.sort(byField('id')));
                 if (isFilterActive) {
                     setReloadUsersList(true);
                 }
             })
             .catch((err) => console.log(`Ошибка при загрузке списка пользователей: ${err}`));
+    }
+
+    function applyFilter() {
+        setFilterOpen(false);
+        setOptionsOpen(false);
+        setFilterActive(true);
+        handleApplyClicked();
+        userStateFilter();
+        userRoleFilter();
     }
 
     useEffect(() => {
@@ -366,6 +365,7 @@ function Users(props) {
                         roleMethod={roleMethod}
                         handleApplyClicked={handleApplyClicked}
                         isApplyClicked={isApplyClicked}
+                        byField={byField}
                     />
                 )}
             </div>

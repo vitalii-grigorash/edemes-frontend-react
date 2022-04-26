@@ -53,10 +53,9 @@ function Catalog(props) {
     function onCatalogClick(catalog) {
         Catalogs.getCatalog(catalog.id)
             .then((data) => {
-                console.log(data);
                 setCatalogName(catalog.name);
-                setCatalogCategory(catalog.category);
-                setCatalogExhibitsList(data.catalog.ArtObjects);
+                setCatalogCategory(data.category.name);
+                setCatalogExhibitsList(data.artObjects);
                 handleShowCatalog();
             })
             .catch((err) => console.log(`Ошибка при загрузке каталога: ${err}`));
