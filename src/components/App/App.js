@@ -30,8 +30,10 @@ function App() {
   const [userName, setUserName] = useState('');
   const [authError, setAuthError] = useState('');
   const [registerError, setRegisterError] = useState('');
+  const [addNewUserError, setAddNewUserError] = useState('');
   const [isAuthValidate, setAuthValidate] = useState(true);
   const [catalogs, setCatalogs] = useState([]);
+  const [userCompanyId, setUserCompanyId] = useState('');
 
   const userDefaultName = {
     lastName: "Неизвестный",
@@ -96,6 +98,7 @@ function App() {
   function login(user) {
     if (user.isAuth) {
       setRole(user.role);
+      setUserCompanyId(user.userCompanyInfo.id);
       setLoggedIn(true);
       createUserName(user);
       setAuthError('');
@@ -140,12 +143,24 @@ function App() {
 
   function handleRegister(registerData) {
     Auth.registration(registerData)
-      .then((data) => {
+      .then(() => {
         setRegisterError('');
         handleOpenSuccessPopupClick();
       })
       .catch((err) => {
         setRegisterError(err.message);
+      })
+  }
+
+  function addUser(newUser) {
+    console.log(newUser);
+    Auth.addNewUser(newUser)
+      .then(() => {
+        setAddNewUserError('');
+        // Добавить Модалку подтверждения добавления нового пользователя
+      })
+      .catch((err) => {
+        setAddNewUserError(err.message);
       })
   }
 
@@ -216,6 +231,9 @@ function App() {
           isLoggedIn={isLoggedIn}
           component={Users}
           handleMobileHeaderNavText={handleMobileHeaderNavText}
+          addUser={addUser}
+          userCompanyId={userCompanyId}
+          addNewUserError={addNewUserError}
         />
 
         <ProtectedRoute exact path="/fixation"

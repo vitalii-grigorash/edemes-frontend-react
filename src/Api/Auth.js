@@ -61,6 +61,37 @@ export const registration = (userData) => {
         });
 };
 
+export const addNewUser = (newUserData) => {
+    return fetch(`${API_URL}/users`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: newUserData.email,
+            role: newUserData.role,
+            firstName: newUserData.firstName,
+            lastName: newUserData.lastName,
+            middleName: newUserData.middleName,
+            companyId: newUserData.companyId
+        })
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .catch((err) => {
+            if (err.status === 500) {
+                throw new Error('Сервер временно недоступен');
+            }
+            else if (err.status === 401) {
+                throw new Error('Пользователь с таким email уже существует');
+            }
+        });
+};
+
 export const getCompanies = () => {
     return fetch(`${API_URL}/companies`, {
         method: 'GET',

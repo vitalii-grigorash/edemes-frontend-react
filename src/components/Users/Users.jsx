@@ -8,7 +8,10 @@ import * as UsersApi from '../../Api/UsersApi';
 function Users(props) {
 
     const {
-        handleMobileHeaderNavText
+        handleMobileHeaderNavText,
+        addUser,
+        userCompanyId,
+        addNewUserError
     } = props;
 
     const { pathname } = useLocation();
@@ -221,15 +224,17 @@ function Users(props) {
         setRoleOptionsContainerValue('Оператор');
     }
 
-    function onAddUserButtonClick() {
+    function submitForm(evt) {
+        evt.preventDefault();
         const newUser = {
             firstName: firstName.value,
             lastName: lastName.value,
             middleName: middleName.value,
             email: email.value,
-            role: roleOptionsContainerValue
+            role: roleOptionsContainerValue,
+            companyId: userCompanyId
         }
-        console.log(newUser);
+        addUser(newUser);
         clearAllInputs();
     }
 
@@ -267,7 +272,7 @@ function Users(props) {
                     <p className={`users__tab ${isListTabActive && 'users__tab_active'}`} onClick={onListTabClick}>Список</p>
                 </div>
                 {isAddUserTabActive && (
-                    <div className='users__add-user-container'>
+                    <form className='users__add-user-container' onSubmit={submitForm}>
                         <div className='users__add-user-inputs-main-container'>
                             <div className='users__add-user-inputs-container'>
                                 <div className='users__add-user-input-container'>
@@ -275,22 +280,32 @@ function Users(props) {
                                     <input
                                         type="text"
                                         className='users__add-user-input'
+                                        id="new-user-last-name-input"
                                         name="lastName"
                                         placeholder='Иванов'
+                                        minLength="2"
+                                        maxLength="30"
+                                        required
                                         value={lastName.value}
                                         onChange={lastName.onChange}
                                     />
+                                    <span id="new-user-last-name-input-error" className="users__add-user-input_error-span">{lastName.errorMessage}</span>
                                 </div>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Имя</p>
                                     <input
                                         type="text"
                                         className='users__add-user-input'
+                                        id="new-user-first-name-input"
                                         name="firstName"
-                                        placeholder=''
+                                        placeholder='Иван'
+                                        minLength="2"
+                                        maxLength="30"
+                                        required
                                         value={firstName.value}
                                         onChange={firstName.onChange}
                                     />
+                                    <span id="new-user-first-name-input-error" className="users__add-user-input_error-span">{firstName.errorMessage}</span>
                                 </div>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Отчество</p>
@@ -298,7 +313,7 @@ function Users(props) {
                                         type="text"
                                         className='users__add-user-input'
                                         name="middleName"
-                                        placeholder=''
+                                        placeholder='Иванович'
                                         value={middleName.value}
                                         onChange={middleName.onChange}
                                     />
@@ -310,11 +325,16 @@ function Users(props) {
                                     <input
                                         type="email"
                                         className='users__add-user-input'
+                                        id="new-user-email-input"
                                         name="email"
-                                        placeholder=''
+                                        placeholder='example@mail.ru'
+                                        minLength="2"
+                                        maxLength="30"
+                                        required
                                         value={email.value}
                                         onChange={email.onChange}
                                     />
+                                    <span id="new-user-email-input-error" className="users__add-user-input_error-span">{email.errorMessage}</span>
                                 </div>
                                 <div className='users__add-user-input-container'>
                                     <p className='users__add-user-input-label'>Роль</p>
@@ -333,8 +353,9 @@ function Users(props) {
                                 </div>
                             </div>
                         </div>
-                        <button type='button' className='users__user-add-button' onClick={onAddUserButtonClick}>Добавить</button>
-                    </div>
+                        <p className='users__user-add-button-error'>{addNewUserError}</p>
+                        <button type='submit' className='users__user-add-button'>Добавить</button>
+                    </form>
                 )}
                 {isListTabActive && (
                     <UsersTable
