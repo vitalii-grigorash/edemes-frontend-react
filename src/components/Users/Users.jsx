@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import TablePagination from '../TablePagination/TablePagination';
 import { Validation } from '../../utils/Validation';
-import Filter from '../../components/Filter/Filter';
+import UsersTable from '../UsersTable/UsersTable';
 import * as UsersApi from '../../Api/UsersApi';
 
 function Users(props) {
@@ -15,11 +14,11 @@ function Users(props) {
     const { pathname } = useLocation();
     const [isRoleOptionsContainerOpen, setRoleOptionsContainerOpen] = useState(false);
     const [roleOptionsContainerValue, setRoleOptionsContainerValue] = useState('Оператор');
-    const [showResultsFrom, setShowResultsFrom] = useState(0);
-    const [resultsShow, setResultsShow] = useState(10);
     const [isAddUserTabActive, setAddUserTabActive] = useState(true);
     const [isListTabActive, setListTabActive] = useState(false);
     const [users, setUsers] = useState([]);
+    const [roleFilteredUsers, setRoleFilteredUsers] = useState([]);
+    const [stateFilteredUsers, setStateFilteredUsers] = useState([]);
     const [isFilterOpen, setFilterOpen] = useState(false);
     const [isOptionsOpen, setOptionsOpen] = useState(false);
     const [isOptionSelected, setOptionSelected] = useState(false);
@@ -32,6 +31,17 @@ function Users(props) {
     const [roleAllChecked, setRoleAllChecked] = useState(true);
     const [roleOperatorChecked, setRoleOperatorChecked] = useState(false);
     const [roleAdminChecked, setRoleAdminChecked] = useState(false);
+    const [isFilterActive, setFilterActive] = useState(false);
+    const [isApplyClicked, setApplyClicked] = useState(false);
+    const [isReloadUsersList, setReloadUsersList] = useState(false);
+
+    function handleApplyClicked() {
+        if (isApplyClicked) {
+            setApplyClicked(false);
+        } else {
+            setApplyClicked(true);
+        }
+    }
 
     function onStateRadioСhange(evt) {
         setStateMethod(evt.target.value);
@@ -93,11 +103,52 @@ function Users(props) {
         setOptionSelected(false);
     }
 
+    function userStateFilter() {
+        if (stateMethod !== 'Все') {
+            const usersStateFiltered = users.filter((user) => {
+                const filtered = () => {
+                    if (stateMethod === 'Заблокирован') {
+                        return user.active === false;
+                    } else if (stateMethod === 'Разблокирован') {
+                        return user.active === true;
+                    } else if (stateMethod === 'Все') {
+                        return user
+                    }
+                }
+                return filtered();
+            })
+            setStateFilteredUsers(usersStateFiltered);
+        } else {
+            setStateFilteredUsers(users);
+        }
+    }
+
+    function userRoleFilter() {
+        if (roleMethod !== 'Все') {
+            const usersRoleFiltered = users.filter((user) => {
+                const filtered = () => {
+                    if (user.role === roleMethod) {
+                        return user
+                    } else if (roleMethod === 'Все') {
+                        return user
+                    }
+                }
+                return filtered();
+            })
+            setRoleFilteredUsers(usersRoleFiltered);
+        } else {
+            setRoleFilteredUsers(users);
+        }
+    }
+
     function applyFilter() {
-        handleShowFilter();
+        setFilterOpen(false);
         setOptionsOpen(false);
-        console.log(stateMethod);
-        console.log(roleMethod);
+        setFilterActive(true);
+        handleApplyClicked();
+        userStateFilter();
+        userRoleFilter();
+
         if (selectedOption !== 'Выберите тип сортировки') {
             console.log(selectedOption);
         }
@@ -115,6 +166,8 @@ function Users(props) {
         setRoleAllChecked(true);
         setRoleOperatorChecked(false);
         setRoleAdminChecked(false);
+        setFilterActive(false);
+        handleShowFilter();
     }
 
     const firstName = Validation();
@@ -130,14 +183,26 @@ function Users(props) {
         UsersApi.getAllUsers()
             .then((data) => {
                 setUsers(data.users);
+                if (isFilterActive) {
+                    setReloadUsersList(true);
+                }
             })
             .catch((err) => console.log(`Ошибка при загрузке списка пользователей: ${err}`));
     }
 
     useEffect(() => {
+        if (isReloadUsersList) {
+            applyFilter();
+            setReloadUsersList(false);
+        }
+        // eslint-disable-next-line
+    }, [isReloadUsersList])
+
+    useEffect(() => {
         if (pathname === '/users') {
             getUsers();
         }
+        // eslint-disable-next-line
     }, [pathname])
 
     function handleUserActive(user) {
@@ -176,14 +241,6 @@ function Users(props) {
     function onListTabClick() {
         setAddUserTabActive(false);
         setListTabActive(true);
-    }
-
-    function handleShowResultsFrom(value) {
-        setShowResultsFrom(value);
-    }
-
-    function handleResultsShow(value) {
-        setResultsShow(value);
     }
 
     function onRoleOptionClick(value) {
@@ -280,70 +337,35 @@ function Users(props) {
                     </div>
                 )}
                 {isListTabActive && (
-                    <>
-                        <div className='users__table-heading'>
-                            <p className='users__table-users-value'>Найдено {users.length} пользователей</p>
-                            <div className='users__table-sort-main-container'>
-                                <div className='users__table-sort-container' onClick={handleShowFilter}>
-                                    <div className='users__table-sort-icon' />
-                                    <p className='users__table-sort-text'>Фильтр</p>
-                                </div>
-                                {isFilterOpen && (
-                                    <Filter
-                                        handleShowFilter={handleShowFilter}
-                                        isFilterOpen={isFilterOpen}
-                                        applyFilter={applyFilter}
-                                        resetFilter={resetFilter}
-                                        handleShowOptions={handleShowOptions}
-                                        isOptionsOpen={isOptionsOpen}
-                                        onSelectOptionClick={onSelectOptionClick}
-                                        isOptionSelected={isOptionSelected}
-                                        selectedOption={selectedOption}
-                                        onDefaultOptionClick={onDefaultOptionClick}
-                                        onStateRadioСhange={onStateRadioСhange}
-                                        onRoleRadioСhange={onRoleRadioСhange}
-                                        stateAllChecked={stateAllChecked}
-                                        stateBlocketChecked={stateBlocketChecked}
-                                        stateUnblocketChecked={stateUnblocketChecked}
-                                        roleAllChecked={roleAllChecked}
-                                        roleOperatorChecked={roleOperatorChecked}
-                                        roleAdminChecked={roleAdminChecked}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                        <div className='users__table-container'>
-                            <div className='users__table-rows users__table-rows_heading'>
-                                <p className='users__table-name'>ФИО</p>
-                                <p className='users__table-email'>Почта</p>
-                                <p className='users__table-role'>Роль</p>
-                            </div>
-                            {users !== null ? (
-                                <>
-                                    {users.slice(showResultsFrom, resultsShow).map((user) => (
-                                        <div key={user.id} className='users__table-rows'>
-                                            <p className='users__table-name'>{user.lastName} {user.firstName} {user.middleName}</p>
-                                            <p className='users__table-email'>{user.email}</p>
-                                            <p className='users__table-role'>{user.role}</p>
-                                            <div className={`users__table-button-container ${!user.active && 'users__table-button-container_disabled'}`} onClick={() => handleUserActive(user)}>
-                                                <div className={`users__table-button ${!user.active && 'users__table-button_disabled'}`} />
-                                            </div>
-                                            <p className={`users__table-button-text ${!user.active && 'users__table-button-text_disabled'}`}>Заблокировать</p>
-                                        </div>
-                                    ))}
-                                </>
-                            ) : (
-                                <div className='users__table-rows'>
-                                    <p className='users__no-results-text'>Нет данных для отображения</p>
-                                </div>
-                            )}
-                            <TablePagination
-                                sortList={users}
-                                handleShowResultsFrom={handleShowResultsFrom}
-                                handleResultsShow={handleResultsShow}
-                            />
-                        </div>
-                    </>
+                    <UsersTable
+                        isFilterActive={isFilterActive}
+                        allUsers={users}
+                        handleUserActive={handleUserActive}
+                        handleShowFilter={handleShowFilter}
+                        isFilterOpen={isFilterOpen}
+                        applyFilter={applyFilter}
+                        resetFilter={resetFilter}
+                        handleShowOptions={handleShowOptions}
+                        isOptionsOpen={isOptionsOpen}
+                        onSelectOptionClick={onSelectOptionClick}
+                        isOptionSelected={isOptionSelected}
+                        selectedOption={selectedOption}
+                        onDefaultOptionClick={onDefaultOptionClick}
+                        onStateRadioСhange={onStateRadioСhange}
+                        onRoleRadioСhange={onRoleRadioСhange}
+                        stateAllChecked={stateAllChecked}
+                        stateBlocketChecked={stateBlocketChecked}
+                        stateUnblocketChecked={stateUnblocketChecked}
+                        roleAllChecked={roleAllChecked}
+                        roleOperatorChecked={roleOperatorChecked}
+                        roleAdminChecked={roleAdminChecked}
+                        roleFilteredUsers={roleFilteredUsers}
+                        stateFilteredUsers={stateFilteredUsers}
+                        stateMethod={stateMethod}
+                        roleMethod={roleMethod}
+                        handleApplyClicked={handleApplyClicked}
+                        isApplyClicked={isApplyClicked}
+                    />
                 )}
             </div>
         </div>
