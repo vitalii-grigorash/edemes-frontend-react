@@ -149,7 +149,7 @@ function Users(props) {
         userStateFilter();
         userRoleFilter();
 
-        if (selectedOption !== 'Выберите тип сортировки') {
+        if (selectedOption === 'По дате') {
             console.log(selectedOption);
         }
     }
@@ -183,6 +183,7 @@ function Users(props) {
         UsersApi.getAllUsers()
             .then((data) => {
                 setUsers(data.users);
+                console.log(data.users);
                 if (isFilterActive) {
                     setReloadUsersList(true);
                 }

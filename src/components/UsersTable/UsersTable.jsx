@@ -57,11 +57,9 @@ function UsersTable(props) {
                 if (roleMethod === 'Все') {
                     const filtered = roleFilteredUsers.filter(role => stateFilteredUsers.every(state => role.active === state.active));
                     setFilteredUser(filtered);
-                    console.log(filtered);
                 } else {
                     const filtered = stateFilteredUsers.filter(state => roleFilteredUsers.every(role => state.role === role.role));
                     setFilteredUser(filtered);
-                    console.log(filtered);
                 }
             }
             handleApplyClicked();
