@@ -19,12 +19,25 @@ export const authorize = (email, password) => {
                 return res.json();
             }
         })
+        .then((data) => {
+            if (data.tokens) {
+                localStorage.setItem('jwt', data.tokens.accessToken);
+                return data;
+            }
+        })
         .catch((err) => {
+            console.log(err);
             if (err.status === 500) {
+                console.log(err);
                 throw new Error('Сервер временно недоступен');
             }
             else if (err.status === 401) {
+                console.log(err);
                 throw new Error('Неправильная почта или пароль');
+            }
+            else if (err.status === 403) {
+                console.log(err);
+                throw new Error('Необходимо подтвердить email');
             }
         });
 };
@@ -58,6 +71,26 @@ export const registration = (userData) => {
             else if (err.status === 401) {
                 throw new Error('Пользователь с таким email уже существует');
             }
+        });
+};
+
+export const getUser = (token) => {
+    return fetch(`${API_URL}/user`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .then(data => data)
+        .catch((err) => {
+            throw new Error(err.message);
         });
 };
 

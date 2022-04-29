@@ -1,26 +1,11 @@
 .box-registration-general-information {
     display: flex;
-    flex-direction: column;
     margin: 32px auto 0 0;
-}
-.box-registration-general-information__heading {
-    font-size: 18px;
-    line-height: 19px;
-    color: #336699;
-    opacity: 0.9;
-    margin: 0 auto 0 0;
-}
-.box-registration-general-information__heading_conditions {
-    margin: 43px auto 0 0;
-}
-.box-registration-general-information__inputs-main-container {
-    display: flex;
-    margin: 24px auto 0 0;
 }
 .box-registration-general-information__inputs-container {
     display: flex;
     flex-direction: column;
-    margin: 0 24px 0 0;
+    margin: 0 32px 0 0;
 }
 .box-registration-general-information__inputs-container:last-of-type {
     margin-right: 0;
@@ -71,106 +56,28 @@
     margin: 8px 0 0;
 }
 .box-registration-general-information__input_dimensions {
-    width: 87px;
-    margin: 0 auto 0 0;
-}
-.box-registration-general-information__input_temperature {
-    width: 134px;
-    margin: 0;
-}
-.box-registration-general-information__input_dimensions:last-of-type {
+    width: 73px;
     margin: 0;
 }
 .box-registration-general-information__input_dimensions::placeholder {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 10px;
+    line-height: 14px;
 }
-.box-registration-general-information__conditions {
-    display: flex;
-    position: relative;
-    width: 300px;
-    height: 46px;
-    margin: 8px auto 0 0;
-    border: 1px solid #CCCCCC;
-    box-sizing: border-box;
-    border-radius: 4px;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22px;
-    color: #333333;
-    cursor: pointer;
-}
-.box-registration-general-information__conditions-value {
-    margin: auto auto auto 16px;
-    color: #666666;
-    opacity: 0.9;
-}
-.box-registration-general-information__conditions-value_selected {
-    color: #333333;
-}
-.box-registration-general-information__conditions-arrow {
-    background-image: url('../../images/arrow-drop-down.svg');
+.box-registration-general-information__dimensions-cross-icon {
+    background-image: url('../../images/cross.svg');
     background-size: cover;
     background-repeat: no-repeat;
     width: 24px;
     height: 24px;
-    margin: auto 10px auto auto;
+    margin: auto 8px;
 }
-.box-registration-general-information__conditions-container {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background: #FFFFFF;
-    overflow-y: scroll;
-    top: 54px;
-    left: -1px;
-    width: 300px;
-    max-height: 229px;
-    box-shadow: 0px 3px 4px rgba(177, 184, 197, 0.14), 0px 3px 3px rgba(177, 184, 197, 0.12), 0px 1px 8px rgba(177, 184, 197, 0.2);
-    border-radius: 4px;
-    box-sizing: border-box;
-    cursor: default;
-    z-index: 1;
-}
-.box-registration-general-information__conditions-container::-webkit-scrollbar {
-    width: 10px;
-    background: #ECEDF3;
-    border-radius: 4px;
-}
-.box-registration-general-information__conditions-container::-webkit-scrollbar-thumb {
-    background: #CFD4DD;
-    border-radius: 4px;
-}
-.box-registration-general-information__condition-container {
-    display: flex;
-    min-height: 46px;
-    background: #FFFFFF;
-    border-bottom: 1px solid #CCCCCC;
-    box-sizing: border-box;
-    cursor: pointer;
-}
-.box-registration-general-information__condition-container:last-of-type {
-    border-bottom: none;
-}
-.box-registration-general-information__condition-container:hover {
-    background: #ECEDF3;
-}
-.box-registration-general-information__condition {
-    margin: auto auto auto 16px;
-}
-.box-registration-general-information__temperature-line {
-    background-image: url('../../images/temperature-line.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 16px;
-    height: 1px;
-    margin: auto;
+@media screen and (max-width: 1020px) {
+    .box-registration-general-information__inputs-container {
+        margin: 0 48px 0 0;;
+    }
 }
 @media screen and (max-width: 740px) {
     .box-registration-general-information {
-        margin: 34px auto 0;
-    }
-    .box-registration-general-information__inputs-main-container {
         flex-direction: column;
         margin: 24px auto 0;
     }
@@ -187,15 +94,6 @@
         width: 343px;
     }
     .box-registration-general-information__input_dimensions {
-        width: 107px;
-    }
-    .box-registration-general-information__conditions {
-        width: 343px;
-    }
-    .box-registration-general-information__conditions-container {
-        width: 343px;
-    }
-    .box-registration-general-information__input_temperature {
-        width: 155px;
+        width: 87.5px;
     }
 }

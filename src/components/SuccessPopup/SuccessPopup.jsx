@@ -19,8 +19,8 @@ function SuccessPopup(props) {
         <div className={`success-popup ${isOpen && 'success-popup_opened'}`}>
             <div className='success-popup__main-container'>
                 <div className="success-popup__header-container">
-                    <div className="success-popup__success-icon" />
                     <p className="success-popup__success-message">Регистрация прошла успешно!</p>
+                    <p className="success-popup__email-message">На вашу почту отправлена инструкция по подтверждению регистрации</p>
                 </div>
                 <button type="button" className="success-popup__login-button" onClick={onLoginButtonClick}>Войти</button>
             </div>
