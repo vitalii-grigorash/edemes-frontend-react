@@ -50,26 +50,26 @@ function App() {
       .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
   }
 
-  function createUserName() {
+  function createUserName(user) {
     const firstName = function () {
-      if (currentUser.firstName === "") {
+      if (user.firstName === "") {
         return `${userDefaultName.firstName.charAt(0)}`;
       } else {
-        return `${currentUser.firstName.charAt(0)}`;
+        return `${user.firstName.charAt(0)}`;
       }
     }
     const lastName = function () {
-      if (currentUser.lastName === "") {
+      if (user.lastName === "") {
         return userDefaultName.lastName
       } else {
-        return currentUser.lastName;
+        return user.lastName;
       }
     }
     const middleName = function () {
-      if (currentUser.middleName === "") {
+      if (user.middleName === "") {
         return ""
       } else {
-        return `${currentUser.middleName.charAt(0)}.`;
+        return `${user.middleName.charAt(0)}.`;
       }
     };
     const shortName = `${lastName()} ${firstName()}.${middleName()}`;
@@ -89,33 +89,35 @@ function App() {
   }
 
   function logout() {
-    if (localStorage.getItem('jwt')) {
-      localStorage.removeItem('jwt');
+    if (localStorage.getItem('user')) {
+      localStorage.removeItem('user');
     }
     setLoggedIn(false);
     history.push('/login')
     setRole('');
   }
 
-  function login() {
-    setRole(currentUser.role);
-    setUserCompanyId(currentUser.userCompanyInfo.id);
-    setLoggedIn(true);
-    createUserName();
-    setAuthError('');
-    setAuthValidate(true);
+  function login(user) {
+    if (user.isAuth) {
+      console.log(user);
+      setRole(user.role);
+      setUserCompanyId(user.userCompanyInfo.id);
+      setLoggedIn(true);
+      createUserName(user);
+      setAuthError('');
+      setAuthValidate(true);
+    } else {
+      logout();
+    }
   }
 
   useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      Auth.getUser(jwt)
-        .then((res) => {
-          console.log(res);
-          setCurrentUser(res.user);
-          login();
-        })
-        .catch(err => console.log(err));
+    if (localStorage.getItem('user')) {
+      const userData = localStorage.getItem('user');
+      const user = JSON.parse(userData);
+      console.log(user);
+      setCurrentUser(user);
+      login(user);
     }
     // eslint-disable-next-line
   }, [history]);
@@ -123,15 +125,10 @@ function App() {
   function handleLogin(email, password) {
     Auth.authorize(email, password)
       .then((res) => {
-        if (res.tokens.accessToken) {
-          Auth.getUser(res.tokens.accessToken)
-            .then((res) => {
-              console.log(res);
-              setCurrentUser(res.user);
-              login();
-            })
-            .catch((err) => console.log(`Ошибка: ${err}`));
-        }
+        console.log(res);
+        setCurrentUser(res.user);
+        localStorage.setItem('user', JSON.stringify(res.user));
+        login(res.user);
       })
       .catch((err) => {
         setAuthError(err.message);

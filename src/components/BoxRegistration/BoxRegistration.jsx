@@ -50,6 +50,10 @@ function BoxRegistration(props) {
     const [recipientCompanyName, setRecipientCompanyName] = useState('');
     const [totalArtObjectsPrice, setTotalArtObjectsPrice] = useState('');
 
+    const [isConditionsActive, setConditionsActive] = useState(false);
+    const [condition, setCondition] = useState('Выберите условие');
+    const [isConditionSelected, setConditionSelected] = useState(false);
+
     const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
 
     const myGeoObject = {
@@ -64,6 +68,33 @@ function BoxRegistration(props) {
             geodesic: true,
             strokeWidth: 5,
             strokeColor: "#336699",
+        }
+    }
+
+    const specialConditionsList = [
+        'Без особых условий',
+        'Осторожно, хрупкое',
+        'Не бросать',
+        'Не переворачивать',
+        'Беречь от солнца',
+        'Герметичная упаковка'
+    ]
+
+    function handleShowConditions() {
+        if (isConditionsActive) {
+            setConditionsActive(false);
+        } else {
+            setConditionsActive(true);
+        }
+    }
+
+    function onSelectSpecialConditionClick(condition) {
+        if (condition === 'Без особых условий') {
+            setCondition('Выберите условие');
+            setConditionSelected(false);
+        } else {
+            setCondition(condition);
+            setConditionSelected(true);
         }
     }
 
@@ -84,15 +115,23 @@ function BoxRegistration(props) {
     const width = Validation();
     const height = Validation();
     const weight = Validation();
+    const humidity = Validation();
+    const temperatureMin = Validation();
+    const temperatureMax = Validation();
 
     const generalInformation = {
-        boxName: boxName.value,
-        dimensions: {
-            length: length.value,
-            width: width.value,
-            height: height.value
+        name: boxName.value,
+        height: height.value,
+        width: width.value,
+        depth: length.value,
+        weight: weight.value,
+        price: '',
+        condition: `${condition !== 'Выберите условие' ? condition : ''}`,
+        temperature: {
+            min: temperatureMin.value,
+            max: temperatureMax.value
         },
-        weight: weight.value
+        humidity: humidity.value
     }
 
     function showLocations() {
@@ -291,6 +330,9 @@ function BoxRegistration(props) {
         width.setValue('');
         height.setValue('');
         weight.setValue('');
+        humidity.setValue('');
+        temperatureMin.setValue('');
+        temperatureMax.setValue('');
         setDownloadContainerActive(true);
         setTableContainerActive(false);
         setCompanyLocations([]);
@@ -302,21 +344,26 @@ function BoxRegistration(props) {
         setRouteToSelected(false);
         setSelectedRouteTo('Выберите компанию');
         setCompanyIdTo('');
+        setRecipientCompanyName('');
         setSelectAddressActive(false);
         setAddressSelected(false);
         setSelectedAddress('Выберите адрес');
         setLocationIdTo('');
+        setMapWithCoordinatesActive(false);
+        setConditionsActive(false);
+        setCondition('Выберите условие');
+        setConditionSelected(false);
     }
 
     function onRegisterButtonClick() {
         clearAllBoxRegistrationInputs();
         const dataToRegister = {
-            generalInformation: generalInformation,
-            exhibits: exhibitsList,
-            locationIdFrom: route.locationIdFrom,
             companyIdTo: route.companyIdTo,
+            locationIdFrom: route.locationIdFrom,
             locationIdTo: route.locationIdTo,
-            qrCode: "qrCode.jpg"
+            artObjectsIdList: exhibitsList,
+            generalInformation: generalInformation,
+            qr: "qrCode.jpg"
         }
         console.log(dataToRegister);
     }
@@ -339,78 +386,133 @@ function BoxRegistration(props) {
                 </div>
                 {isBoxRegistrationGeneralInformationActive &&
                     <div className='box-registration-general-information'>
-                        <div className='box-registration-general-information__inputs-container'>
-                            <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label box-registration-general-information__input-label_first'>Название ящика</p>
-                                <input
-                                    type="text"
-                                    className='box-registration-general-information__input'
-                                    name="boxName"
-                                    placeholder='Введите название ящика'
-                                    value={boxName.value}
-                                    onChange={boxName.onChange}
-                                />
-                            </div>
-                            <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label'>Габариты, см</p>
-                                <div className='box-registration-general-information__dimensions-inputs-container'>
+                        <p className='box-registration-general-information__heading'>Параметры</p>
+                        <div className='box-registration-general-information__inputs-main-container'>
+                            <div className='box-registration-general-information__inputs-container'>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label box-registration-general-information__input-label_first'>Название ящика</p>
                                     <input
                                         type="text"
-                                        className='box-registration-general-information__input box-registration-general-information__input_dimensions'
-                                        name="length"
-                                        placeholder='Длина'
-                                        value={length.value}
-                                        onChange={length.onChange}
+                                        className='box-registration-general-information__input'
+                                        name="boxName"
+                                        placeholder='Введите название ящика'
+                                        value={boxName.value}
+                                        onChange={boxName.onChange}
                                     />
-                                    <div className='box-registration-general-information__dimensions-cross-icon' />
+                                </div>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label'>Габариты, см</p>
+                                    <div className='box-registration-general-information__dimensions-inputs-container'>
+                                        <input
+                                            type="text"
+                                            className='box-registration-general-information__input box-registration-general-information__input_dimensions'
+                                            name="length"
+                                            placeholder='Длина'
+                                            value={length.value}
+                                            onChange={length.onChange}
+                                        />
+                                        <input
+                                            type="text"
+                                            className='box-registration-general-information__input box-registration-general-information__input_dimensions'
+                                            name="width"
+                                            placeholder='Ширина'
+                                            value={width.value}
+                                            onChange={width.onChange}
+                                        />
+                                        <input
+                                            type="text"
+                                            className='box-registration-general-information__input box-registration-general-information__input_dimensions'
+                                            name="height"
+                                            placeholder='Высота'
+                                            value={height.value}
+                                            onChange={height.onChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label'>Вес, кг</p>
                                     <input
                                         type="text"
-                                        className='box-registration-general-information__input box-registration-general-information__input_dimensions'
-                                        name="width"
-                                        placeholder='Ширина'
-                                        value={width.value}
-                                        onChange={width.onChange}
-                                    />
-                                    <div className='box-registration-general-information__dimensions-cross-icon' />
-                                    <input
-                                        type="text"
-                                        className='box-registration-general-information__input box-registration-general-information__input_dimensions'
-                                        name="height"
-                                        placeholder='Высота'
-                                        value={height.value}
-                                        onChange={height.onChange}
+                                        className='box-registration-general-information__input'
+                                        name="weight"
+                                        placeholder='Введите вес ящика'
+                                        value={weight.value}
+                                        onChange={weight.onChange}
                                     />
                                 </div>
                             </div>
-                            <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label'>Вес, кг</p>
-                                <input
-                                    type="text"
-                                    className='box-registration-general-information__input'
-                                    name="weight"
-                                    placeholder='Введите вес ящика'
-                                    value={weight.value}
-                                    onChange={weight.onChange}
-                                />
+                            <div className='box-registration-general-information__inputs-container'>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label  box-registration-general-information__input-label_first'>Отправитель</p>
+                                    <div className='box-registration-general-information__fix-info-container'>
+                                        <p className='box-registration-general-information__fix-info-text'>{senderCompanyName}</p>
+                                    </div>
+                                </div>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label'>Получатель</p>
+                                    <div className='box-registration-general-information__fix-info-container'>
+                                        <p className='box-registration-general-information__fix-info-text'>{recipientCompanyName}</p>
+                                    </div>
+                                </div>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label'>Стоимость, ₽</p>
+                                    <div className='box-registration-general-information__fix-info-container'>
+                                        <p className='box-registration-general-information__fix-info-text'>{totalArtObjectsPrice}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className='box-registration-general-information__inputs-container'>
-                            <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label  box-registration-general-information__input-label_first'>Отправитель</p>
-                                <div className='box-registration-general-information__fix-info-container'>
-                                    <p className='box-registration-general-information__fix-info-text'>{senderCompanyName}</p>
+                        <p className='box-registration-general-information__heading box-registration-general-information__heading_conditions'>Условия транспортировки</p>
+                        <div className='box-registration-general-information__inputs-main-container'>
+                            <div className='box-registration-general-information__inputs-container'>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label box-registration-general-information__input-label_first'>Особые условия</p>
+                                    <div className='box-registration-general-information__conditions' onClick={handleShowConditions}>
+                                        <p className={`box-registration-general-information__conditions-value ${isConditionSelected && 'box-registration-general-information__conditions-value_selected'}`}>{condition}</p>
+                                        <div className='box-registration-general-information__conditions-arrow' />
+                                        {isConditionsActive && (
+                                            <div className='box-registration-general-information__conditions-container'>
+                                                {specialConditionsList.map((condition, index) => (
+                                                    <div key={index} className='box-registration-general-information__condition-container' onClick={() => onSelectSpecialConditionClick(condition)}>
+                                                        <p className='box-registration-general-information__condition'>{condition}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label'>Получатель</p>
-                                <div className='box-registration-general-information__fix-info-container'>
-                                    <p className='box-registration-general-information__fix-info-text'>{recipientCompanyName}</p>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label'>Влажность, %</p>
+                                    <input
+                                        type="text"
+                                        className='box-registration-general-information__input'
+                                        name="humidity"
+                                        placeholder='Введите влажность'
+                                        value={humidity.value}
+                                        onChange={humidity.onChange}
+                                    />
                                 </div>
-                            </div>
-                            <div className='box-registration-general-information__input-container'>
-                                <p className='box-registration-general-information__input-label'>Стоимость, ₽</p>
-                                <div className='box-registration-general-information__fix-info-container'>
-                                    <p className='box-registration-general-information__fix-info-text'>{totalArtObjectsPrice}</p>
+                                <div className='box-registration-general-information__input-container'>
+                                    <p className='box-registration-general-information__input-label'>Температура, &deg;C</p>
+                                    <div className='box-registration-general-information__dimensions-inputs-container'>
+                                        <input
+                                            type="text"
+                                            className='box-registration-general-information__input box-registration-general-information__input_temperature'
+                                            name="temperatureMin"
+                                            placeholder='Минимум'
+                                            value={temperatureMin.value}
+                                            onChange={temperatureMin.onChange}
+                                        />
+                                        <div className='box-registration-general-information__temperature-line' />
+                                        <input
+                                            type="text"
+                                            className='box-registration-general-information__input box-registration-general-information__input_temperature'
+                                            name="temperatureMax"
+                                            placeholder='Максимум'
+                                            value={temperatureMax.value}
+                                            onChange={temperatureMax.onChange}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
