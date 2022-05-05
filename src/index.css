@@ -8,12 +8,13 @@
 @import url(./components/Catalog/Catalog.css);
 @import url(./components/CatalogTable/CatalogTable.css);
 @import url(./components/CatalogPopup/CatalogPopup.css);
+@import url(./components/Cards/Cards.css);
+@import url(./components/Card/Card.css);
 @import url(./components/Users/Users.css);
 @import url(./components/UsersTable/UsersTable.css);
 @import url(./components/Filter/Filter.css);
 @import url(./components/BoxRegistration/BoxRegistration.css);
 @import url(./components/BoxRegistration/BoxRegistrationGeneralInformation.css);
-@import url(./components/BoxRegistration/BoxRegistrationExhibits.css);
 @import url(./components/BoxRegistration/BoxRegistrationRoute.css);
 @import url(./components/BoxRegistration/BoxRegistrationQrCode.css);
 @import url(./components/TablePagination/TablePagination.css);

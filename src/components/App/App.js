@@ -48,6 +48,18 @@ function App() {
       .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
   }
 
+  function onSelectCatalogClick(id) {
+    Catalogs.getCatalog(id)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(`Ошибка при загрузке каталога: ${err}`));
+  }
+
+  // function onCancelSelectCatalogClick() {
+
+  // }
+
   function createUserName(user) {
     const firstName = function () {
       if (user.firstName === "") {
@@ -199,6 +211,9 @@ function App() {
             isLoggedIn={isLoggedIn}
             component={BoxRegistration}
             handleMobileHeaderNavText={handleMobileHeaderNavText}
+            getCatalogs={getCatalogs}
+            catalogs={catalogs}
+            onSelectCatalogClick={onSelectCatalogClick}
           />
 
           <ProtectedRoute exact path="/tracking"
