@@ -1,27 +1,29 @@
 import React, { useEffect } from "react";
 import { Link, useLocation, useHistory } from 'react-router-dom';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function SideBar(props) {
 
     const {
         logout,
-        role,
         isMobileSideBarOpen,
         onCloseMobileSideBar,
         userName
     } = props;
 
+    const currentUser = React.useContext(CurrentUserContext);
+
     const { pathname } = useLocation();
     const history = useHistory();
 
     useEffect(() => {
-        if (role === "Администратор") {
+        if (currentUser.role === "Администратор") {
             history.push('/box-registration');
         }
-        if (role === "Оператор") {
+        if (currentUser.role === "Оператор") {
             history.push('/fixation');
         }
-    }, [history, role]);
+    }, [history, currentUser.role]);
 
     function onLogoutClick() {
         logout();
@@ -41,11 +43,11 @@ function SideBar(props) {
                     <div className="side-bar__user">
                         <div className="side-bar__user-avatar" />
                         <p className="side-bar__user-name">{userName}</p>
-                        <p className="side-bar__user-role">{role}</p>
+                        <p className="side-bar__user-role">{currentUser.role}</p>
                     </div>
                     <div className="side-bar__close-button" onClick={onCloseMobileSideBar} />
                 </div>
-                {role === 'Администратор' && (
+                {currentUser.role === 'Администратор' && (
                     <nav className='side-bar__container'>
                         <Link to={'/box-registration'} className='side-bar__logo-container'>
                             <div className='side-bar__logo' />
@@ -73,7 +75,7 @@ function SideBar(props) {
                         </Link>
                     </nav>
                 )}
-                {role === 'Оператор' && (
+                {currentUser.role === 'Оператор' && (
                     <nav className='side-bar__container'>
                         <Link to={'/fixation'} className='side-bar__logo-container'>
                             <div className='side-bar__logo' />

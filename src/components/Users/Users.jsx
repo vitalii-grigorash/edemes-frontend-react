@@ -4,15 +4,17 @@ import { Helmet } from 'react-helmet-async';
 import { Validation } from '../../utils/Validation';
 import UsersTable from '../UsersTable/UsersTable';
 import * as UsersApi from '../../Api/UsersApi';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function Users(props) {
 
     const {
         handleMobileHeaderNavText,
         addUser,
-        userCompanyId,
         addNewUserError
     } = props;
+
+    const currentUser = React.useContext(CurrentUserContext);
 
     const { pathname } = useLocation();
     const [isRoleOptionsContainerOpen, setRoleOptionsContainerOpen] = useState(false);
@@ -232,7 +234,7 @@ function Users(props) {
             middleName: middleName.value,
             email: email.value,
             role: roleOptionsContainerValue,
-            companyId: userCompanyId
+            companyId: currentUser.userCompanyInfo.id
         }
         addUser(newUser);
         clearAllInputs();

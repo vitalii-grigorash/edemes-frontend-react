@@ -1,14 +1,16 @@
 import React, { useState } from "react";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function Header(props) {
 
     const {
         logout,
-        role,
         onOpenMobileSideBar,
         mobileHeaderNavText,
         userName
     } = props;
+
+    const currentUser = React.useContext(CurrentUserContext);
 
     const [isUserOptionsShow, setUserOptionsShow] = useState(false);
 
@@ -25,7 +27,7 @@ function Header(props) {
             <div className="header__user-container" onClick={handleShowUserOptions}>
                 <div className="header__user-info-container">
                     <p className="header__user-name">{userName}</p>
-                    <p className="header__user-role">{role}</p>
+                    <p className="header__user-role">{currentUser.role}</p>
                 </div>
                 <div className='header__avatar' />
                 <div className={`header__arrow ${isUserOptionsShow && 'header__arrow_close'}`} />

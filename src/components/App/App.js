@@ -26,7 +26,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isCatalogPopupOpen, setCatalogPopupOpen] = useState(false);
   const [isSuccessPopupOpen, setSuccessPopupOpen] = useState(false);
-  const [role, setRole] = useState('');
   const [isMobileSideBarOpen, setMobileSideBarOpen] = useState(false);
   const [mobileHeaderNavText, setMobileHeaderNavText] = useState('');
   const [userName, setUserName] = useState('');
@@ -35,7 +34,6 @@ function App() {
   const [addNewUserError, setAddNewUserError] = useState('');
   const [isAuthValidate, setAuthValidate] = useState(true);
   const [catalogs, setCatalogs] = useState([]);
-  const [userCompanyId, setUserCompanyId] = useState('');
 
   const userDefaultName = {
     lastName: "Неизвестный",
@@ -94,14 +92,10 @@ function App() {
     }
     setLoggedIn(false);
     history.push('/login')
-    setRole('');
   }
 
   function login(user) {
     if (user.isAuth) {
-      console.log(user);
-      setRole(user.role);
-      setUserCompanyId(user.userCompanyInfo.id);
       setLoggedIn(true);
       createUserName(user);
       setAuthError('');
@@ -115,7 +109,6 @@ function App() {
     if (localStorage.getItem('user')) {
       const userData = localStorage.getItem('user');
       const user = JSON.parse(userData);
-      console.log(user);
       setCurrentUser(user);
       login(user);
     }
@@ -125,7 +118,6 @@ function App() {
   function handleLogin(email, password) {
     Auth.authorize(email, password)
       .then((res) => {
-        console.log(res);
         setCurrentUser(res.user);
         localStorage.setItem('user', JSON.stringify(res.user));
         login(res.user);
@@ -187,7 +179,6 @@ function App() {
           <>
             <SideBar
               logout={logout}
-              role={role}
               onCloseMobileSideBar={handleOpenMobileSideBar}
               isMobileSideBarOpen={isMobileSideBarOpen}
               userName={userName}
@@ -195,7 +186,6 @@ function App() {
 
             <Header
               logout={logout}
-              role={role}
               onOpenMobileSideBar={handleOpenMobileSideBar}
               mobileHeaderNavText={mobileHeaderNavText}
               userName={userName}
@@ -231,7 +221,6 @@ function App() {
             component={Users}
             handleMobileHeaderNavText={handleMobileHeaderNavText}
             addUser={addUser}
-            userCompanyId={userCompanyId}
             addNewUserError={addNewUserError}
           />
 
