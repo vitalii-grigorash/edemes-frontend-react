@@ -28,6 +28,10 @@ export const authorize = (email, password) => {
                 console.log(err);
                 throw new Error('Сервер временно недоступен');
             }
+            else if (err.status === 400) {
+                console.log(err);
+                throw new Error('Пользователь с таким email не найден');
+            }
             else if (err.status === 401) {
                 console.log(err);
                 throw new Error('Неправильная почта или пароль');

@@ -6,12 +6,15 @@ import { Validation } from '../../utils/Validation';
 import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
 import TablePagination from '../TablePagination/TablePagination';
 import * as BoxRegistrationApi from '../../Api/BoxRegistrationApi';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function BoxRegistration(props) {
 
     const {
         handleMobileHeaderNavText
     } = props;
+
+    const currentUser = React.useContext(CurrentUserContext);
 
     const { pathname } = useLocation();
     const [isBoxRegistrationGeneralInformationActive, setBoxRegistrationGeneralInformationActive] = useState(false);
@@ -46,7 +49,6 @@ function BoxRegistration(props) {
     const [locationIdTo, setLocationIdTo] = useState('');
     const [coordinatesTo, setCoordinatesTo] = useState({});
 
-    const [senderCompanyName, setSenderCompanyName] = useState('');
     const [recipientCompanyName, setRecipientCompanyName] = useState('');
     const [totalArtObjectsPrice, setTotalArtObjectsPrice] = useState('');
 
@@ -125,19 +127,18 @@ function BoxRegistration(props) {
         width: width.value,
         depth: length.value,
         weight: weight.value,
-        price: '',
+        price: totalArtObjectsPrice,
         condition: `${condition !== 'Выберите условие' ? condition : ''}`,
+        humidity: humidity.value,
         temperature: {
             min: temperatureMin.value,
             max: temperatureMax.value
-        },
-        humidity: humidity.value
+        }
     }
 
     function showLocations() {
         BoxRegistrationApi.getLocations()
             .then((locations) => {
-                console.log(locations);
                 setLocations(locations.locations);
             })
             .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
@@ -155,14 +156,9 @@ function BoxRegistration(props) {
         if (pathname === '/box-registration') {
             showLocations();
             showCompanies();
-            if (localStorage.getItem('user')) {
-                const userData = localStorage.getItem('user');
-                const user = JSON.parse(userData);
-                setSenderCompanyName(user.userCompanyInfo.name);
-            }
+            setTotalArtObjectsPrice('20000');
         }
-        // eslint-disable-next-line
-    }, []);
+    }, [pathname]);
 
     function handleSelectRouteFrom() {
         if (isSelectRouteFromActive) {
@@ -313,14 +309,12 @@ function BoxRegistration(props) {
         if (isBoxRegistrationGeneralInformationActive) {
             setBoxRegistrationGeneralInformationActive(false);
             setBoxRegistrationQrCodeActive(true)
-            console.log(generalInformation);
         } else if (isBoxRegistrationExhibitsActive) {
             setBoxRegistrationExhibitsActive(false);
             setBoxRegistrationGeneralInformationActive(true);
         } else if (isBoxRegistrationRouteActive) {
             setBoxRegistrationRouteActive(false);
             setBoxRegistrationExhibitsActive(true);
-            console.log(route);
         }
     }
 
@@ -356,16 +350,46 @@ function BoxRegistration(props) {
     }
 
     function onRegisterButtonClick() {
-        clearAllBoxRegistrationInputs();
         const dataToRegister = {
             companyIdTo: route.companyIdTo,
+            companyIdFrom: currentUser.userCompanyInfo.id,
+            userId: currentUser.id,
             locationIdFrom: route.locationIdFrom,
             locationIdTo: route.locationIdTo,
-            artObjectsIdList: exhibitsList,
-            generalInformation: generalInformation,
+            artObjectsIdList: exhibitsList.map((exhibit) => exhibit.id),
+            name: generalInformation.name,
+            height: generalInformation.height,
+            width: generalInformation.width,
+            depth: generalInformation.depth,
+            weight: generalInformation.weight,
+            price: generalInformation.price,
+            requirements: [
+                {
+                    type: generalInformation.condition,
+                    rangeIn: '',
+                    rangeOf: ''
+                },
+                {
+                    type: 'Влажность',
+                    rangeIn: generalInformation.humidity,
+                    rangeOf: ''
+                },
+                {
+                    type: 'Температура',
+                    rangeIn: generalInformation.temperature.min,
+                    rangeOf: generalInformation.temperature.max
+                }
+            ],
             qr: "qrCode.jpg"
         }
         console.log(dataToRegister);
+        BoxRegistrationApi.addNewBox(dataToRegister)
+            .then(() => {
+                clearAllBoxRegistrationInputs();
+            })
+            .catch((err) => {
+                console.log(err.message);
+            })
     }
 
     return (
@@ -445,7 +469,7 @@ function BoxRegistration(props) {
                                 <div className='box-registration-general-information__input-container'>
                                     <p className='box-registration-general-information__input-label  box-registration-general-information__input-label_first'>Отправитель</p>
                                     <div className='box-registration-general-information__fix-info-container'>
-                                        <p className='box-registration-general-information__fix-info-text'>{senderCompanyName}</p>
+                                        <p className='box-registration-general-information__fix-info-text'>{currentUser.userCompanyInfo.name}</p>
                                     </div>
                                 </div>
                                 <div className='box-registration-general-information__input-container'>

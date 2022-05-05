@@ -91,7 +91,7 @@ function App() {
       localStorage.removeItem('user');
     }
     setLoggedIn(false);
-    history.push('/login')
+    history.push('/login');
   }
 
   function login(user) {

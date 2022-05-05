@@ -39,3 +39,20 @@ export const getCompaniesWithLocations = () => {
             throw new Error(err.message);
         });
 };
+
+export const addNewBox = (dataToRegister) => {
+    return fetch(`${API_URL}/boxes`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataToRegister)
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .catch((err) => {
+            console.log(err);
+            if (err.status === 500) {
+                throw new Error('Сервер временно недоступен');
+            }
+        });
+};
