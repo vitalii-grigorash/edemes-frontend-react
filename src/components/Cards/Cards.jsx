@@ -6,12 +6,30 @@ function Cards(props) {
 
     const {
         catalogs,
-        onSelectCatalogClick
+        onSelectCatalogClick,
+        onDeselectCatalogClick,
+        selectedArtObjects,
+        onOpenCatalogClick,
+        artObjects,
+        onSelectArtObjectClick,
+        onDeselectArtObjectClick
     } = props;
 
     const searchInput = Validation();
     const [isCardActive, setCardActive] = useState(true);
     const [isTableActive, setTableActive] = useState(false);
+    const [isCatalogsActive, setIsCatalogsActive] = useState(true);
+    const [isArtObjectsActive, setIsArtObjectsActive] = useState(false);
+
+    function handleArtObjectsActive () {
+        if (isArtObjectsActive) {
+            setIsArtObjectsActive(false);
+            setIsCatalogsActive(true);
+        } else {
+            setIsArtObjectsActive(true);
+            setIsCatalogsActive(false);
+        }
+    }
 
     function onSearchButtonClick() {
         console.log(searchInput.value);
@@ -19,7 +37,7 @@ function Cards(props) {
     }
 
     function onAddedButtonClick() {
-        console.log('on added button click');
+        console.log(selectedArtObjects);
     }
 
     function handleCardActive() {
@@ -50,7 +68,7 @@ function Cards(props) {
                 <div className='cards__added-container' onClick={onAddedButtonClick}>
                     <div className='cards__added-img-container'>
                         <div className='cards__added-value-container'>
-                            <p className='cards__added-value'>27</p>
+                            <p className='cards__added-value'>{selectedArtObjects.length}</p>
                         </div>
                     </div>
                     <p className='cards__added-text'>Добавлено</p>
@@ -65,15 +83,40 @@ function Cards(props) {
             </div>
             {isCardActive && (
                 <div className='cards__card'>
-                    {catalogs.map((catalog) => (
-                        <Card
-                            key={catalog.id} 
-                            id={catalog.id}
-                            name={catalog.name} 
-                            picture={catalog.picture}
-                            onSelectCatalogClick={onSelectCatalogClick}
-                        />
-                    ))}
+                    {isCatalogsActive && (
+                        <>
+                            {catalogs.map((catalog) => (
+                                <Card
+                                    key={catalog.id}
+                                    id={catalog.id}
+                                    card={catalog}
+                                    name={catalog.name}
+                                    picture={catalog.picture}
+                                    onSelectCardClick={onSelectCatalogClick}
+                                    onDeselectCardClick={onDeselectCatalogClick}
+                                    onOpenCatalogClick={onOpenCatalogClick}
+                                    handleArtObjectsActive={handleArtObjectsActive}
+                                />
+                            ))}
+                        </>
+                    )}
+                    {isArtObjectsActive && (
+                        <>
+                            {artObjects.map((artObject) => (
+                                <Card
+                                    key={artObject.id}
+                                    id={artObject.id}
+                                    card={artObject}
+                                    name={artObject.name}
+                                    picture={artObject.photo}
+                                    onSelectCardClick={onSelectArtObjectClick}
+                                    onDeselectCardClick={onDeselectArtObjectClick}
+                                    onOpenCatalogClick={onOpenCatalogClick}
+                                    handleArtObjectsActive={handleArtObjectsActive}
+                                />
+                            ))}
+                        </>
+                    )}
                 </div>
             )}
             {isTableActive && (

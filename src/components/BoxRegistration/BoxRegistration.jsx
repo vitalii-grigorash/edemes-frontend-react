@@ -14,7 +14,13 @@ function BoxRegistration(props) {
         handleMobileHeaderNavText,
         getCatalogs,
         catalogs,
-        onSelectCatalogClick
+        onSelectCatalogClick,
+        onDeselectCatalogClick,
+        selectedArtObjects,
+        onOpenCatalogClick,
+        artObjects,
+        onSelectArtObjectClick,
+        onDeselectArtObjectClick
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -520,6 +526,12 @@ function BoxRegistration(props) {
                     <Cards
                         catalogs={catalogs}
                         onSelectCatalogClick={onSelectCatalogClick}
+                        onDeselectCatalogClick={onDeselectCatalogClick}
+                        selectedArtObjects={selectedArtObjects}
+                        onOpenCatalogClick={onOpenCatalogClick}
+                        artObjects={artObjects}
+                        onSelectArtObjectClick={onSelectArtObjectClick}
+                        onDeselectArtObjectClick={onDeselectArtObjectClick}
                     />
                 }
                 {isBoxRegistrationRouteActive &&

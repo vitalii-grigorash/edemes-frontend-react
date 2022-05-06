@@ -6,23 +6,29 @@ function Card(props) {
 
     const {
         id,
+        card,
         name,
         picture,
-        onSelectCatalogClick
+        onSelectCardClick,
+        onDeselectCardClick,
+        onOpenCatalogClick,
+        handleArtObjectsActive
     } = props;
 
     const [isCheckboxActive, setCheckboxActive] = useState(false);
 
     function onCardButtonShowClick() {
-        console.log(id);
+        onOpenCatalogClick(id);
+        handleArtObjectsActive();
     }
 
     function onCatalogSelectClick() {
         if (isCheckboxActive) {
             setCheckboxActive(false);
+            onDeselectCardClick(card);
         } else {
             setCheckboxActive(true);
-            onSelectCatalogClick(id);
+            onSelectCardClick(card);
         }
     }
 

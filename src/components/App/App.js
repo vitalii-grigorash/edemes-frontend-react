@@ -34,6 +34,8 @@ function App() {
   const [addNewUserError, setAddNewUserError] = useState('');
   const [isAuthValidate, setAuthValidate] = useState(true);
   const [catalogs, setCatalogs] = useState([]);
+  const [selectedArtObjects, setSelectedArtObjects] = useState([]);
+  const [artObjects, setArtObjects] = useState([]);
 
   const userDefaultName = {
     lastName: "Неизвестный",
@@ -48,17 +50,40 @@ function App() {
       .catch((err) => console.log(`Ошибка при загрузке каталогов: ${err}`));
   }
 
-  function onSelectCatalogClick(id) {
-    Catalogs.getCatalog(id)
+  function onSelectCatalogClick(card) {
+    Catalogs.getCatalog(card.id)
       .then((data) => {
-        console.log(data);
+        if (data.artObjects.length !== 0) {
+          data.artObjects.forEach(artObject => setSelectedArtObjects(selectedArtObjects => [...selectedArtObjects, artObject]));
+        }
       })
       .catch((err) => console.log(`Ошибка при загрузке каталога: ${err}`));
   }
 
-  // function onCancelSelectCatalogClick() {
+  function onDeselectCatalogClick(card) {
+    Catalogs.getCatalog(card.id)
+      .then((data) => {
+        const filteredItems = selectedArtObjects.filter(selectedArtObject => !data.artObjects.find(artObject => artObject.id === selectedArtObject.id))
+        setSelectedArtObjects(filteredItems);
+      })
+      .catch((err) => console.log(`Ошибка при загрузке каталога: ${err}`));
+  }
 
-  // }
+  function onOpenCatalogClick(id) {
+    Catalogs.getCatalog(id)
+      .then((data) => {
+        setArtObjects(data.artObjects);
+      })
+      .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
+  }
+
+  function onSelectArtObjectClick (artObject) {
+    console.log(artObject);
+  }
+
+  function onDeselectArtObjectClick (artObject) {
+    console.log(artObject);
+  }
 
   function createUserName(user) {
     const firstName = function () {
@@ -214,6 +239,12 @@ function App() {
             getCatalogs={getCatalogs}
             catalogs={catalogs}
             onSelectCatalogClick={onSelectCatalogClick}
+            onDeselectCatalogClick={onDeselectCatalogClick}
+            selectedArtObjects={selectedArtObjects}
+            onOpenCatalogClick={onOpenCatalogClick}
+            artObjects={artObjects}
+            onSelectArtObjectClick={onSelectArtObjectClick}
+            onDeselectArtObjectClick={onDeselectArtObjectClick}
           />
 
           <ProtectedRoute exact path="/tracking"
