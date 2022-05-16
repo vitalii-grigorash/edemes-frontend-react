@@ -27,7 +27,7 @@ function Cards(props) {
             setIsCatalogsActive(true);
         } else {
             setIsArtObjectsActive(true);
-            setIsCatalogsActive(false);
+            setIsCatalogsActive(false)
         }
     }
 
