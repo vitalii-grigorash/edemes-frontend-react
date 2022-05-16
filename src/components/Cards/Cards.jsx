@@ -19,20 +19,58 @@ function Cards(props) {
         isArtObjectsActive,
         showArtObjectInfo,
         isArtObjectInfoOpen,
-        artObject
+        artObject,
+        onShowAddedArtObjectsClick,
+        isSelectedArtObjectsActive,
     } = props;
 
     const searchInput = Validation();
     const [isCardActive, setCardActive] = useState(true);
     const [isTableActive, setTableActive] = useState(false);
 
+    const foundText = (array) => {
+        const value = array.length % 10;
+        const doubleValue = array.length;
+        if (doubleValue === 11 || doubleValue === 12 || doubleValue === 13 || doubleValue === 14) {
+            return 'Найдено'
+        }
+        if (value === 1) {
+            return 'Найден'
+        }
+        return 'Найдено'
+    }
+
+    const exhibitsText = (array) => {
+        const value = array.length % 10;
+        const doubleValue = array.length;
+        if (doubleValue === 11 || doubleValue === 12 || doubleValue === 13 || doubleValue === 14) {
+            return 'экспонатов'
+        }
+        if (value === 1) {
+            return 'экспонат'
+        } else if (value === 2 || value === 3 || value === 4) {
+            return 'экспоната'
+        }
+        return 'экспонатов'
+    }
+
+    const catalogsText = (array) => {
+        const value = array.length % 10;
+        const doubleValue = array.length;
+        if (doubleValue === 11 || doubleValue === 12 || doubleValue === 13 || doubleValue === 14) {
+            return 'каталогов'
+        }
+        if (value === 1) {
+            return 'каталог'
+        } else if (value === 2 || value === 3 || value === 4) {
+            return 'каталога'
+        }
+        return 'каталогов'
+    }
+
     function onSearchButtonClick() {
         console.log(searchInput.value);
         searchInput.setValue('');
-    }
-
-    function onAddedButtonClick() {
-        console.log(selectedArtObjects);
     }
 
     function handleCardActive() {
@@ -62,7 +100,7 @@ function Cards(props) {
                             />
                             <button type='button' className='cards__search-button' onClick={onSearchButtonClick}>Поиск</button>
                         </div>
-                        <div className='cards__added-container' onClick={onAddedButtonClick}>
+                        <div className='cards__added-container' onClick={onShowAddedArtObjectsClick}>
                             <div className='cards__added-img-container'>
                                 <div className='cards__added-value-container'>
                                     <p className='cards__added-value'>{selectedArtObjects.length}</p>
@@ -72,7 +110,15 @@ function Cards(props) {
                         </div>
                     </div>
                     <div className='cards__table-heding-container'>
-                        <p className='cards__table-heding-value'>Найдено {catalogs.length} каталога</p>
+                        {isCatalogsActive && (
+                            <p className='cards__table-heding-value'>{foundText(catalogs)} {catalogs.length} {catalogsText(catalogs)}</p>
+                        )}
+                        {isArtObjectsActive && (
+                            <p className='cards__table-heding-value'>{foundText(artObjects)} {artObjects.length} {exhibitsText(artObjects)}</p>
+                        )}
+                        {isSelectedArtObjectsActive && (
+                            <p className='cards__table-heding-value'>{foundText(selectedArtObjects)} {selectedArtObjects.length} {exhibitsText(selectedArtObjects)}</p>
+                        )}
                         <div className='cards__table-heding-switch-container'>
                             <div className={`cards__table-heding-switch-card ${isCardActive && 'cards__table-heding-switch-card_active'}`} onClick={handleCardActive} />
                             <div className={`cards__table-heding-switch-table ${isTableActive && 'cards__table-heding-switch-table_active'}`} onClick={handleTableActive} />
@@ -85,6 +131,8 @@ function Cards(props) {
                                     {catalogs.map((catalog) => (
                                         <Card
                                             isCatalogsActive={isCatalogsActive}
+                                            isArtObjectsActive={isArtObjectsActive}
+                                            isSelectedArtObjectsActive={isSelectedArtObjectsActive}
                                             key={catalog.id}
                                             id={catalog.id}
                                             card={catalog}
@@ -95,27 +143,69 @@ function Cards(props) {
                                             onOpenCatalogClick={onOpenCatalogClick}
                                             handleArtObjectsActive={handleArtObjectsActive}
                                             showArtObjectInfo={showArtObjectInfo}
+                                            selectedArtObjects={selectedArtObjects}
                                         />
                                     ))}
                                 </>
                             )}
                             {isArtObjectsActive && (
                                 <>
-                                    {artObjects.map((artObject) => (
-                                        <Card
-                                            isArtObjectsActive={isArtObjectsActive}
-                                            key={artObject.id}
-                                            id={artObject.id}
-                                            card={artObject}
-                                            name={artObject.name}
-                                            picture={artObject.photo}
-                                            onSelectCardClick={onSelectArtObjectClick}
-                                            onDeselectCardClick={onDeselectArtObjectClick}
-                                            onOpenCatalogClick={onOpenCatalogClick}
-                                            handleArtObjectsActive={handleArtObjectsActive}
-                                            showArtObjectInfo={showArtObjectInfo}
-                                        />
-                                    ))}
+                                    {artObjects.length !== 0 ? (
+                                        <>
+                                            {artObjects.map((artObject) => (
+                                                <Card
+                                                    isCatalogsActive={isCatalogsActive}
+                                                    isArtObjectsActive={isArtObjectsActive}
+                                                    isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+                                                    key={artObject.id}
+                                                    id={artObject.id}
+                                                    card={artObject}
+                                                    name={artObject.name}
+                                                    picture={artObject.photo}
+                                                    onSelectCardClick={onSelectArtObjectClick}
+                                                    onDeselectCardClick={onDeselectArtObjectClick}
+                                                    onOpenCatalogClick={onOpenCatalogClick}
+                                                    handleArtObjectsActive={handleArtObjectsActive}
+                                                    showArtObjectInfo={showArtObjectInfo}
+                                                    selectedArtObjects={selectedArtObjects}
+                                                />
+                                            ))}
+                                        </>
+                                    ) : (
+                                        <div className='cards__not-found'>
+                                            <p className='cards__not-found-text'>В каталоге нет экспонатов</p>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                            {isSelectedArtObjectsActive && (
+                                <>
+                                    {selectedArtObjects.length !== 0 ? (
+                                        <>
+                                            {selectedArtObjects.map((artObject) => (
+                                                <Card
+                                                    isCatalogsActive={isCatalogsActive}
+                                                    isArtObjectsActive={isArtObjectsActive}
+                                                    isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+                                                    key={artObject.id}
+                                                    id={artObject.id}
+                                                    card={artObject}
+                                                    name={artObject.name}
+                                                    picture={artObject.photo}
+                                                    onSelectCardClick={onSelectArtObjectClick}
+                                                    onDeselectCardClick={onDeselectArtObjectClick}
+                                                    onOpenCatalogClick={onOpenCatalogClick}
+                                                    handleArtObjectsActive={handleArtObjectsActive}
+                                                    showArtObjectInfo={showArtObjectInfo}
+                                                    selectedArtObjects={selectedArtObjects}
+                                                />
+                                            ))}
+                                        </>
+                                    ) : (
+                                        <div className='cards__not-found'>
+                                            <p className='cards__not-found-text'>Необходимо добавить экспонаты</p>
+                                        </div>
+                                    )}
                                 </>
                             )}
                         </div>

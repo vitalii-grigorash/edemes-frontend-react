@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { YMaps, Map, GeoObject } from 'react-yandex-maps';
 import { Validation } from '../../utils/Validation';
-import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
+// import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
 import * as BoxRegistrationApi from '../../Api/BoxRegistrationApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Cards from '../Cards/Cards';
@@ -20,7 +20,7 @@ function BoxRegistration(props) {
         onOpenCatalogClick,
         artObjects,
         onSelectArtObjectClick,
-        onDeselectArtObjectClick
+        onDeselectArtObjectClick,
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -65,6 +65,15 @@ function BoxRegistration(props) {
     const [isArtObjectInfoOpen, setArtObjectInfoOpen] = useState(false);
     const [artObject, setArtObject] = useState({});
 
+    const [isSelectedArtObjectsActive, setSelectedArtObjectsActive] = useState(false);
+
+    function onShowAddedArtObjectsClick() {
+        setArtObjectsActive(false);
+        setCatalogsActive(false);
+        setSelectedArtObjectsActive(true);
+        console.log(selectedArtObjects);
+    }
+
     function handleArtObjectsActive() {
         setArtObjectsActive(true);
         setCatalogsActive(false);
@@ -77,12 +86,13 @@ function BoxRegistration(props) {
         setArtObject(artObject);
     }
 
-    function catalogsBackClick () {
+    function catalogsBackClick() {
         setArtObjectsActive(false);
+        setSelectedArtObjectsActive(false);
         setCatalogsActive(true);
     }
 
-    function artObjectsBackClick () {
+    function artObjectsBackClick() {
         setArtObjectInfoOpen(false);
         setArtObjectsActive(true);
     }
@@ -363,7 +373,7 @@ function BoxRegistration(props) {
             userId: currentUser.id,
             locationIdFrom: route.locationIdFrom,
             locationIdTo: route.locationIdTo,
-            artObjectsIdList: BoxRegistrationExhibitsData.map((exhibit) => exhibit.id),
+            artObjectsIdList: selectedArtObjects.map((artObject) => artObject.id),
             name: generalInformation.name,
             height: generalInformation.height,
             width: generalInformation.width,
@@ -565,6 +575,8 @@ function BoxRegistration(props) {
                         showArtObjectInfo={showArtObjectInfo}
                         isArtObjectInfoOpen={isArtObjectInfoOpen}
                         artObject={artObject}
+                        onShowAddedArtObjectsClick={onShowAddedArtObjectsClick}
+                        isSelectedArtObjectsActive={isSelectedArtObjectsActive}
                     />
                 }
                 {isBoxRegistrationRouteActive &&
@@ -662,6 +674,9 @@ function BoxRegistration(props) {
                                 <button type='button' className='box-registration__button-back' onClick={artObjectsBackClick}>Вернуться к экспонатам</button>
                             )}
                             {isArtObjectsActive && (
+                                <button type='button' className='box-registration__button-back' onClick={catalogsBackClick}>Вернуться к каталогам</button>
+                            )}
+                            {isSelectedArtObjectsActive && (
                                 <button type='button' className='box-registration__button-back' onClick={catalogsBackClick}>Вернуться к каталогам</button>
                             )}
                             {isCatalogsActive && (

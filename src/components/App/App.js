@@ -53,8 +53,12 @@ function App() {
   function onSelectCatalogClick(card) {
     Catalogs.getCatalog(card.id)
       .then((data) => {
-        if (data.artObjects.length !== 0) {
+        const filteredItems = selectedArtObjects.filter(selectedArtObject => data.artObjects.find(artObject => artObject.id === selectedArtObject.id))
+        const filter = data.artObjects.filter(artObject => filteredItems.find(filteredItem => artObject.id !== filteredItem.id));
+        if (filter.length === 0) {
           data.artObjects.forEach(artObject => setSelectedArtObjects(selectedArtObjects => [...selectedArtObjects, artObject]));
+        } else {
+          filter.forEach(item => setSelectedArtObjects(selectedArtObjects => [...selectedArtObjects, item]));
         }
       })
       .catch((err) => console.log(`Ошибка при загрузке каталога: ${err}`));
@@ -77,12 +81,13 @@ function App() {
       .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
   }
 
-  function onSelectArtObjectClick (artObject) {
-    console.log(artObject);
+  function onSelectArtObjectClick(artObject) {
+    setSelectedArtObjects(selectedArtObjects => [...selectedArtObjects, artObject]);
   }
 
-  function onDeselectArtObjectClick (artObject) {
-    console.log(artObject);
+  function onDeselectArtObjectClick(artObject) {
+    const filteredItems = selectedArtObjects.filter(selectedArtObject => selectedArtObject.id !== artObject.id);
+    setSelectedArtObjects(filteredItems);
   }
 
   function createUserName(user) {

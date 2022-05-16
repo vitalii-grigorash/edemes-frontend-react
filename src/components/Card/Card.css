@@ -63,3 +63,24 @@
     height: 24px;
     margin: auto 0 auto auto;
 }
+.card__remove-container {
+    display: flex;
+    margin: 16px auto auto 14px;
+    cursor: pointer;
+}
+.card__remove-icon {
+    background-image: url('../../images/remove-button.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    margin: auto 8px auto 0;
+}
+.card__remove-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #666666;
+    opacity: 0.9;
+    margin: auto auto auto 0;
+}
