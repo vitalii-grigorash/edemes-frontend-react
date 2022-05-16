@@ -12,14 +12,21 @@ function Card(props) {
         onSelectCardClick,
         onDeselectCardClick,
         onOpenCatalogClick,
-        handleArtObjectsActive
+        handleArtObjectsActive,
+        isCatalogsActive,
+        isArtObjectsActive,
+        showArtObjectInfo
     } = props;
 
     const [isCheckboxActive, setCheckboxActive] = useState(false);
 
-    function onCardButtonShowClick() {
+    function onCardButtonOpenClick() {
         onOpenCatalogClick(id);
         handleArtObjectsActive();
+    }
+
+    function onCardButtonShowClick() {
+        showArtObjectInfo(card);
     }
 
     function onCatalogSelectClick() {
@@ -36,9 +43,19 @@ function Card(props) {
         <div className="card">
             <img className='card__picture' alt={name} src={picture} />
             <p className='card__name'>{name}</p>
-            <p className='card__text'>Добавлено: <span className='card__text_span'>112 из 13 405</span></p>
+            {isCatalogsActive && (
+                <p className='card__text'>Добавлено: <span className='card__text_span'>112 из 13 405</span></p>
+            )}
+            {isArtObjectsActive && (
+                <p className='card__text'>Брейгель Ян Старший</p>
+            )}
             <div className='card__buttons-container'>
-                <button type='button' className='card__button-show' onClick={onCardButtonShowClick}>Открыть</button>
+                {isCatalogsActive && (
+                    <button type='button' className='card__button-show' onClick={onCardButtonOpenClick}>Открыть</button>
+                )}
+                {isArtObjectsActive && (
+                    <button type='button' className='card__button-show' onClick={onCardButtonShowClick}>Просмотр</button>
+                )}
                 <img className='card__button-checkbox' alt='Чекбокс' src={isCheckboxActive ? activeCheckbox : disabledCheckbox} onClick={onCatalogSelectClick} />
             </div>
         </div>

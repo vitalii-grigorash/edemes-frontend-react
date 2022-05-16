@@ -92,6 +92,18 @@
     border: none;
     color: #FFFFFF;
 }
+.box-registration__button-back {
+    width: 222px;
+    height: 46px;
+    background: #FFFFFF;
+    border: 1px solid #336699;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #336699;
+    font-size: 16px;
+    line-height: 22px;
+    cursor: pointer;
+}
 @media screen and (max-width: 1020px) {
     .box-registration {
         padding: 24px 0 0 0;

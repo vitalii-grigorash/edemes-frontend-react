@@ -60,6 +60,33 @@ function BoxRegistration(props) {
 
     const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
 
+    const [isCatalogsActive, setCatalogsActive] = useState(true);
+    const [isArtObjectsActive, setArtObjectsActive] = useState(false);
+    const [isArtObjectInfoOpen, setArtObjectInfoOpen] = useState(false);
+    const [artObject, setArtObject] = useState({});
+
+    function handleArtObjectsActive() {
+        setArtObjectsActive(true);
+        setCatalogsActive(false);
+    }
+
+    function showArtObjectInfo(artObject) {
+        setArtObjectsActive(false);
+        setCatalogsActive(false);
+        setArtObjectInfoOpen(true);
+        setArtObject(artObject);
+    }
+
+    function catalogsBackClick () {
+        setArtObjectsActive(false);
+        setCatalogsActive(true);
+    }
+
+    function artObjectsBackClick () {
+        setArtObjectInfoOpen(false);
+        setArtObjectsActive(true);
+    }
+
     const myGeoObject = {
         geometry: {
             type: "LineString",
@@ -532,6 +559,12 @@ function BoxRegistration(props) {
                         artObjects={artObjects}
                         onSelectArtObjectClick={onSelectArtObjectClick}
                         onDeselectArtObjectClick={onDeselectArtObjectClick}
+                        handleArtObjectsActive={handleArtObjectsActive}
+                        isCatalogsActive={isCatalogsActive}
+                        isArtObjectsActive={isArtObjectsActive}
+                        showArtObjectInfo={showArtObjectInfo}
+                        isArtObjectInfoOpen={isArtObjectInfoOpen}
+                        artObject={artObject}
                     />
                 }
                 {isBoxRegistrationRouteActive &&
@@ -623,16 +656,35 @@ function BoxRegistration(props) {
                     </div>
                 }
                 <div className='box-registration__buttons-container'>
-                    {!isBoxRegistrationRouteActive && (
-                        <button type='button' className='box-registration__button-prev' onClick={prevTabClick}>Назад</button>
+                    {isBoxRegistrationExhibitsActive ? (
+                        <>
+                            {isArtObjectInfoOpen && (
+                                <button type='button' className='box-registration__button-back' onClick={artObjectsBackClick}>Вернуться к экспонатам</button>
+                            )}
+                            {isArtObjectsActive && (
+                                <button type='button' className='box-registration__button-back' onClick={catalogsBackClick}>Вернуться к каталогам</button>
+                            )}
+                            {isCatalogsActive && (
+                                <>
+                                    <button type='button' className='box-registration__button-prev' onClick={prevTabClick}>Назад</button>
+                                    <button type='button' className={`box-registration__button-next ${isBoxRegistrationRouteActive && 'box-registration__button-next_big'}`} onClick={nextTabClick}>Далее</button>
+                                </>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {!isBoxRegistrationRouteActive && (
+                                <button type='button' className='box-registration__button-prev' onClick={prevTabClick}>Назад</button>
+                            )}
+                            {isBoxRegistrationQrCodeActive ?
+                                (
+                                    <button type='button' className='box-registration__button-register' onClick={onRegisterButtonClick}>Зарегистрировать</button>
+                                ) : (
+                                    <button type='button' className={`box-registration__button-next ${isBoxRegistrationRouteActive && 'box-registration__button-next_big'}`} onClick={nextTabClick}>Далее</button>
+                                )
+                            }
+                        </>
                     )}
-                    {isBoxRegistrationQrCodeActive ?
-                        (
-                            <button type='button' className='box-registration__button-register' onClick={onRegisterButtonClick}>Зарегистрировать</button>
-                        ) : (
-                            <button type='button' className={`box-registration__button-next ${isBoxRegistrationRouteActive && 'box-registration__button-next_big'}`} onClick={nextTabClick}>Далее</button>
-                        )
-                    }
                 </div>
             </div>
         </section>
