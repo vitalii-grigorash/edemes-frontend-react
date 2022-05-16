@@ -21,6 +21,7 @@ function BoxRegistration(props) {
         artObjects,
         onSelectArtObjectClick,
         onDeselectArtObjectClick,
+        resetSelectedArtObjects
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -364,6 +365,7 @@ function BoxRegistration(props) {
         setConditionsActive(false);
         setCondition('Выберите условие');
         setConditionSelected(false);
+        resetSelectedArtObjects();
     }
 
     function onRegisterButtonClick() {

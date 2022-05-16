@@ -42,6 +42,10 @@ function App() {
     firstName: "Пользователь"
   }
 
+  function resetSelectedArtObjects() {
+    setSelectedArtObjects([]);
+  }
+
   function getCatalogs() {
     Catalogs.getAllCatalogs()
       .then((data) => {
@@ -250,6 +254,7 @@ function App() {
             artObjects={artObjects}
             onSelectArtObjectClick={onSelectArtObjectClick}
             onDeselectArtObjectClick={onDeselectArtObjectClick}
+            resetSelectedArtObjects={resetSelectedArtObjects}
           />
 
           <ProtectedRoute exact path="/tracking"
