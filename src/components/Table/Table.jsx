@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import disabledCheckbox from '../../images/select-disabled.svg';
-import activeCheckbox from '../../images/select-active.svg';
+import disabledCheckbox from '../../images/disabled-checkbox.svg';
+import activeCheckbox from '../../images/active-checkbox.svg';
 import * as Catalogs from "../../Api/Catalogs";
 
-function Card(props) {
+function Table(props) {
 
     const {
         id,
@@ -23,7 +23,6 @@ function Card(props) {
     } = props;
 
     const [isCheckboxActive, setCheckboxActive] = useState(false);
-
     const [isSelected, setSelected] = useState(false);
     const [isAllSelected, setAllSelected] = useState(false);
     const [isSomeSelected, setSomeSelected] = useState(false);
@@ -97,45 +96,45 @@ function Card(props) {
     }
 
     return (
-        <div className="card">
-            <img className='card__picture' alt={name} src={picture} />
-            <p className='card__name'>{name}</p>
+        <div className="table">
+            <img className='table__picture' alt={name} src={picture} />
+            <p className='table__name'>{name}</p>
             {isCatalogsActive && (
                 <>
                     {isAllSelected && (
-                        <p className='card__text'>Добавлено: <span className='card__text_span'>{allCatalogArtObjectsValue}</span></p>
+                        <p className='table__text'>Добавлено: <span className='table__text_span'>{allCatalogArtObjectsValue}</span></p>
                     )}
                     {!isSelected && (
-                        <p className='card__text'>Нет добавленных экпонатов</p>
+                        <p className='table__text'>Нет добавленных экпонатов</p>
                     )}
                     {isSomeSelected && (
-                        <p className='card__text'>Добавлено: <span className='card__text_span'>{selectedCatalogArtObjectsValue} из {allCatalogArtObjectsValue}</span></p>
+                        <p className='table__text'>Добавлено: <span className='table__text_span'>{selectedCatalogArtObjectsValue} из {allCatalogArtObjectsValue}</span></p>
                     )}
                 </>
             )}
             {isArtObjectsActive && (
-                <p className='card__text'>Брейгель Ян Старший</p>
+                <p className='table__text'>Брейгель Ян Старший</p>
             )}
             {isSelectedArtObjectsActive && (
-                <p className='card__text'>Брейгель Ян Старший</p>
+                <p className='table__text'>Брейгель Ян Старший</p>
             )}
             {isSelectedArtObjectsActive ? (
                 <>
-                    <div className='card__remove-container' onClick={onRemoveClick}>
-                        <div className='card__remove-icon' />
-                        <p className='card__remove-text'>Удалить</p>
+                    <div className='table__remove-container' onClick={onRemoveClick}>
+                        <div className='table__remove-icon' />
+                        <p className='table__remove-text'>Удалить</p>
                     </div>
                 </>
             ) : (
                 <>
-                    <div className='card__buttons-container'>
+                    <div className='table__buttons-container'>
                         {isCatalogsActive && (
-                            <button type='button' className='card__button-show' onClick={onCardButtonOpenClick}>Открыть</button>
+                            <p className='table__button-show' onClick={onCardButtonOpenClick}>Открыть</p>
                         )}
                         {isArtObjectsActive && (
-                            <button type='button' className='card__button-show' onClick={onCardButtonShowClick}>Просмотр</button>
+                            <p className='table__button-show' onClick={onCardButtonShowClick}>Просмотр</p>
                         )}
-                        <img className='card__button-checkbox' alt='Чекбокс' src={isCheckboxActive ? activeCheckbox : disabledCheckbox} onClick={onCatalogSelectClick} />
+                        <img className='table__button-checkbox' alt='Чекбокс' src={isCheckboxActive ? activeCheckbox : disabledCheckbox} onClick={onCatalogSelectClick} />
                     </div>
                 </>
             )}
@@ -144,4 +143,4 @@ function Card(props) {
 
 }
 
-export default Card;
+export default Table;

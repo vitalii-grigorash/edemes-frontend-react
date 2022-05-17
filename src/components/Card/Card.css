@@ -1,7 +1,7 @@
 .card {
     display: flex;
     flex-direction: column;
-    width: 244px;
+    width: 240px;
     height: 233px;
     border-radius: 4px;
     overflow: hidden;
@@ -83,4 +83,19 @@
     color: #666666;
     opacity: 0.9;
     margin: auto auto auto 0;
+}
+@media screen and (max-width: 1168px) {
+    .card {
+        width: 295px;
+    }
+}
+@media screen and (max-width: 1022px) {
+    .card {
+        width: 294px;
+    }
+}
+@media screen and (max-width: 740px) {
+    .card {
+        width: 319px;
+    }
 }

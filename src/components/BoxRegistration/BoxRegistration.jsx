@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { YMaps, Map, GeoObject } from 'react-yandex-maps';
 import { Validation } from '../../utils/Validation';
-// import BoxRegistrationExhibitsData from '../../utils/BoxRegistrationExhibitsData.json';
 import * as BoxRegistrationApi from '../../Api/BoxRegistrationApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Cards from '../Cards/Cards';
@@ -25,7 +24,6 @@ function BoxRegistration(props) {
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
-
     const { pathname } = useLocation();
     const [isBoxRegistrationGeneralInformationActive, setBoxRegistrationGeneralInformationActive] = useState(false);
     const [isBoxRegistrationExhibitsActive, setBoxRegistrationExhibitsActive] = useState(false);
@@ -34,38 +32,30 @@ function BoxRegistration(props) {
     const [locations, setLocations] = useState([]);
     const [companies, setCompanies] = useState([]);
     const [companyLocations, setCompanyLocations] = useState([]);
-
     const [isSelectRouteFromActive, setSelectRouteFromActive] = useState(false);
     const [isRouteFromSelected, setRouteFromSelected] = useState(false);
     const [selectedRouteFrom, setSelectedRouteFrom] = useState('Выберите адрес');
     const [locationIdFrom, setLocationIdFrom] = useState('');
     const [coordinatesFrom, setCoordinatesFrom] = useState({});
-
     const [isSelectRouteToActive, setSelectRouteToActive] = useState(false);
     const [isRouteToSelected, setRouteToSelected] = useState(false);
     const [selectedRouteTo, setSelectedRouteTo] = useState('Выберите компанию');
     const [companyIdTo, setCompanyIdTo] = useState('');
-
     const [isSelectAddressActive, setSelectAddressActive] = useState(false);
     const [isAddressSelected, setAddressSelected] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState('Выберите адрес');
     const [locationIdTo, setLocationIdTo] = useState('');
     const [coordinatesTo, setCoordinatesTo] = useState({});
-
     const [recipientCompanyName, setRecipientCompanyName] = useState('');
     const [totalArtObjectsPrice, setTotalArtObjectsPrice] = useState('');
-
     const [isConditionsActive, setConditionsActive] = useState(false);
     const [condition, setCondition] = useState('Выберите условие');
     const [isConditionSelected, setConditionSelected] = useState(false);
-
     const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
-
     const [isCatalogsActive, setCatalogsActive] = useState(true);
     const [isArtObjectsActive, setArtObjectsActive] = useState(false);
     const [isArtObjectInfoOpen, setArtObjectInfoOpen] = useState(false);
     const [artObject, setArtObject] = useState({});
-
     const [isSelectedArtObjectsActive, setSelectedArtObjectsActive] = useState(false);
 
     function onShowAddedArtObjectsClick() {
@@ -426,6 +416,19 @@ function BoxRegistration(props) {
                 </div>
                 <div className='box-registration__heading-mobile-container'>
                     <p className='box-registration__heading-mobile'>{mobileHeading()}</p>
+                    {isBoxRegistrationExhibitsActive && (
+                        <>
+                            {!isArtObjectInfoOpen && (
+                                <div className='box-registration__added-container' onClick={onShowAddedArtObjectsClick}>
+                                    <div className='box-registration__added-img-container'>
+                                        <div className='box-registration__added-value-container'>
+                                            <p className='box-registration__added-value'>{selectedArtObjects.length}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
                 {isBoxRegistrationGeneralInformationActive &&
                     <div className='box-registration-general-information'>

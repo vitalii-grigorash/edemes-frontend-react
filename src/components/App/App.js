@@ -55,6 +55,7 @@ function App() {
   }
 
   function onSelectCatalogClick(card) {
+    console.log(card)
     Catalogs.getCatalog(card.id)
       .then((data) => {
         const filteredItems = selectedArtObjects.filter(selectedArtObject => data.artObjects.find(artObject => artObject.id === selectedArtObject.id))

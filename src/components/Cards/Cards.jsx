@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Validation } from '../../utils/Validation';
 import Card from '../Card/Card';
+import Table from '../Table/Table';
 import ArtObjectInfo from '../ArtObjectInfo/ArtObjectInfo';
+import TablePagination from '../TablePagination/TablePagination';
 
 function Cards(props) {
 
@@ -27,6 +29,72 @@ function Cards(props) {
     const searchInput = Validation();
     const [isCardActive, setCardActive] = useState(true);
     const [isTableActive, setTableActive] = useState(false);
+    const [isCatalogNameActive, setCatalogNameActive] = useState(false);
+    const [openedCatalogName, setOpenedCatalogName] = useState('');
+    const [isSelctedArtObjectsHeadingActive, setSelctedArtObjectsHeadingActive] = useState(false);
+    const [showResultsFromCatalogs, setShowResultsFromCatalogs] = useState(0);
+    const [resultsShowCatalogs, setResultsShowCatalogs] = useState(10);
+    const [showResultsFromArtObject, setShowResultsFromArtObject] = useState(0);
+    const [resultsShowArtObject, setResultsShowArtObject] = useState(10);
+    const [showResultsFromSelectedArtObjects, setShowResultsFromSelectedArtObjects] = useState(0);
+    const [resultsShowSelectedArtObjects, setResultsShowSelectedArtObjects] = useState(10);
+    const [dataForPagination, setDataForPagination] = useState([]);
+
+    function handleShowResultsFrom(value) {
+        if (isCatalogsActive) {
+            setShowResultsFromCatalogs(value);
+        } else if (isArtObjectsActive) {
+            setShowResultsFromArtObject(value);
+        } else if (isSelectedArtObjectsActive) {
+            setShowResultsFromSelectedArtObjects(value);
+        }
+    }
+
+    function handleResultsShow(value) {
+        if (isCatalogsActive) {
+            setResultsShowCatalogs(value);
+        } else if (isArtObjectsActive) {
+            setResultsShowArtObject(value);
+        } else if (isSelectedArtObjectsActive) {
+            setResultsShowSelectedArtObjects(value);
+        }
+    }
+
+    useEffect(() => {
+        if (isCatalogsActive) {
+            setDataForPagination(catalogs);
+            setShowResultsFromCatalogs(0);
+            setResultsShowCatalogs(10);
+        } else if (isArtObjectsActive) {
+            setDataForPagination(artObjects);
+            setShowResultsFromArtObject(0);
+            setResultsShowArtObject(10);
+        } else if (isSelectedArtObjectsActive) {
+            setDataForPagination(selectedArtObjects);
+            setShowResultsFromSelectedArtObjects(0);
+            setResultsShowSelectedArtObjects(10);
+        }
+        console.log('Hello');
+    }, [isCatalogsActive, catalogs, isArtObjectsActive, artObjects, isSelectedArtObjectsActive, selectedArtObjects]);
+
+    function showCatalogName(catalog) {
+        setCatalogNameActive(true);
+        setOpenedCatalogName(catalog.name);
+    }
+
+    useEffect(() => {
+        if (isCatalogsActive) {
+            setCatalogNameActive(false);
+            setSelctedArtObjectsHeadingActive(false);
+        }
+    }, [isCatalogsActive]);
+
+    useEffect(() => {
+        if (isSelectedArtObjectsActive) {
+            setSelctedArtObjectsHeadingActive(true);
+            setCatalogNameActive(false);
+        }
+    }, [isSelectedArtObjectsActive]);
 
     const foundText = (array) => {
         const value = array.length % 10;
@@ -87,6 +155,12 @@ function Cards(props) {
         <div className="cards">
             {!isArtObjectInfoOpen ? (
                 <>
+                    {isCatalogNameActive && (
+                        <p className='cards__under-heading-text'>Каталог: {openedCatalogName}</p>
+                    )}
+                    {isSelctedArtObjectsHeadingActive && (
+                        <p className='cards__under-heading-text'>Добавленные экспонаты</p>
+                    )}
                     <div className='cards__heading-container'>
                         <div className='cards__search-container'>
                             <div className='cards__search-icon' />
@@ -144,6 +218,7 @@ function Cards(props) {
                                             handleArtObjectsActive={handleArtObjectsActive}
                                             showArtObjectInfo={showArtObjectInfo}
                                             selectedArtObjects={selectedArtObjects}
+                                            showCatalogName={showCatalogName}
                                         />
                                     ))}
                                 </>
@@ -168,6 +243,7 @@ function Cards(props) {
                                                     handleArtObjectsActive={handleArtObjectsActive}
                                                     showArtObjectInfo={showArtObjectInfo}
                                                     selectedArtObjects={selectedArtObjects}
+                                                    showCatalogName={showCatalogName}
                                                 />
                                             ))}
                                         </>
@@ -198,6 +274,7 @@ function Cards(props) {
                                                     handleArtObjectsActive={handleArtObjectsActive}
                                                     showArtObjectInfo={showArtObjectInfo}
                                                     selectedArtObjects={selectedArtObjects}
+                                                    showCatalogName={showCatalogName}
                                                 />
                                             ))}
                                         </>
@@ -212,7 +289,110 @@ function Cards(props) {
                     )}
                     {isTableActive && (
                         <div className='cards__table'>
-
+                            <div className='cards__table-heading-row-container'>
+                                <p className='cards__table-heading-row-text cards__table-heading-row-text_name'>Название</p>
+                                <p className='cards__table-heading-row-text'>{isCatalogsActive ? 'Добавлено экспонатов' : 'Описание'}</p>
+                            </div>
+                            {isCatalogsActive && (
+                                <>
+                                    {catalogs.slice(showResultsFromCatalogs, resultsShowCatalogs).map((catalog) => (
+                                        <Table
+                                            isCatalogsActive={isCatalogsActive}
+                                            isArtObjectsActive={isArtObjectsActive}
+                                            isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+                                            key={catalog.id}
+                                            id={catalog.id}
+                                            card={catalog}
+                                            name={catalog.name}
+                                            picture={catalog.picture}
+                                            onSelectCardClick={onSelectCatalogClick}
+                                            onDeselectCardClick={onDeselectCatalogClick}
+                                            onOpenCatalogClick={onOpenCatalogClick}
+                                            handleArtObjectsActive={handleArtObjectsActive}
+                                            showArtObjectInfo={showArtObjectInfo}
+                                            selectedArtObjects={selectedArtObjects}
+                                            showCatalogName={showCatalogName}
+                                        />
+                                    ))}
+                                    <TablePagination
+                                        sortList={dataForPagination}
+                                        handleShowResultsFrom={handleShowResultsFrom}
+                                        handleResultsShow={handleResultsShow}
+                                    />
+                                </>
+                            )}
+                            {isArtObjectsActive && (
+                                <>
+                                    {artObjects.length !== 0 ? (
+                                        <>
+                                            {artObjects.slice(showResultsFromArtObject, resultsShowArtObject).map((artObject) => (
+                                                <Table
+                                                    isCatalogsActive={isCatalogsActive}
+                                                    isArtObjectsActive={isArtObjectsActive}
+                                                    isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+                                                    key={artObject.id}
+                                                    id={artObject.id}
+                                                    card={artObject}
+                                                    name={artObject.name}
+                                                    picture={artObject.photo}
+                                                    onSelectCardClick={onSelectArtObjectClick}
+                                                    onDeselectCardClick={onDeselectArtObjectClick}
+                                                    onOpenCatalogClick={onOpenCatalogClick}
+                                                    handleArtObjectsActive={handleArtObjectsActive}
+                                                    showArtObjectInfo={showArtObjectInfo}
+                                                    selectedArtObjects={selectedArtObjects}
+                                                    showCatalogName={showCatalogName}
+                                                />
+                                            ))}
+                                        </>
+                                    ) : (
+                                        <div className='cards__table-not-found'>
+                                            <p className='cards__table-not-found-text'>В каталоге нет экспонатов</p>
+                                        </div>
+                                    )}
+                                    <TablePagination
+                                        sortList={dataForPagination}
+                                        handleShowResultsFrom={handleShowResultsFrom}
+                                        handleResultsShow={handleResultsShow}
+                                    />
+                                </>
+                            )}
+                            {isSelectedArtObjectsActive && (
+                                <>
+                                    {selectedArtObjects.length !== 0 ? (
+                                        <>
+                                            {selectedArtObjects.slice(showResultsFromSelectedArtObjects, resultsShowSelectedArtObjects).map((artObject) => (
+                                                <Table
+                                                    isCatalogsActive={isCatalogsActive}
+                                                    isArtObjectsActive={isArtObjectsActive}
+                                                    isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+                                                    key={artObject.id}
+                                                    id={artObject.id}
+                                                    card={artObject}
+                                                    name={artObject.name}
+                                                    picture={artObject.photo}
+                                                    onSelectCardClick={onSelectArtObjectClick}
+                                                    onDeselectCardClick={onDeselectArtObjectClick}
+                                                    onOpenCatalogClick={onOpenCatalogClick}
+                                                    handleArtObjectsActive={handleArtObjectsActive}
+                                                    showArtObjectInfo={showArtObjectInfo}
+                                                    selectedArtObjects={selectedArtObjects}
+                                                    showCatalogName={showCatalogName}
+                                                />
+                                            ))}
+                                        </>
+                                    ) : (
+                                        <div className='cards__table-not-found'>
+                                            <p className='cards__table-not-found-text'>Необходимо добавить экспонаты</p>
+                                        </div>
+                                    )}
+                                    <TablePagination
+                                        sortList={dataForPagination}
+                                        handleShowResultsFrom={handleShowResultsFrom}
+                                        handleResultsShow={handleResultsShow}
+                                    />
+                                </>
+                            )}
                         </div>
                     )}
                 </>
