@@ -12,12 +12,15 @@ function BoxRegistration(props) {
     const {
         handleMobileHeaderNavText,
         getCatalogs,
-        catalogs,
+        // catalogs,
+        catalogsForRender,
         onSelectCatalogClick,
         onDeselectCatalogClick,
         selectedArtObjects,
+        selectedArtObjectsForRender,
         onOpenCatalogClick,
-        artObjects,
+        // artObjects,
+        artObjectsForRender,
         onSelectArtObjectClick,
         onDeselectArtObjectClick,
         resetSelectedArtObjects,
@@ -552,12 +555,15 @@ function BoxRegistration(props) {
                 }
                 {isBoxRegistrationExhibitsActive &&
                     <Cards
-                        catalogs={catalogs}
+                        // catalogs={catalogs}
+                        catalogsForRender={catalogsForRender}
                         onSelectCatalogClick={onSelectCatalogClick}
                         onDeselectCatalogClick={onDeselectCatalogClick}
                         selectedArtObjects={selectedArtObjects}
+                        selectedArtObjectsForRender={selectedArtObjectsForRender}
                         onOpenCatalogClick={onOpenCatalogClick}
-                        artObjects={artObjects}
+                        // artObjects={artObjects}
+                        artObjectsForRender={artObjectsForRender}
                         onSelectArtObjectClick={onSelectArtObjectClick}
                         onDeselectArtObjectClick={onDeselectArtObjectClick}
                         handleArtObjectsActive={handleArtObjectsActive}

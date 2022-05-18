@@ -86,15 +86,25 @@ function App() {
       if (boxRegistrationArtObjectsInput === '') {
         setArtObjectsForRender(artObjects);
       } else {
-        setArtObjectsForRender([]);
-        console.log('Экспонаты: ' + boxRegistrationArtObjectsInput);
+        const dataForRender = [];
+        artObjects.forEach((artObject) => {
+          if (artObject.name.toLowerCase().includes(boxRegistrationArtObjectsInput.toLowerCase())) {
+            dataForRender.push(artObject);
+          }
+        })
+        setArtObjectsForRender(dataForRender);
       }
     } else if (isSelectedArtObjectsActive) {
       if (boxRegistrationSelectedArtObjectsInput === '') {
         setSelectedArtObjectsForRender(selectedArtObjects);
       } else {
-        setSelectedArtObjectsForRender([]);
-        console.log('Выбранные экспонаты: ' + boxRegistrationSelectedArtObjectsInput);
+        const dataForRender = [];
+        selectedArtObjects.forEach((selectedArtObject) => {
+          if (selectedArtObject.name.toLowerCase().includes(boxRegistrationSelectedArtObjectsInput.toLowerCase())) {
+            dataForRender.push(selectedArtObject);
+          }
+        })
+        setSelectedArtObjectsForRender(dataForRender);
       }
     }
   },
@@ -110,10 +120,6 @@ function App() {
       boxRegistrationSelectedArtObjectsInput
     ]
   );
-
-  console.log(catalogsForRender);
-  console.log(artObjectsForRender);
-  console.log(selectedArtObjectsForRender);
 
   function onShowAddedArtObjectsClick() {
     setArtObjectsActive(false);
@@ -364,12 +370,15 @@ function App() {
             component={BoxRegistration}
             handleMobileHeaderNavText={handleMobileHeaderNavText}
             getCatalogs={getCatalogs}
-            catalogs={catalogs}
+            // catalogs={catalogs}
+            catalogsForRender={catalogsForRender}
             onSelectCatalogClick={onSelectCatalogClick}
             onDeselectCatalogClick={onDeselectCatalogClick}
             selectedArtObjects={selectedArtObjects}
+            selectedArtObjectsForRender={selectedArtObjectsForRender}
             onOpenCatalogClick={onOpenCatalogClick}
-            artObjects={artObjects}
+            // artObjects={artObjects}
+            artObjectsForRender={artObjectsForRender}
             onSelectArtObjectClick={onSelectArtObjectClick}
             onDeselectArtObjectClick={onDeselectArtObjectClick}
             resetSelectedArtObjects={resetSelectedArtObjects}
