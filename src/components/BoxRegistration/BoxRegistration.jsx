@@ -62,7 +62,6 @@ function BoxRegistration(props) {
         setArtObjectsActive(false);
         setCatalogsActive(false);
         setSelectedArtObjectsActive(true);
-        console.log(selectedArtObjects);
     }
 
     function handleArtObjectsActive() {

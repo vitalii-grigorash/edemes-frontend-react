@@ -74,7 +74,6 @@ function Cards(props) {
             setShowResultsFromSelectedArtObjects(0);
             setResultsShowSelectedArtObjects(10);
         }
-        console.log('Hello');
     }, [isCatalogsActive, catalogs, isArtObjectsActive, artObjects, isSelectedArtObjectsActive, selectedArtObjects]);
 
     function showCatalogName(catalog) {

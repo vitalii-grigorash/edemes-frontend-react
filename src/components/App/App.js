@@ -55,11 +55,10 @@ function App() {
   }
 
   function onSelectCatalogClick(card) {
-    console.log(card)
     Catalogs.getCatalog(card.id)
       .then((data) => {
         const filteredItems = selectedArtObjects.filter(selectedArtObject => data.artObjects.find(artObject => artObject.id === selectedArtObject.id))
-        const filter = data.artObjects.filter(artObject => filteredItems.find(filteredItem => artObject.id !== filteredItem.id));
+        let filter = data.artObjects.filter(artObject => filteredItems.every(filteredItem => filteredItem.id !== artObject.id));
         if (filter.length === 0) {
           data.artObjects.forEach(artObject => setSelectedArtObjects(selectedArtObjects => [...selectedArtObjects, artObject]));
         } else {
@@ -189,7 +188,6 @@ function App() {
   }
 
   function addUser(newUser) {
-    console.log(newUser);
     Auth.addNewUser(newUser)
       .then(() => {
         setAddNewUserError('');
