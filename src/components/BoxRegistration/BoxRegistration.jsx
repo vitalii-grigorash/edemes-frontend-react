@@ -20,7 +20,25 @@ function BoxRegistration(props) {
         artObjects,
         onSelectArtObjectClick,
         onDeselectArtObjectClick,
-        resetSelectedArtObjects
+        resetSelectedArtObjects,
+        handleCardActive,
+        handleTableActive,
+        isCardActive,
+        isTableActive,
+        boxRegistrationSearchInput,
+        onShowAddedArtObjectsClick,
+        handleArtObjectsActive,
+        showArtObjectInfo,
+        catalogsBackClick,
+        artObjectsBackClick,
+        isCatalogsActive,
+        isArtObjectsActive,
+        isArtObjectInfoOpen,
+        artObject,
+        isSelectedArtObjectsActive,
+        searchInputCatalogs,
+        searchInputArtObjects,
+        searchInputSelectedArtObjects
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -52,40 +70,6 @@ function BoxRegistration(props) {
     const [condition, setCondition] = useState('Выберите условие');
     const [isConditionSelected, setConditionSelected] = useState(false);
     const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
-    const [isCatalogsActive, setCatalogsActive] = useState(true);
-    const [isArtObjectsActive, setArtObjectsActive] = useState(false);
-    const [isArtObjectInfoOpen, setArtObjectInfoOpen] = useState(false);
-    const [artObject, setArtObject] = useState({});
-    const [isSelectedArtObjectsActive, setSelectedArtObjectsActive] = useState(false);
-
-    function onShowAddedArtObjectsClick() {
-        setArtObjectsActive(false);
-        setCatalogsActive(false);
-        setSelectedArtObjectsActive(true);
-    }
-
-    function handleArtObjectsActive() {
-        setArtObjectsActive(true);
-        setCatalogsActive(false);
-    }
-
-    function showArtObjectInfo(artObject) {
-        setArtObjectsActive(false);
-        setCatalogsActive(false);
-        setArtObjectInfoOpen(true);
-        setArtObject(artObject);
-    }
-
-    function catalogsBackClick() {
-        setArtObjectsActive(false);
-        setSelectedArtObjectsActive(false);
-        setCatalogsActive(true);
-    }
-
-    function artObjectsBackClick() {
-        setArtObjectInfoOpen(false);
-        setArtObjectsActive(true);
-    }
 
     const myGeoObject = {
         geometry: {
@@ -336,6 +320,9 @@ function BoxRegistration(props) {
         humidity.setValue('');
         temperatureMin.setValue('');
         temperatureMax.setValue('');
+        searchInputCatalogs.setValue('');
+        searchInputArtObjects.setValue('');
+        searchInputSelectedArtObjects.setValue('');
         setCompanyLocations([]);
         setSelectRouteFromActive(false);
         setRouteFromSelected(false);
@@ -581,6 +568,14 @@ function BoxRegistration(props) {
                         artObject={artObject}
                         onShowAddedArtObjectsClick={onShowAddedArtObjectsClick}
                         isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+                        isCardActive={isCardActive}
+                        handleCardActive={handleCardActive}
+                        isTableActive={isTableActive}
+                        handleTableActive={handleTableActive}
+                        boxRegistrationSearchInput={boxRegistrationSearchInput}
+                        searchInputCatalogs={searchInputCatalogs}
+                        searchInputArtObjects={searchInputArtObjects}
+                        searchInputSelectedArtObjects={searchInputSelectedArtObjects}
                     />
                 }
                 {isBoxRegistrationRouteActive &&

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Validation } from '../../utils/Validation';
 import Card from '../Card/Card';
 import Table from '../Table/Table';
 import ArtObjectInfo from '../ArtObjectInfo/ArtObjectInfo';
@@ -24,11 +23,16 @@ function Cards(props) {
         artObject,
         onShowAddedArtObjectsClick,
         isSelectedArtObjectsActive,
+        isCardActive,
+        handleCardActive,
+        isTableActive,
+        handleTableActive,
+        boxRegistrationSearchInput,
+        searchInputCatalogs,
+        searchInputArtObjects,
+        searchInputSelectedArtObjects
     } = props;
 
-    const searchInput = Validation();
-    const [isCardActive, setCardActive] = useState(true);
-    const [isTableActive, setTableActive] = useState(false);
     const [isCatalogNameActive, setCatalogNameActive] = useState(false);
     const [openedCatalogName, setOpenedCatalogName] = useState('');
     const [isSelctedArtObjectsHeadingActive, setSelctedArtObjectsHeadingActive] = useState(false);
@@ -135,20 +139,30 @@ function Cards(props) {
         return 'каталогов'
     }
 
-    function onSearchButtonClick() {
-        console.log(searchInput.value);
-        searchInput.setValue('');
-    }
+    useEffect(() => {
+        if (isCatalogsActive) {
+            boxRegistrationSearchInput(searchInputCatalogs.value);
+        } else if (isArtObjectsActive) {
+            boxRegistrationSearchInput(searchInputArtObjects.value);
+        } else if (isSelectedArtObjectsActive) {
+            boxRegistrationSearchInput(searchInputSelectedArtObjects.value);
+        }
+    },
+        [
+            boxRegistrationSearchInput,
+            isCatalogsActive,
+            searchInputCatalogs.value,
+            isArtObjectsActive,
+            searchInputArtObjects.value,
+            isSelectedArtObjectsActive,
+            searchInputSelectedArtObjects.value
+        ]
+    );
 
-    function handleCardActive() {
-        setTableActive(false);
-        setCardActive(true);
-    }
-
-    function handleTableActive() {
-        setCardActive(false);
-        setTableActive(true);
-    }
+    // function onSearchButtonClick() {
+    //     console.log(searchInput.value);
+    //     searchInput.setValue('');
+    // }
 
     return (
         <div className="cards">
@@ -161,18 +175,48 @@ function Cards(props) {
                         <p className='cards__under-heading-text'>Добавленные экспонаты</p>
                     )}
                     <div className='cards__heading-container'>
-                        <div className='cards__search-container'>
-                            <div className='cards__search-icon' />
-                            <input
-                                type="text"
-                                className='cards__search-input'
-                                name="searchInput"
-                                placeholder='Поиск'
-                                value={searchInput.value}
-                                onChange={searchInput.onChange}
-                            />
-                            <button type='button' className='cards__search-button' onClick={onSearchButtonClick}>Поиск</button>
-                        </div>
+                        {isCatalogsActive && (
+                            <div className='cards__search-container'>
+                                <div className='cards__search-icon' />
+                                <input
+                                    type="text"
+                                    className='cards__search-input'
+                                    name="searchInput"
+                                    placeholder='Поиск'
+                                    value={searchInputCatalogs.value}
+                                    onChange={searchInputCatalogs.onChange}
+                                />
+                                {/* <button type='button' className='cards__search-button' onClick={onSearchButtonClick}>Поиск</button> */}
+                            </div>
+                        )}
+                        {isArtObjectsActive && (
+                            <div className='cards__search-container'>
+                                <div className='cards__search-icon' />
+                                <input
+                                    type="text"
+                                    className='cards__search-input'
+                                    name="searchInput"
+                                    placeholder='Поиск'
+                                    value={searchInputArtObjects.value}
+                                    onChange={searchInputArtObjects.onChange}
+                                />
+                                {/* <button type='button' className='cards__search-button' onClick={onSearchButtonClick}>Поиск</button> */}
+                            </div>
+                        )}
+                        {isSelectedArtObjectsActive && (
+                            <div className='cards__search-container'>
+                                <div className='cards__search-icon' />
+                                <input
+                                    type="text"
+                                    className='cards__search-input'
+                                    name="searchInput"
+                                    placeholder='Поиск'
+                                    value={searchInputSelectedArtObjects.value}
+                                    onChange={searchInputSelectedArtObjects.onChange}
+                                />
+                                {/* <button type='button' className='cards__search-button' onClick={onSearchButtonClick}>Поиск</button> */}
+                            </div>
+                        )}
                         <div className='cards__added-container' onClick={onShowAddedArtObjectsClick}>
                             <div className='cards__added-img-container'>
                                 <div className='cards__added-value-container'>

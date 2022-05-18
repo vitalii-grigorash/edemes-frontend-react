@@ -14,11 +14,16 @@ import Fixation from "../Fixation/Fixation";
 import FixationHistory from "../FixationHistory/FixationHistory";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
+import { Validation } from '../../utils/Validation';
 import * as Auth from "../../Api/Auth";
 import * as Catalogs from "../../Api/Catalogs";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function App() {
+
+  const searchInputCatalogs = Validation();
+  const searchInputArtObjects = Validation();
+  const searchInputSelectedArtObjects = Validation();
 
   const history = useHistory();
   const { pathname } = useLocation();
@@ -33,13 +38,127 @@ function App() {
   const [registerError, setRegisterError] = useState('');
   const [addNewUserError, setAddNewUserError] = useState('');
   const [isAuthValidate, setAuthValidate] = useState(true);
+  const [isCardActive, setCardActive] = useState(true);
+  const [isTableActive, setTableActive] = useState(false);
+  const [isArtObjectInfoOpen, setArtObjectInfoOpen] = useState(false);
+  const [artObject, setArtObject] = useState({});
+
   const [catalogs, setCatalogs] = useState([]);
-  const [selectedArtObjects, setSelectedArtObjects] = useState([]);
   const [artObjects, setArtObjects] = useState([]);
+  const [selectedArtObjects, setSelectedArtObjects] = useState([]);
+
+  const [catalogsForRender, setCatalogsForRender] = useState([]);
+  const [artObjectsForRender, setArtObjectsForRender] = useState([]);
+  const [selectedArtObjectsForRender, setSelectedArtObjectsForRender] = useState([]);
+
+  const [isCatalogsActive, setCatalogsActive] = useState(true);
+  const [isArtObjectsActive, setArtObjectsActive] = useState(false);
+  const [isSelectedArtObjectsActive, setSelectedArtObjectsActive] = useState(false);
+
+  const [boxRegistrationCatalogsInput, setBoxRegistrationCatalogsInput] = useState('');
+  const [boxRegistrationArtObjectsInput, setBoxRegistrationArtObjectsInput] = useState('');
+  const [boxRegistrationSelectedArtObjectsInput, setBoxRegistrationSelectedArtObjectsInput] = useState('');
+
+  function boxRegistrationSearchInput(value) {
+    if (isCatalogsActive) {
+      setBoxRegistrationCatalogsInput(value);
+    } else if (isArtObjectsActive) {
+      setBoxRegistrationArtObjectsInput(value);
+    } else if (isSelectedArtObjectsActive) {
+      setBoxRegistrationSelectedArtObjectsInput(value);
+    }
+  }
+
+  useEffect(() => {
+    if (isCatalogsActive) {
+      if (boxRegistrationCatalogsInput === '') {
+        setCatalogsForRender(catalogs);
+      } else {
+        const dataForRender = [];
+        catalogs.forEach((catalog) => {
+          if (catalog.name.toLowerCase().includes(boxRegistrationCatalogsInput.toLowerCase())) {
+            dataForRender.push(catalog);
+          }
+        })
+        setCatalogsForRender(dataForRender);
+      }
+    } else if (isArtObjectsActive) {
+      if (boxRegistrationArtObjectsInput === '') {
+        setArtObjectsForRender(artObjects);
+      } else {
+        setArtObjectsForRender([]);
+        console.log('Экспонаты: ' + boxRegistrationArtObjectsInput);
+      }
+    } else if (isSelectedArtObjectsActive) {
+      if (boxRegistrationSelectedArtObjectsInput === '') {
+        setSelectedArtObjectsForRender(selectedArtObjects);
+      } else {
+        setSelectedArtObjectsForRender([]);
+        console.log('Выбранные экспонаты: ' + boxRegistrationSelectedArtObjectsInput);
+      }
+    }
+  },
+    [
+      catalogs,
+      isCatalogsActive,
+      boxRegistrationCatalogsInput,
+      artObjects,
+      isArtObjectsActive,
+      boxRegistrationArtObjectsInput,
+      selectedArtObjects,
+      isSelectedArtObjectsActive,
+      boxRegistrationSelectedArtObjectsInput
+    ]
+  );
+
+  console.log(catalogsForRender);
+  console.log(artObjectsForRender);
+  console.log(selectedArtObjectsForRender);
+
+  function onShowAddedArtObjectsClick() {
+    setArtObjectsActive(false);
+    setCatalogsActive(false);
+    searchInputSelectedArtObjects.setValue('');
+    setSelectedArtObjectsActive(true);
+  }
+
+  function handleArtObjectsActive() {
+    searchInputArtObjects.setValue('');
+    setArtObjectsActive(true);
+    setCatalogsActive(false);
+  }
+
+  function showArtObjectInfo(artObject) {
+    setArtObjectsActive(false);
+    setCatalogsActive(false);
+    setArtObjectInfoOpen(true);
+    setArtObject(artObject);
+  }
+
+  function catalogsBackClick() {
+    setArtObjectsActive(false);
+    setSelectedArtObjectsActive(false);
+    setCatalogsActive(true);
+  }
+
+  function artObjectsBackClick() {
+    setArtObjectInfoOpen(false);
+    setArtObjectsActive(true);
+  }
 
   const userDefaultName = {
     lastName: "Неизвестный",
     firstName: "Пользователь"
+  }
+
+  function handleCardActive() {
+    setTableActive(false);
+    setCardActive(true);
+  }
+
+  function handleTableActive() {
+    setCardActive(false);
+    setTableActive(true);
   }
 
   function resetSelectedArtObjects() {
@@ -58,7 +177,7 @@ function App() {
     Catalogs.getCatalog(card.id)
       .then((data) => {
         const filteredItems = selectedArtObjects.filter(selectedArtObject => data.artObjects.find(artObject => artObject.id === selectedArtObject.id))
-        let filter = data.artObjects.filter(artObject => filteredItems.every(filteredItem => filteredItem.id !== artObject.id));
+        const filter = data.artObjects.filter(artObject => filteredItems.every(filteredItem => filteredItem.id !== artObject.id));
         if (filter.length === 0) {
           data.artObjects.forEach(artObject => setSelectedArtObjects(selectedArtObjects => [...selectedArtObjects, artObject]));
         } else {
@@ -254,6 +373,24 @@ function App() {
             onSelectArtObjectClick={onSelectArtObjectClick}
             onDeselectArtObjectClick={onDeselectArtObjectClick}
             resetSelectedArtObjects={resetSelectedArtObjects}
+            handleCardActive={handleCardActive}
+            handleTableActive={handleTableActive}
+            isCardActive={isCardActive}
+            isTableActive={isTableActive}
+            boxRegistrationSearchInput={boxRegistrationSearchInput}
+            onShowAddedArtObjectsClick={onShowAddedArtObjectsClick}
+            handleArtObjectsActive={handleArtObjectsActive}
+            showArtObjectInfo={showArtObjectInfo}
+            catalogsBackClick={catalogsBackClick}
+            artObjectsBackClick={artObjectsBackClick}
+            isCatalogsActive={isCatalogsActive}
+            isArtObjectsActive={isArtObjectsActive}
+            isArtObjectInfoOpen={isArtObjectInfoOpen}
+            artObject={artObject}
+            isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+            searchInputCatalogs={searchInputCatalogs}
+            searchInputArtObjects={searchInputArtObjects}
+            searchInputSelectedArtObjects={searchInputSelectedArtObjects}
           />
 
           <ProtectedRoute exact path="/tracking"
