@@ -12,14 +12,12 @@ function BoxRegistration(props) {
     const {
         handleMobileHeaderNavText,
         getCatalogs,
-        // catalogs,
         catalogsForRender,
         onSelectCatalogClick,
         onDeselectCatalogClick,
         selectedArtObjects,
         selectedArtObjectsForRender,
         onOpenCatalogClick,
-        // artObjects,
         artObjectsForRender,
         onSelectArtObjectClick,
         onDeselectArtObjectClick,
@@ -345,6 +343,10 @@ function BoxRegistration(props) {
         setCondition('Выберите условие');
         setConditionSelected(false);
         resetSelectedArtObjects();
+        setBoxRegistrationGeneralInformationActive(false);
+        setBoxRegistrationExhibitsActive(false);
+        setBoxRegistrationQrCodeActive(false);
+        setBoxRegistrationRouteActive(true);
     }
 
     function onRegisterButtonClick() {
@@ -555,14 +557,12 @@ function BoxRegistration(props) {
                 }
                 {isBoxRegistrationExhibitsActive &&
                     <Cards
-                        // catalogs={catalogs}
                         catalogsForRender={catalogsForRender}
                         onSelectCatalogClick={onSelectCatalogClick}
                         onDeselectCatalogClick={onDeselectCatalogClick}
                         selectedArtObjects={selectedArtObjects}
                         selectedArtObjectsForRender={selectedArtObjectsForRender}
                         onOpenCatalogClick={onOpenCatalogClick}
-                        // artObjects={artObjects}
                         artObjectsForRender={artObjectsForRender}
                         onSelectArtObjectClick={onSelectArtObjectClick}
                         onDeselectArtObjectClick={onDeselectArtObjectClick}

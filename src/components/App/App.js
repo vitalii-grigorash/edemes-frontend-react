@@ -42,22 +42,33 @@ function App() {
   const [isTableActive, setTableActive] = useState(false);
   const [isArtObjectInfoOpen, setArtObjectInfoOpen] = useState(false);
   const [artObject, setArtObject] = useState({});
-
   const [catalogs, setCatalogs] = useState([]);
   const [artObjects, setArtObjects] = useState([]);
   const [selectedArtObjects, setSelectedArtObjects] = useState([]);
-
   const [catalogsForRender, setCatalogsForRender] = useState([]);
   const [artObjectsForRender, setArtObjectsForRender] = useState([]);
   const [selectedArtObjectsForRender, setSelectedArtObjectsForRender] = useState([]);
-
   const [isCatalogsActive, setCatalogsActive] = useState(true);
   const [isArtObjectsActive, setArtObjectsActive] = useState(false);
   const [isSelectedArtObjectsActive, setSelectedArtObjectsActive] = useState(false);
-
   const [boxRegistrationCatalogsInput, setBoxRegistrationCatalogsInput] = useState('');
   const [boxRegistrationArtObjectsInput, setBoxRegistrationArtObjectsInput] = useState('');
   const [boxRegistrationSelectedArtObjectsInput, setBoxRegistrationSelectedArtObjectsInput] = useState('');
+
+  useEffect(() => {
+    if (pathname === '/box-registration' || pathname === '/catalog') {
+      setCardActive(true);
+      setTableActive(false);
+      setArtObjectInfoOpen(false);
+      setCatalogsActive(true);
+      setArtObjectsActive(false);
+      setSelectedArtObjectsActive(false);
+      searchInputCatalogs.setValue('');
+      searchInputArtObjects.setValue('');
+      searchInputSelectedArtObjects.setValue('');
+    }
+    // eslint-disable-next-line
+  }, [pathname]);
 
   function boxRegistrationSearchInput(value) {
     if (isCatalogsActive) {
@@ -370,14 +381,12 @@ function App() {
             component={BoxRegistration}
             handleMobileHeaderNavText={handleMobileHeaderNavText}
             getCatalogs={getCatalogs}
-            // catalogs={catalogs}
             catalogsForRender={catalogsForRender}
             onSelectCatalogClick={onSelectCatalogClick}
             onDeselectCatalogClick={onDeselectCatalogClick}
             selectedArtObjects={selectedArtObjects}
             selectedArtObjectsForRender={selectedArtObjectsForRender}
             onOpenCatalogClick={onOpenCatalogClick}
-            // artObjects={artObjects}
             artObjectsForRender={artObjectsForRender}
             onSelectArtObjectClick={onSelectArtObjectClick}
             onDeselectArtObjectClick={onDeselectArtObjectClick}
@@ -409,12 +418,37 @@ function App() {
           />
 
           <ProtectedRoute exact path="/catalog"
-            getCatalogs={getCatalogs}
-            catalogs={catalogs}
             isLoggedIn={isLoggedIn}
             component={Catalog}
             handleOpenCatalogPopupClick={handleOpenCatalogPopupClick}
             handleMobileHeaderNavText={handleMobileHeaderNavText}
+            catalogsForRender={catalogsForRender}
+            onSelectCatalogClick={onSelectCatalogClick}
+            onDeselectCatalogClick={onDeselectCatalogClick}
+            selectedArtObjects={selectedArtObjects}
+            selectedArtObjectsForRender={selectedArtObjectsForRender}
+            onOpenCatalogClick={onOpenCatalogClick}
+            artObjectsForRender={artObjectsForRender}
+            onSelectArtObjectClick={onSelectArtObjectClick}
+            onDeselectArtObjectClick={onDeselectArtObjectClick}
+            handleArtObjectsActive={handleArtObjectsActive}
+            isCatalogsActive={isCatalogsActive}
+            isArtObjectsActive={isArtObjectsActive}
+            showArtObjectInfo={showArtObjectInfo}
+            isArtObjectInfoOpen={isArtObjectInfoOpen}
+            artObject={artObject}
+            onShowAddedArtObjectsClick={onShowAddedArtObjectsClick}
+            isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+            isCardActive={isCardActive}
+            handleCardActive={handleCardActive}
+            isTableActive={isTableActive}
+            handleTableActive={handleTableActive}
+            boxRegistrationSearchInput={boxRegistrationSearchInput}
+            searchInputCatalogs={searchInputCatalogs}
+            searchInputArtObjects={searchInputArtObjects}
+            searchInputSelectedArtObjects={searchInputSelectedArtObjects}
+            catalogsBackClick={catalogsBackClick}
+            artObjectsBackClick={artObjectsBackClick}
           />
 
           <ProtectedRoute exact path="/users"

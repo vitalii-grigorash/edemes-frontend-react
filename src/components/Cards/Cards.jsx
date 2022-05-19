@@ -3,18 +3,17 @@ import Card from '../Card/Card';
 import Table from '../Table/Table';
 import ArtObjectInfo from '../ArtObjectInfo/ArtObjectInfo';
 import TablePagination from '../TablePagination/TablePagination';
+import { useLocation } from 'react-router-dom';
 
 function Cards(props) {
 
     const {
-        // catalogs,
         catalogsForRender,
         onSelectCatalogClick,
         onDeselectCatalogClick,
         selectedArtObjects,
         selectedArtObjectsForRender,
         onOpenCatalogClick,
-        // artObjects,
         artObjectsForRender,
         onSelectArtObjectClick,
         onDeselectArtObjectClick,
@@ -36,6 +35,7 @@ function Cards(props) {
         searchInputSelectedArtObjects
     } = props;
 
+    const { pathname } = useLocation();
     const [isCatalogNameActive, setCatalogNameActive] = useState(false);
     const [openedCatalogName, setOpenedCatalogName] = useState('');
     const [isSelctedArtObjectsHeadingActive, setSelctedArtObjectsHeadingActive] = useState(false);
@@ -162,20 +162,46 @@ function Cards(props) {
         ]
     );
 
-    // function onSearchButtonClick() {
-    //     console.log(searchInput.value);
-    //     searchInput.setValue('');
-    // }
-
     return (
-        <div className="cards">
+        <div className={`cards ${pathname === '/catalog' && 'cards_catalog'}`}>
             {!isArtObjectInfoOpen ? (
                 <>
-                    {isCatalogNameActive && (
-                        <p className='cards__under-heading-text'>Каталог: {openedCatalogName}</p>
-                    )}
-                    {isSelctedArtObjectsHeadingActive && (
-                        <p className='cards__under-heading-text'>Добавленные экспонаты</p>
+                    {pathname !== '/catalog' ? (
+                        <>
+                            {isCatalogNameActive && (
+                                <p className='cards__under-heading-text'>Каталог: {openedCatalogName}</p>
+                            )}
+                            {isSelctedArtObjectsHeadingActive && (
+                                <p className='cards__under-heading-text'>Добавленные экспонаты</p>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {isCatalogNameActive && (
+                                <p className='cards__under-heading-text-catalog'>Каталог: {openedCatalogName}</p>
+                            )}
+                            {isSelctedArtObjectsHeadingActive && (
+                                <p className='cards__under-heading-text-catalog'>Добавленные экспонаты</p>
+                            )}
+                            <div className='cards__mobile-heading'>
+                                {!isCatalogNameActive && !isSelctedArtObjectsHeadingActive && (
+                                    <p className='cards__mobile-heading-text'>Каталоги</p>
+                                )}
+                                {isCatalogNameActive && (
+                                    <p className='cards__mobile-heading-text'>Каталог: {openedCatalogName}</p>
+                                )}
+                                {isSelctedArtObjectsHeadingActive && (
+                                    <p className='cards__mobile-heading-text'>Добавленные экспонаты</p>
+                                )}
+                                <div className='cards__added-mobile-container' onClick={onShowAddedArtObjectsClick}>
+                                    <div className='cards__added-img-container'>
+                                        <div className='cards__added-value-container'>
+                                            <p className='cards__added-value'>{selectedArtObjects.length}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
                     )}
                     <div className='cards__heading-container'>
                         {isCatalogsActive && (
