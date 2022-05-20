@@ -53,7 +53,7 @@ function SideBar(props) {
                             <div className='side-bar__logo' />
                             <p className='side-bar__logo-text'>эдемес</p>
                         </Link>
-                        <Link to={'#'} className={pathname === '' ? 'side-bar__link-profile side-bar__link-profile_active' : 'side-bar__link-profile'} onClick={onCloseMobileSideBar}>
+                        <Link to={'/profile'} className={pathname === '/profile' ? 'side-bar__link-profile side-bar__link-profile_active' : 'side-bar__link-profile'} onClick={onCloseMobileSideBar}>
                             <div className='side-bar__link-icon side-bar__link-icon_profile' />
                             <p className='side-bar__link-text'>Мой профиль</p>
                         </Link>
@@ -81,7 +81,7 @@ function SideBar(props) {
                             <div className='side-bar__logo' />
                             <p className='side-bar__logo-text'>эдемес</p>
                         </Link>
-                        <Link to={'#'} className={pathname === '' ? 'side-bar__link-profile side-bar__link-profile_active' : 'side-bar__link-profile'} onClick={onCloseMobileSideBar}>
+                        <Link to={'/profile'} className={pathname === '/profile' ? 'side-bar__link-profile side-bar__link-profile_active' : 'side-bar__link-profile'} onClick={onCloseMobileSideBar}>
                             <div className='side-bar__link-icon side-bar__link-icon_profile' />
                             <p className='side-bar__link-text'>Мой профиль</p>
                         </Link>

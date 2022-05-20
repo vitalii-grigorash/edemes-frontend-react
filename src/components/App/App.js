@@ -18,6 +18,7 @@ import { Validation } from '../../utils/Validation';
 import * as Auth from "../../Api/Auth";
 import * as Catalogs from "../../Api/Catalogs";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import Profile from "../Profile/Profile";
 
 function App() {
 
@@ -273,6 +274,7 @@ function App() {
       localStorage.removeItem('user');
     }
     setLoggedIn(false);
+    setCurrentUser({});
     history.push('/login');
   }
 
@@ -305,6 +307,7 @@ function App() {
         login(res.user);
       })
       .catch((err) => {
+        console.log(err);
         setAuthError(err.message);
         if (err.message === 'Неправильная почта или пароль') {
           setAuthValidate(false);
@@ -331,6 +334,19 @@ function App() {
       })
       .catch((err) => {
         setAddNewUserError(err.message);
+      })
+  }
+
+  function editUser(userData) {
+    Auth.editUser(userData)
+      .then((res) => {
+        localStorage.removeItem('user');
+        setCurrentUser(res.user);
+        localStorage.setItem('user', JSON.stringify(res.user));
+        login(res.user);
+      })
+      .catch((err) => {
+        console.log(err);
       })
   }
 
@@ -457,6 +473,13 @@ function App() {
             handleMobileHeaderNavText={handleMobileHeaderNavText}
             addUser={addUser}
             addNewUserError={addNewUserError}
+          />
+
+          <ProtectedRoute exact path="/profile"
+            isLoggedIn={isLoggedIn}
+            component={Profile}
+            handleMobileHeaderNavText={handleMobileHeaderNavText}
+            editUser={editUser}
           />
 
           <ProtectedRoute exact path="/fixation"

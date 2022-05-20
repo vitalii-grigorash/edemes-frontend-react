@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { Link } from 'react-router-dom';
 
 function Header(props) {
 
@@ -32,9 +33,9 @@ function Header(props) {
                 <div className='header__avatar' />
                 <div className={`header__arrow ${isUserOptionsShow && 'header__arrow_close'}`} />
                 <div className={`header__user-options-container ${isUserOptionsShow && 'header__user-options-container_active'}`}>
-                    <div className="header__user-option-container">
+                    <Link to={'/profile'} className='header__user-my-profile-container'>
                         <p className="header__user-my-profile">Мой профиль</p>
-                    </div>
+                    </Link>
                     <div className="header__user-option-container" onClick={logout}>
                         <div className="header__user-logout-icon" />
                         <p className="header__user-logout">Выйти</p>

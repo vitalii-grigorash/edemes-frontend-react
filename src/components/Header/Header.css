@@ -84,18 +84,26 @@
     display: flex;
 }
 .header__user-option-container {
+    display: flex;
     width: 220px;
     height: 46px;
-    display: flex;
-    border-bottom: 1px solid #CCCCCC;
-    box-sizing: border-box;
     cursor: pointer;
 }
 .header__user-option-container:hover {
     background: #ECEDF3;
 }
-.header__user-option-container:last-of-type {
-    border-bottom: none;
+.header__user-my-profile-container {
+    display: flex;
+    width: 220px;
+    height: 46px;
+    border-bottom: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333333;
+}
+.header__user-my-profile-container:hover {
+    background: #ECEDF3;
 }
 .header__user-my-profile {
     font-size: 16px;

@@ -106,6 +106,35 @@ export const addNewUser = (newUserData) => {
         });
 };
 
+export const editUser = (userData) => {
+    return fetch(`${API_URL}/users/editUser`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: userData.id,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            middleName: userData.middleName,
+            password: userData.password
+        })
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .catch((err) => {
+            if (err.status === 500) {
+                throw new Error('Сервер временно недоступен');
+            } else {
+                console.log(err);
+            }
+        });
+};
+
 export const getCompanies = () => {
     return fetch(`${API_URL}/companies`, {
         method: 'GET',
