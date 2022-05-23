@@ -46,6 +46,7 @@ function Catalog(props) {
                 title='Каталог'
             />
             <h1 className='catalog__heading'>Каталог</h1>
+            {/* <button className='catalog__import-button' onClick={handleOpenCatalogPopupClick}>Импорт</button> */}
             <div className='catalog__main-container'>
                 <Cards
                     catalogsForRender={catalogsForRender}

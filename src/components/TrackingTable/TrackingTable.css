@@ -4,12 +4,22 @@
 }
 .tracking-table__under-table-container {
     display: flex;
-    margin: 32px 0 0;
+    flex-direction: column;
+    margin: 24px 0 0;
 }
 .tracking-table__search-container {
     display: flex;
     margin: 0 auto 0 0;
     position: relative;
+}
+.tracking-table__results {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.0025em;
+    color: #666666;
+    margin: 26px auto 0 0;
 }
 .tracking-table__search-icon {
     position: absolute;
@@ -39,45 +49,10 @@
     color: #666666;
     opacity: 0.9;
 }
-.tracking-table__search-button {
-    width: 95px;
-    height: 46px;
-    border: none;
-    background: #336699;
-    border-radius: 4px;
-    font-size: 16px;
-    line-height: 22px;
-    color: #FFFFFF;
-    cursor: pointer;
-}
-.tracking-table__img-sort-icon {
-    background-image: url('../../images/view-img.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 24px;
-    height: 24px;
-    margin: auto 18px auto auto;
-    cursor: pointer;
-}
-.tracking-table__img-sort-icon_active {
-    background-image: url('../../images/view-img-active.svg');
-}
-.tracking-table__list-sort-icon {
-    background-image: url('../../images/view-list.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 24px;
-    height: 24px;
-    margin: auto 0;
-    cursor: pointer;
-}
-.tracking-table__list-sort-icon_active {
-    background-image: url('../../images/view-list-active.svg');
-}
 .tracking-table__container {
     border: 1px solid #CCCCCC;
     border-radius: 4px;
-    margin: 16px 0 0;
+    margin: 10px 0 0;
 }
 .tracking-table__rows {
     display: flex;
@@ -85,39 +60,44 @@
     box-sizing: border-box;
     border-bottom: 1px solid #CCCCCC;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 16px;
     letter-spacing: 0.0025em;
     color: #333333;
+}
+.tracking-table__rows_boxes {
+    cursor: pointer;
+}
+.tracking-table__rows_boxes:hover {
+    background: #ECEDF3;
 }
 .tracking-table__rows_heading {
     font-weight: 500;
 }
+.tracking-table__picture {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: auto 16px auto 32px;
+}
 .tracking-table__name {
-    min-width: 203px;
+    min-width: 200px;
     margin: auto 32px;
 }
 .tracking-table__route {
-    min-width: 170px;
-    margin: auto 32px auto 0;
-}
-.tracking-table__weight {
-    min-width: 50px;
-    margin: auto 32px auto 0;
-}
-.tracking-table__dimensions {
-    min-width: 82px;
+    min-width: 300px;
     margin: auto 32px auto 0;
 }
 .tracking-table__departure {
-    min-width: 127px;
+    min-width: 130px;
     margin: auto 32px auto 0;
 }
 .tracking-table__arrival {
-    min-width: 103px;
+    min-width: 130px;
     margin: auto 32px auto 0;
 }
 .tracking-table__status {
-    min-width: 62px;
+    min-width: 100px;
     margin: auto auto auto 0;
 }
 .tracking-table__status_green {
@@ -126,132 +106,195 @@
 .tracking-table__status_red {
     color: #E84747;
 }
+.tracking-table__name_art-object {
+    min-width: 300px;
+    margin: auto 32px;
+}
+.tracking-table__name_exhibits {
+    min-width: 252px;
+    margin: auto 32px auto 0;
+}
+.tracking-table__route_exhibits {
+    min-width: 200px;
+    margin: auto 32px auto 0;
+}
+.tracking-table__departure_exhibits {
+    min-width: 130px;
+    margin: auto 32px auto 0;
+}
+.tracking-table__arrival_exhibits {
+    min-width: 130px;
+    margin: auto 32px auto 0;
+}
 .tracking-table__no-results-text {
     margin: auto;
 }
-@media screen and (max-width: 1430px) {
-    .tracking-table__rows {
-        font-size: 12px;
-        line-height: 18px;
+@media screen and (max-width: 1415px) {
+    .tracking-table__route {
+        min-width: 250px;
     }
-    .tracking-table__name {
-        min-width: 150px;
+    .tracking-table__name_art-object {
+        min-width: 250px;
+        margin: auto 32px;
+    }
+    .tracking-table__name_exhibits {
+        min-width: 202px;
+        margin: auto 32px auto 0;
+    }
+    .tracking-table__route_exhibits {
+        min-width: 200px;
+        margin: auto 32px auto 0;
+    }
+    .tracking-table__departure_exhibits {
+        min-width: 130px;
+        margin: auto 32px auto 0;
+    }
+    .tracking-table__arrival_exhibits {
+        min-width: 130px;
+        margin: auto 32px auto 0;
     }
 }
 @media screen and (max-width: 1370px) {
+    .tracking-table__route {
+        min-width: 200px;
+    }
+    .tracking-table__name_art-object {
+        min-width: 220px;
+        margin: auto 32px;
+    }
+    .tracking-table__name_exhibits {
+        min-width: 172px;
+        margin: auto 32px auto 0;
+    }
+    .tracking-table__route_exhibits {
+        min-width: 180px;
+        margin: auto 32px auto 0;
+    }
+    .tracking-table__departure_exhibits {
+        min-width: 130px;
+        margin: auto 32px auto 0;
+    }
+    .tracking-table__arrival_exhibits {
+        min-width: 130px;
+        margin: auto 32px auto 0;
+    }
+}
+@media screen and (max-width: 1315px) {
+    .tracking-table__rows {
+        font-size: 12px;
+        line-height: 14px;
+    }
     .tracking-table__name {
-        max-width: 100px;
-        margin: auto 25px;
+        max-width: 180px;
+        margin: auto 16px;
     }
     .tracking-table__route {
-        min-width: 160px;
-        margin: auto 25px auto 0;
-    }
-    .tracking-table__weight {
-        min-width: 45px;
-        margin: auto 25px auto 0;
-    }
-    .tracking-table__dimensions {
-        min-width: 80px;
-        margin: auto 25px auto 0;
+        min-width: 180px;
+        margin: auto 16px auto 0;
     }
     .tracking-table__departure {
         min-width: 120px;
-        margin: auto 25px auto 0;
+        margin: auto 16px auto 0;
     }
     .tracking-table__arrival {
-        min-width: 95px;
-        margin: auto 25px auto 0;
+        min-width: 120px;
+        margin: auto 16px auto 0;
     }
     .tracking-table__status {
-        min-width: 55px;
-    }
-}
-@media screen and (max-width: 1285px) {
-    .tracking-table__rows {
-        font-size: 10px;
-        line-height: 16px;
-    }
-    .tracking-table__name {
-        max-width: 100px;
-        margin: auto 30px;
-    }
-    .tracking-table__route {
-        min-width: 125px;
-        margin: auto 30px auto 0;
-    }
-    .tracking-table__weight {
-        min-width: 40px;
-        margin: auto 30px auto 0;
-    }
-    .tracking-table__dimensions {
-        min-width: 70px;
-        margin: auto 30px auto 0;
-    }
-    .tracking-table__departure {
-        min-width: 95px;
-        margin: auto 30px auto 0;
-    }
-    .tracking-table__arrival {
-        min-width: 75px;
-        margin: auto 30px auto 0;
-    }
-    .tracking-table__status {
-        min-width: 50px;
-    }
-}
-@media screen and (max-width: 1215px) {
-    .tracking-table__name {
         min-width: 80px;
-        max-width: 80px;
-        margin: auto 25px;
     }
-    .tracking-table__route {
+    .tracking-table__picture {
+        margin: auto 16px auto 16px;
+    }
+    .tracking-table__name_art-object {
+        min-width: 173px;
+        margin: auto 16px;
+    }
+    .tracking-table__name_exhibits {
         min-width: 125px;
-        margin: auto 25px auto 0;
+        margin: auto 16px auto 0;
     }
-    .tracking-table__weight {
-        min-width: 40px;
-        margin: auto 25px auto 0;
+    .tracking-table__route_exhibits {
+        min-width: 133px;
+        margin: auto 16px auto 0;
     }
-    .tracking-table__dimensions {
-        min-width: 70px;
-        margin: auto 25px auto 0;
+    .tracking-table__departure_exhibits {
+        min-width: 107px;
+        margin: auto 16px auto 0;
     }
-    .tracking-table__departure {
-        min-width: 95px;
-        margin: auto 25px auto 0;
-    }
-    .tracking-table__arrival {
-        min-width: 75px;
-        margin: auto 25px auto 0;
+    .tracking-table__arrival_exhibits {
+        min-width: 107px;
+        margin: auto 16px auto 0;
     }
 }
-@media screen and (max-width: 1115px) {
+@media screen and (max-width: 1180px) {
     .tracking-table__name {
-        min-width: 60px;
-        max-width: 60px;
-        margin: auto 20px;
+        max-width: 160px;
+        margin: auto 16px;
     }
     .tracking-table__route {
-        min-width: 125px;
-        margin: auto 15px auto 0;
-    }
-    .tracking-table__weight {
-        min-width: 40px;
-        margin: auto 15px auto 0;
-    }
-    .tracking-table__dimensions {
-        min-width: 70px;
-        margin: auto 15px auto 0;
+        min-width: 150px;
+        margin: auto 16px auto 0;
     }
     .tracking-table__departure {
-        min-width: 95px;
-        margin: auto 15px auto 0;
+        min-width: 115px;
+        margin: auto 16px auto 0;
     }
     .tracking-table__arrival {
-        min-width: 75px;
-        margin: auto 15px auto 0;
+        min-width: 115px;
+        margin: auto 16px auto 0;
+    }
+    .tracking-table__status {
+        min-width: 60px;
+    }
+    .tracking-table__name_art-object {
+        min-width: 173px;
+        margin: auto 16px;
+    }
+    .tracking-table__name_exhibits {
+        min-width: 125px;
+        margin: auto 16px auto 0;
+    }
+    .tracking-table__route_exhibits {
+        min-width: 133px;
+        margin: auto 16px auto 0;
+    }
+    .tracking-table__departure_exhibits {
+        min-width: 107px;
+        margin: auto 16px auto 0;
+    }
+    .tracking-table__arrival_exhibits {
+        min-width: 107px;
+        margin: auto 16px auto 0;
+    }
+}
+@media screen and (max-width: 1125px) {
+    .tracking-table__name {
+        max-width: 130px;
+        min-width: 130px;
+    }
+    .tracking-table__route {
+        min-width: 120px;
+    }
+    .tracking-table__name_art-object {
+        min-width: 153px;
+        margin: auto 16px;
+    }
+    .tracking-table__name_exhibits {
+        min-width: 105px;
+        margin: auto 16px auto 0;
+    }
+    .tracking-table__route_exhibits {
+        min-width: 113px;
+        margin: auto 16px auto 0;
+    }
+    .tracking-table__departure_exhibits {
+        min-width: 107px;
+        margin: auto 16px auto 0;
+    }
+    .tracking-table__arrival_exhibits {
+        min-width: 107px;
+        margin: auto 16px auto 0;
     }
 }
 @media screen and (max-width: 740px) {
@@ -259,66 +302,78 @@
         margin: 24px 0 0;
     }
     .tracking-table__search-icon {
-        left: 5px;
-        top: 10px;
-        width: 18px;
-        height: 18px;
+        left: 16px;
+        top: 11px;
+        width: 24px;
+        height: 24px;
     }
     .tracking-table__search-input {
-        width: 170px;
-        height: 36px;
-        padding: 0 5px 3px 25px;
-        font-size: 14px;
-        line-height: 18px;
+        width: 343px;
+        height: 48px;
+        padding: 0 5px 0 50px;
+        font-size: 16px;
+        line-height: 24px;
     }
     .tracking-table__search-input::placeholder {
-        font-size: 10px;
-        line-height: 14px;
+        font-size: 16px;
+        line-height: 24px;
     }
-    .tracking-table__search-button {
-        width: 75px;
-        height: 36px;
-        font-size: 12px;
-        line-height: 16px;
+    .tracking-table__results {
+        margin: 24px auto 0 0;
     }
     .tracking-table__container {
-        margin: 24px 0 0;
+        margin: 8px 0 0;
     }
     .tracking-table__rows {
-        height: 46px;
-        font-size: 6px;
-        line-height: 14px;
+        height: 38px;
+        font-size: 9px;
+        line-height: 12px;
     }
     .tracking-table__name {
-        min-width: 45px;
-        max-width: 45px;
+        min-width: 70px;
+        max-width: 70px;
         margin: auto 9px;
     }
     .tracking-table__route {
-        min-width: 45px;
-        max-width: 45px;
-        margin: auto 9px auto 0;
-    }
-    .tracking-table__weight {
-        min-width: 20px;
-        max-width: 20px;
-        margin: auto 9px auto 0;
-    }
-    .tracking-table__dimensions {
-        min-width: 40px;
+        min-width: 74px;
+        max-width: 74px;
         margin: auto 9px auto 0;
     }
     .tracking-table__departure {
-        min-width: 50px;
-        max-width: 50px;
+        min-width: 55px;
+        max-width: 55px;
         margin: auto 9px auto 0;
     }
     .tracking-table__arrival {
-        min-width: 40px;
-        max-width: 40px;
+        min-width: 55px;
+        max-width: 55px;
         margin: auto 9px auto 0;
     }
     .tracking-table__status {
-        min-width: 30px;
+        min-width: 40px;
+    }
+    .tracking-table__picture {
+        margin: auto 9px auto 9px;
+    }
+    .tracking-table__name_art-object {
+        min-width: 89px;
+        margin: auto 9px;
+    }
+    .tracking-table__name_exhibits {
+        min-width: 48px;
+        max-width: 48px;
+        margin: auto 9px auto 0;
+    }
+    .tracking-table__route_exhibits {
+        min-width: 50px;
+        margin: auto 9px auto 0;
+    }
+    .tracking-table__departure_exhibits {
+        min-width: 55px;
+        margin: auto 9px auto 0;
+    }
+    .tracking-table__arrival_exhibits {
+        min-width: 55px;
+        margin: auto 9px auto 0;
     }
 }

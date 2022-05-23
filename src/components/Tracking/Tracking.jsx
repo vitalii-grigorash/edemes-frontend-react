@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import TrackingTableExhibitsData from '../../utils/TrackingTableExhibitsData.json';
-import TrackingTableBoxesData from '../../utils/TrackingTableBoxesData.json';
 import TrackingTable from '../TrackingTable/TrackingTable';
+import * as TrackingApi from "../../Api/TrackingApi";
+import * as Catalogs from "../../Api/Catalogs";
 
 function Tracking(props) {
 
@@ -12,12 +12,35 @@ function Tracking(props) {
 
     const [isBoxesTabActive, setBoxesTabActive] = useState(true);
     const [isExhibitsTabActive, setExhibitsTabActive] = useState(false);
+    const [boxesData, setBoxesData] = useState([]);
+    const [artObjectsData, setArtObjectsData] = useState([]);
     const boxesTablePlaceholder = 'Введите название ящика';
     const exhibitsTablePlaceholder = 'Введите название экспоната';
 
     useEffect(() => {
         handleMobileHeaderNavText('Отслеживание');
     });
+
+    useEffect(() => {
+        TrackingApi.getAllBoxes()
+            .then((data) => {
+                setBoxesData(data.fixes);
+            })
+            .catch((err) => console.log(`Ошибка при загрузке ящиков: ${err}`));
+    }, []);
+
+    useEffect(() => {
+        Catalogs.getArtObjects()
+            .then((data) => {
+                setArtObjectsData(data.artObjects);
+            })
+            .catch((err) => console.log(`Ошибка при загрузке ящиков: ${err}`));
+    }, []);
+
+    function onBoxClick (boxData) {
+        console.log(boxData.Box.Location.locationTo);
+        console.log(boxData.Users[0].Company.Locations[0].locationFrom);
+    }
 
     function onBoxesTabClick() {
         setExhibitsTabActive(false);
@@ -27,14 +50,6 @@ function Tracking(props) {
     function onExhibitsTabClick() {
         setBoxesTabActive(false);
         setExhibitsTabActive(true);
-    }
-
-    function onBoxesSearchClick() {
-        console.log('onBoxesSearchClick');
-    }
-
-    function onExhibitsSearchClick() {
-        console.log('onExhibitsSearchClick');
     }
 
     return (
@@ -50,16 +65,20 @@ function Tracking(props) {
                 </div>
                 {isBoxesTabActive && (
                     <TrackingTable
-                        dataForRender={TrackingTableBoxesData}
+                        dataForRender={boxesData}
                         inputPlaceholder={boxesTablePlaceholder}
-                        onSearchClick={onBoxesSearchClick}
+                        isBoxesTabActive={isBoxesTabActive}
+                        isExhibitsTabActive={isExhibitsTabActive}
+                        onBoxClick={onBoxClick}
                     />
                 )}
                 {isExhibitsTabActive && (
                     <TrackingTable
-                        dataForRender={TrackingTableExhibitsData}
+                        dataForRender={artObjectsData}
                         inputPlaceholder={exhibitsTablePlaceholder}
-                        onSearchClick={onExhibitsSearchClick}
+                        isBoxesTabActive={isBoxesTabActive}
+                        isExhibitsTabActive={isExhibitsTabActive}
+                        onBoxClick={onBoxClick}
                     />
                 )}
             </div>
