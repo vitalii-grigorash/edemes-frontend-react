@@ -110,14 +110,17 @@
 }
 .tracking-table__name_art-object {
     min-width: 300px;
+    max-width: 300px;
     margin: auto 32px;
 }
 .tracking-table__name_exhibits {
     min-width: 252px;
+    max-width: 252px;
     margin: auto 32px auto 0;
 }
 .tracking-table__route_exhibits {
     min-width: 200px;
+    max-width: 200px;
     margin: auto 32px auto 0;
 }
 .tracking-table__departure_exhibits {
@@ -137,14 +140,17 @@
     }
     .tracking-table__name_art-object {
         min-width: 250px;
+        max-width: 250px;
         margin: auto 32px;
     }
     .tracking-table__name_exhibits {
         min-width: 202px;
+        max-width: 202px;
         margin: auto 32px auto 0;
     }
     .tracking-table__route_exhibits {
         min-width: 200px;
+        max-width: 200px;
         margin: auto 32px auto 0;
     }
     .tracking-table__departure_exhibits {
@@ -163,14 +169,17 @@
     }
     .tracking-table__name_art-object {
         min-width: 220px;
+        max-width: 220px;
         margin: auto 32px;
     }
     .tracking-table__name_exhibits {
         min-width: 172px;
+        max-width: 172px;
         margin: auto 32px auto 0;
     }
     .tracking-table__route_exhibits {
         min-width: 180px;
+        max-width: 180px;
         margin: auto 32px auto 0;
     }
     .tracking-table__departure_exhibits {
@@ -213,14 +222,17 @@
     }
     .tracking-table__name_art-object {
         min-width: 173px;
+        max-width: 173px;
         margin: auto 16px;
     }
     .tracking-table__name_exhibits {
         min-width: 125px;
+        max-width: 125px;
         margin: auto 16px auto 0;
     }
     .tracking-table__route_exhibits {
         min-width: 133px;
+        max-width: 133px;
         margin: auto 16px auto 0;
     }
     .tracking-table__departure_exhibits {
@@ -256,14 +268,17 @@
     }
     .tracking-table__name_art-object {
         min-width: 173px;
+        max-width: 173px;
         margin: auto 16px;
     }
     .tracking-table__name_exhibits {
         min-width: 125px;
+        max-width: 125px;
         margin: auto 16px auto 0;
     }
     .tracking-table__route_exhibits {
         min-width: 133px;
+        max-width: 133px;
         margin: auto 16px auto 0;
     }
     .tracking-table__departure_exhibits {
@@ -286,14 +301,17 @@
     }
     .tracking-table__name_art-object {
         min-width: 153px;
+        max-width: 153px;
         margin: auto 16px;
     }
     .tracking-table__name_exhibits {
         min-width: 105px;
+        max-width: 105px;
         margin: auto 16px auto 0;
     }
     .tracking-table__route_exhibits {
         min-width: 113px;
+        max-width: 113px;
         margin: auto 16px auto 0;
     }
     .tracking-table__departure_exhibits {
@@ -365,6 +383,7 @@
     }
     .tracking-table__name_art-object {
         min-width: 89px;
+        max-width: 89px;
         margin: auto 9px;
     }
     .tracking-table__name_exhibits {
@@ -373,7 +392,8 @@
         margin: auto 9px auto 0;
     }
     .tracking-table__route_exhibits {
-        min-width: 50px;
+        min-width: 52px;
+        max-width: 52px;
         margin: auto 9px auto 0;
     }
     .tracking-table__departure_exhibits {

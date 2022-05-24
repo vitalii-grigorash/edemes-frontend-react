@@ -22,6 +22,8 @@ function Tracking(props) {
     const [artObjectsDataForRender, setArtObjectsDataForRender] = useState([]);
     const [trackingBoxesInput, setTrackingBoxesInput] = useState('');
     const [trackingArtObjectsInput, setTrackingArtObjectsInput] = useState('');
+    const [isBoxOpened, setBoxOpened] = useState(false);
+    const [boxName, setBoxName] = useState('');
 
     useEffect(() => {
         handleMobileHeaderNavText('Отслеживание');
@@ -75,7 +77,6 @@ function Tracking(props) {
     useEffect(() => {
         TrackingApi.getAllBoxes()
             .then((data) => {
-                console.log(data.artObjects);
                 setArtObjectsData(data.artObjects);
                 setBoxesData(data.boxes);
             })
@@ -84,6 +85,12 @@ function Tracking(props) {
 
     function onBoxClick(boxData) {
         console.log(boxData);
+        setBoxName(boxData.name);
+        setBoxOpened(true);
+    }
+
+    function onBackButtonClick () {
+        setBoxOpened(false);
     }
 
     function onBoxesTabClick() {
@@ -121,7 +128,7 @@ function Tracking(props) {
             return `${newArray.length + ' экспонатов'}`
         }
         if (value === 1) {
-            return 'экспонат'
+            return `${newArray.length + ' экспонат'}`
         } else if (value === 2 || value === 3 || value === 4) {
             return `${newArray.length + ' экспоната'}`
         }
@@ -147,41 +154,49 @@ function Tracking(props) {
             <Helmet
                 title='Отслеживание'
             />
-            <h1 className='tracking__heading'>Отслеживание</h1>
-            <div className='tracking__table'>
-                <div className='tracking__tabs-container'>
-                    <p className={`tracking__tab ${isBoxesTabActive && 'tracking__tab_active'}`} onClick={onBoxesTabClick}>Ящики</p>
-                    <p className={`tracking__tab ${isExhibitsTabActive && 'tracking__tab_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
-                </div>
-                {isBoxesTabActive && (
-                    <TrackingTable
-                        dataForRender={boxesDataForRender}
-                        isBoxesTabActive={isBoxesTabActive}
-                        isExhibitsTabActive={isExhibitsTabActive}
-                        onBoxClick={onBoxClick}
-                        foundText={foundText}
-                        exhibitsText={exhibitsText}
-                        boxesText={boxesText}
-                        boxesSearchInput={boxesSearchInput}
-                        artObjectsSearchInput={artObjectsSearchInput}
-                        trackingSearchInput={trackingSearchInput}
-                    />
-                )}
-                {isExhibitsTabActive && (
-                    <TrackingTable
-                        dataForRender={artObjectsDataForRender}
-                        isBoxesTabActive={isBoxesTabActive}
-                        isExhibitsTabActive={isExhibitsTabActive}
-                        onBoxClick={onBoxClick}
-                        foundText={foundText}
-                        exhibitsText={exhibitsText}
-                        boxesText={boxesText}
-                        boxesSearchInput={boxesSearchInput}
-                        artObjectsSearchInput={artObjectsSearchInput}
-                        trackingSearchInput={trackingSearchInput}
-                    />
-                )}
-            </div>
+            {!isBoxOpened ? (
+                <>
+                    <h1 className='tracking__heading'>Отслеживание</h1>
+                    <div className='tracking__table'>
+                        <div className='tracking__tabs-container'>
+                            <p className={`tracking__tab ${isBoxesTabActive && 'tracking__tab_active'}`} onClick={onBoxesTabClick}>Ящики</p>
+                            <p className={`tracking__tab ${isExhibitsTabActive && 'tracking__tab_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
+                        </div>
+                        {isBoxesTabActive && (
+                            <TrackingTable
+                                dataForRender={boxesDataForRender}
+                                isBoxesTabActive={isBoxesTabActive}
+                                isExhibitsTabActive={isExhibitsTabActive}
+                                onBoxClick={onBoxClick}
+                                foundText={foundText}
+                                exhibitsText={exhibitsText}
+                                boxesText={boxesText}
+                                boxesSearchInput={boxesSearchInput}
+                                artObjectsSearchInput={artObjectsSearchInput}
+                                trackingSearchInput={trackingSearchInput}
+                            />
+                        )}
+                        {isExhibitsTabActive && (
+                            <TrackingTable
+                                dataForRender={artObjectsDataForRender}
+                                isBoxesTabActive={isBoxesTabActive}
+                                isExhibitsTabActive={isExhibitsTabActive}
+                                onBoxClick={onBoxClick}
+                                foundText={foundText}
+                                exhibitsText={exhibitsText}
+                                boxesText={boxesText}
+                                boxesSearchInput={boxesSearchInput}
+                                artObjectsSearchInput={artObjectsSearchInput}
+                                trackingSearchInput={trackingSearchInput}
+                            />
+                        )}
+                    </div>
+                </>
+            ) : (
+                <>
+                    <p onClick={onBackButtonClick}>{boxName}</p>
+                </>
+            )}
         </section>
     );
 }

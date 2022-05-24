@@ -23,13 +23,17 @@ function TablePagination(props) {
     }, [sortList.length, selectedResultsShow]);
 
     useEffect(() => {
-        sortList.map((list) => {
-            if (list.id) {
-                return setShowSortOptions(true);
-            } else {
-                return setShowSortOptions(false);
-            }
-        })
+        if (sortList.length !== 0) {
+            sortList.map((list) => {
+                if (list.id) {
+                    return setShowSortOptions(true);
+                } else {
+                    return setShowSortOptions(false);
+                }
+            })
+        } else {
+            setShowSortOptions(false);
+        }
     }, [sortList]);
 
     function showPrevResults() {
