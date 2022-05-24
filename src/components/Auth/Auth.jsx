@@ -40,7 +40,6 @@ function Auth(props) {
         if (pathname === '/register') {
             AuthApi.getCompanies()
                 .then((companies) => {
-                    console.log(companies.companies);
                     setCompanies(companies.companies);
                 })
                 .catch((err) => console.log(`Ошибка при загрузке списка компаний: ${err}`));
@@ -63,7 +62,6 @@ function Auth(props) {
     }
 
     function onCompanySelectClick(company) {
-        console.log(company);
         setCompany(company.name);
         setCompanyId(company.id);
         setCompanySelected(true);
