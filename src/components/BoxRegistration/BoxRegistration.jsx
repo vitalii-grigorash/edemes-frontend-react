@@ -175,7 +175,6 @@ function BoxRegistration(props) {
         if (pathname === '/box-registration') {
             showLocations();
             showCompanies();
-            setTotalArtObjectsPrice('20000');
         }
     }, [pathname]);
 
@@ -255,6 +254,27 @@ function BoxRegistration(props) {
     useEffect(() => {
         handleMobileHeaderNavText('Регистрация ящика');
     });
+
+    function sumTotalPrice(allPrices) {
+        let totalPrice = 0;
+        for (let i = 0; i < allPrices.length; i++) {
+            totalPrice += allPrices[i];
+        }
+        setTotalArtObjectsPrice(totalPrice);
+    }
+
+    useEffect(() => {
+        if (isBoxRegistrationGeneralInformationActive) {
+            if (selectedArtObjects.length !== 0) {
+                const allPrices = selectedArtObjects.map((artObject) => {
+                    return artObject.price;
+                })
+                sumTotalPrice(allPrices);
+            } else {
+                setTotalArtObjectsPrice(0);
+            }
+        }
+    }, [isBoxRegistrationGeneralInformationActive, selectedArtObjects])
 
     function onGeneralInformationTabClick() {
         setBoxRegistrationQrCodeActive(false);

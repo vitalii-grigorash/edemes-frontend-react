@@ -20,3 +20,42 @@ export const getAllBoxes = () => {
             throw new Error(err.message);
         });
 };
+
+export const getBoxArtObjects = (id) => {
+    return fetch(`${API_URL}/fixes/boxes/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .then(data => data)
+        .catch((err) => {
+            throw new Error(err.message);
+        });
+};
+
+export const disbandBox = (id) => {
+    return fetch(`${API_URL}/boxes/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .catch((err) => {
+            if (err.status === 500) {
+                throw new Error('Сервер временно недоступен');
+            }
+        });
+};

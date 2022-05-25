@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Validation } from '../../utils/Validation';
 import TrackingTable from '../TrackingTable/TrackingTable';
+import Route from '../Route/Route';
 import * as TrackingApi from "../../Api/TrackingApi";
 
 function Tracking(props) {
@@ -12,7 +13,7 @@ function Tracking(props) {
 
     const boxesSearchInput = Validation();
     const artObjectsSearchInput = Validation();
-    // const boxArtObjectsSearchInput = Validation();
+    const boxArtObjectsSearchInput = Validation();
 
     const [isBoxesTabActive, setBoxesTabActive] = useState(true);
     const [isExhibitsTabActive, setExhibitsTabActive] = useState(false);
@@ -20,20 +21,74 @@ function Tracking(props) {
     const [boxesDataForRender, setBoxesDataForRender] = useState([]);
     const [artObjectsData, setArtObjectsData] = useState([]);
     const [artObjectsDataForRender, setArtObjectsDataForRender] = useState([]);
+    const [artBoxObjectsDataForRender, setBoxArtObjectsDataForRender] = useState([]);
     const [trackingBoxesInput, setTrackingBoxesInput] = useState('');
     const [trackingArtObjectsInput, setTrackingArtObjectsInput] = useState('');
+    const [trackingBoxArtObjectsInput, setBoxTrackingArtObjectsInput] = useState('');
     const [isBoxOpened, setBoxOpened] = useState(false);
-    const [boxName, setBoxName] = useState('');
+    const [box, setBox] = useState({});
+    const [isRouteTabActive, setRouteTabActive] = useState(true);
+    const [isArtObjectsTabActive, setArtObjectsTabActive] = useState(false);
+    const [isInformationTabActive, setInformationTabActive] = useState(false);
+    const [isQrCodeTabActive, setQrCodeTabActive] = useState(false);
+    const [tabName, setTabName] = useState('');
+    const [boxArtObject, setBoxArtObject] = useState([]);
+
+    function onBackButtonClick() {
+        setBoxOpened(false);
+        setBoxesTabActive(true);
+        setRouteTabActive(true);
+        setArtObjectsTabActive(false);
+        setInformationTabActive(false);
+        setQrCodeTabActive(false);
+        boxArtObjectsSearchInput.setValue('');
+    }
+
+    function onDisbandButtonClick(id) {
+        TrackingApi.disbandBox(id)
+            .then(() => {
+                TrackingApi.getAllBoxes()
+                    .then((data) => {
+                        setArtObjectsData(data.artObjects);
+                        setBoxesData(data.boxes);
+                        onBackButtonClick();
+                    })
+                    .catch((err) => console.log(`Ошибка при загрузке ящиков: ${err}`));
+
+            })
+            .catch((err) => console.log(err));
+    }
 
     useEffect(() => {
         handleMobileHeaderNavText('Отслеживание');
     });
+
+    useEffect(() => {
+        if (isRouteTabActive) {
+            setTabName('Маршрут');
+        } else if (isArtObjectsTabActive) {
+            setTabName('Экспонаты');
+        } else if (isInformationTabActive) {
+            setTabName('Общая информация');
+        } else if (isQrCodeTabActive) {
+            setTabName('QR код');
+        }
+    },
+        [
+            isRouteTabActive,
+            isArtObjectsTabActive,
+            isInformationTabActive,
+            isQrCodeTabActive
+        ]
+    )
 
     function trackingSearchInput(value) {
         if (isBoxesTabActive) {
             setTrackingBoxesInput(value);
         } else if (isExhibitsTabActive) {
             setTrackingArtObjectsInput(value);
+        } else if (isArtObjectsTabActive) {
+            setBoxTrackingArtObjectsInput(value);
         }
     }
 
@@ -62,6 +117,18 @@ function Tracking(props) {
                 })
                 setArtObjectsDataForRender(dataForRender);
             }
+        } else if (isArtObjectsTabActive) {
+            if (trackingBoxArtObjectsInput === '') {
+                setBoxArtObjectsDataForRender(boxArtObject);
+            } else {
+                const dataForRender = [];
+                boxArtObject.forEach((artObject) => {
+                    if (artObject.name.toLowerCase().includes(trackingBoxArtObjectsInput.toLowerCase())) {
+                        dataForRender.push(artObject);
+                    }
+                })
+                setBoxArtObjectsDataForRender(dataForRender);
+            }
         }
     },
         [
@@ -69,7 +136,10 @@ function Tracking(props) {
             boxesData,
             isBoxesTabActive,
             isExhibitsTabActive,
+            isArtObjectsTabActive,
             trackingArtObjectsInput,
+            trackingBoxArtObjectsInput,
+            boxArtObject,
             trackingBoxesInput
         ]
     );
@@ -84,13 +154,16 @@ function Tracking(props) {
     }, []);
 
     function onBoxClick(boxData) {
-        console.log(boxData);
-        setBoxName(boxData.name);
+        setBox(boxData);
         setBoxOpened(true);
-    }
-
-    function onBackButtonClick () {
-        setBoxOpened(false);
+        setBoxesTabActive(false);
+        setExhibitsTabActive(false);
+        TrackingApi.getBoxArtObjects(boxData.id)
+            .then((data) => {
+                console.log(data.artObjects);
+                setBoxArtObject(data.artObjects);
+            })
+            .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
     }
 
     function onBoxesTabClick() {
@@ -101,6 +174,59 @@ function Tracking(props) {
     function onExhibitsTabClick() {
         setBoxesTabActive(false);
         setExhibitsTabActive(true);
+    }
+    function onRouteTabClick() {
+        setArtObjectsTabActive(false);
+        setInformationTabActive(false);
+        setQrCodeTabActive(false);
+        setRouteTabActive(true);
+    }
+
+    function onArtObjectsTabClick() {
+        setRouteTabActive(false);
+        setInformationTabActive(false);
+        setQrCodeTabActive(false);
+        setArtObjectsTabActive(true);
+    }
+
+    function onInformationTabClick() {
+        setRouteTabActive(false);
+        setQrCodeTabActive(false);
+        setArtObjectsTabActive(false);
+        setInformationTabActive(true);
+    }
+
+    function onQrCodeTabClick() {
+        setRouteTabActive(false);
+        setArtObjectsTabActive(false);
+        setInformationTabActive(false);
+        setQrCodeTabActive(true);
+    }
+
+    function onPrevTabClick() {
+        if (isArtObjectsTabActive) {
+            setArtObjectsTabActive(false);
+            setRouteTabActive(true);
+        } else if (isInformationTabActive) {
+            setInformationTabActive(false);
+            setArtObjectsTabActive(true);
+        } else if (isQrCodeTabActive) {
+            setQrCodeTabActive(false);
+            setInformationTabActive(true);
+        }
+    }
+
+    function onNextTabClick() {
+        if (isRouteTabActive) {
+            setRouteTabActive(false);
+            setArtObjectsTabActive(true);
+        } else if (isArtObjectsTabActive) {
+            setArtObjectsTabActive(false);
+            setInformationTabActive(true);
+        } else if (isInformationTabActive) {
+            setInformationTabActive(false);
+            setQrCodeTabActive(true);
+        }
     }
 
     const foundText = (array) => {
@@ -167,12 +293,14 @@ function Tracking(props) {
                                 dataForRender={boxesDataForRender}
                                 isBoxesTabActive={isBoxesTabActive}
                                 isExhibitsTabActive={isExhibitsTabActive}
+                                isArtObjectsTabActive={isArtObjectsTabActive}
                                 onBoxClick={onBoxClick}
                                 foundText={foundText}
                                 exhibitsText={exhibitsText}
                                 boxesText={boxesText}
                                 boxesSearchInput={boxesSearchInput}
                                 artObjectsSearchInput={artObjectsSearchInput}
+                                boxArtObjectsSearchInput={boxArtObjectsSearchInput}
                                 trackingSearchInput={trackingSearchInput}
                             />
                         )}
@@ -181,12 +309,14 @@ function Tracking(props) {
                                 dataForRender={artObjectsDataForRender}
                                 isBoxesTabActive={isBoxesTabActive}
                                 isExhibitsTabActive={isExhibitsTabActive}
+                                isArtObjectsTabActive={isArtObjectsTabActive}
                                 onBoxClick={onBoxClick}
                                 foundText={foundText}
                                 exhibitsText={exhibitsText}
                                 boxesText={boxesText}
                                 boxesSearchInput={boxesSearchInput}
                                 artObjectsSearchInput={artObjectsSearchInput}
+                                boxArtObjectsSearchInput={boxArtObjectsSearchInput}
                                 trackingSearchInput={trackingSearchInput}
                             />
                         )}
@@ -194,7 +324,73 @@ function Tracking(props) {
                 </>
             ) : (
                 <>
-                    <p onClick={onBackButtonClick}>{boxName}</p>
+                    <div className='tracking__box-heading-container'>
+                        <div className='tracking__box-text-container'>
+                            <p className='tracking__box-text'>Отслеживание</p>
+                            <div className='tracking__box-arrow' />
+                            <p className='tracking__box-name'>{box.name}</p>
+                        </div>
+                        <button type='button' className='tracking__box-back-button' onClick={onBackButtonClick}>Вернуться в отслеживание</button>
+                    </div>
+                    <div className='tracking__box'>
+                        <div className='tracking__box-tabs-container'>
+                            <p className={`tracking__box-tab ${isRouteTabActive && 'tracking__box-tab_active'}`} onClick={onRouteTabClick}>Маршрут</p>
+                            <p className={`tracking__box-tab ${isArtObjectsTabActive && 'tracking__box-tab_active'}`} onClick={onArtObjectsTabClick}>Экспонаты</p>
+                            <p className={`tracking__box-tab ${isInformationTabActive && 'tracking__box-tab_active'}`} onClick={onInformationTabClick}>Общая информация</p>
+                            <p className={`tracking__box-tab ${isQrCodeTabActive && 'tracking__box-tab_active'}`} onClick={onQrCodeTabClick}>QR код</p>
+                        </div>
+                        <div className='tracking__box-heading-container-mobile'>
+                            <div className='tracking__box-text-container'>
+                                <p className='tracking__box-text'>Отслеживание</p>
+                                <div className='tracking__box-arrow' />
+                                <p className='tracking__box-name'>{box.name}</p>
+                            </div>
+                            <button type='button' className='tracking__box-back-button' onClick={onBackButtonClick}>Вернуться в отслеживание</button>
+                            <p className='tracking__nav-text'>{tabName}</p>
+                        </div>
+                        {isRouteTabActive && (
+                            <Route
+                                onDisbandButtonClick={onDisbandButtonClick}
+                                box={box}
+                            />
+                        )}
+                        {isArtObjectsTabActive && (
+                            <TrackingTable
+                                dataForRender={artBoxObjectsDataForRender}
+                                isBoxesTabActive={isBoxesTabActive}
+                                isExhibitsTabActive={isExhibitsTabActive}
+                                isArtObjectsTabActive={isArtObjectsTabActive}
+                                onBoxClick={onBoxClick}
+                                foundText={foundText}
+                                exhibitsText={exhibitsText}
+                                boxesText={boxesText}
+                                boxesSearchInput={boxesSearchInput}
+                                artObjectsSearchInput={artObjectsSearchInput}
+                                boxArtObjectsSearchInput={boxArtObjectsSearchInput}
+                                trackingSearchInput={trackingSearchInput}
+                            />
+                        )}
+                        <div className='tracking__box-buttons-container'>
+                            {isRouteTabActive && (
+                                <button className='tracking__box-button-next tracking__box-button-next_big' onClick={onNextTabClick}>Далее</button>
+                            )}
+                            {isArtObjectsTabActive && (
+                                <>
+                                    <button className='tracking__box-button-back' onClick={onPrevTabClick}>Назад</button>
+                                    <button className='tracking__box-button-next' onClick={onNextTabClick}>Далее</button>
+                                </>
+                            )}
+                            {isInformationTabActive && (
+                                <>
+                                    <button className='tracking__box-button-back' onClick={onPrevTabClick}>Назад</button>
+                                    <button className='tracking__box-button-next' onClick={onNextTabClick}>Далее</button>
+                                </>
+                            )}
+                            {isQrCodeTabActive && (
+                                <button className='tracking__box-button-back tracking__box-button-back_big' onClick={onPrevTabClick}>Назад</button>
+                            )}
+                        </div>
+                    </div>
                 </>
             )}
         </section>

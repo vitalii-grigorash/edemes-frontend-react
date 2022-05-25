@@ -7,12 +7,14 @@ function TrackingTable(props) {
         dataForRender,
         isBoxesTabActive,
         isExhibitsTabActive,
+        isArtObjectsTabActive,
         onBoxClick,
         foundText,
         exhibitsText,
         boxesText,
         boxesSearchInput,
         artObjectsSearchInput,
+        boxArtObjectsSearchInput,
         trackingSearchInput
     } = props;
 
@@ -32,13 +34,17 @@ function TrackingTable(props) {
             trackingSearchInput(boxesSearchInput.value);
         } else if (isExhibitsTabActive) {
             trackingSearchInput(artObjectsSearchInput.value);
+        } else if (isArtObjectsTabActive) {
+            trackingSearchInput(boxArtObjectsSearchInput.value);
         }
     },
         [
             artObjectsSearchInput.value,
             boxesSearchInput.value,
+            boxArtObjectsSearchInput.value,
             isBoxesTabActive,
             isExhibitsTabActive,
+            isArtObjectsTabActive,
             trackingSearchInput
         ]
     );
@@ -54,6 +60,8 @@ function TrackingTable(props) {
             return 'Хранение'
         } else if (status === 'Отправление') {
             return 'Отправка'
+        } else if (status === 'Отмена отправки') {
+            return 'Отменен'
         }
     }
 
@@ -94,10 +102,20 @@ function TrackingTable(props) {
                         <input
                             type="text"
                             className='tracking-table__search-input'
-                            name="trackingExhibitsSearchInput"
+                            name="trackingArtObjectsSearchInput"
                             placeholder='Введите название экспоната'
                             value={artObjectsSearchInput.value}
                             onChange={artObjectsSearchInput.onChange}
+                        />
+                    )}
+                    {isArtObjectsTabActive && (
+                        <input
+                            type="text"
+                            className='tracking-table__search-input'
+                            name="trackingBoxArtObjectsSearchInput"
+                            placeholder='Введите название экспоната'
+                            value={boxArtObjectsSearchInput.value}
+                            onChange={boxArtObjectsSearchInput.onChange}
                         />
                     )}
                 </div>
@@ -107,20 +125,23 @@ function TrackingTable(props) {
                 {isExhibitsTabActive && (
                     <p className='tracking-table__results'>{foundText(dataForRender)} {exhibitsText(dataForRender)}</p>
                 )}
+                {isArtObjectsTabActive && (
+                    <p className='tracking-table__results'>{foundText(dataForRender)} {exhibitsText(dataForRender)}</p>
+                )}
             </div>
             <div className='tracking-table__container'>
                 <div className='tracking-table__rows tracking-table__rows_heading'>
-                    <p className={`tracking-table__name ${isExhibitsTabActive && 'tracking-table__name_art-object'}`}>Название</p>
-                    <p className={`tracking-table__route ${isExhibitsTabActive && 'tracking-table__route_exhibits'}`}>Маршрут</p>
-                    <p className={`tracking-table__departure ${isExhibitsTabActive && 'tracking-table__departure_exhibits'}`}>Дата отправления</p>
-                    <p className={`tracking-table__arrival ${isExhibitsTabActive && 'tracking-table__arrival_exhibits'}`}>Дата прибытия</p>
+                    <p className={`tracking-table__name ${!isBoxesTabActive && 'tracking-table__name_art-object'}`}>Название</p>
+                    <p className={`tracking-table__route ${!isBoxesTabActive && 'tracking-table__route_exhibits'}`}>Маршрут</p>
+                    <p className={`tracking-table__departure ${!isBoxesTabActive && 'tracking-table__departure_exhibits'}`}>Дата отправления</p>
+                    <p className={`tracking-table__arrival ${!isBoxesTabActive && 'tracking-table__arrival_exhibits'}`}>Дата прибытия</p>
                     <p className='tracking-table__status'>Статус</p>
                 </div>
                 {dataForRender !== null && dataForRender.length !== 0 ? (
                     <>
                         {dataForRender.slice(showResultsFrom, resultsShow).map((list) => (
                             <div key={list.id}>
-                                {isBoxesTabActive && (
+                                {isBoxesTabActive ? (
                                     <div className='tracking-table__rows tracking-table__rows_boxes' onClick={() => onBoxClick(list)}>
                                         <p className='tracking-table__name'>{list.name}</p>
                                         <p className='tracking-table__route'>{routeConvert(list.locationFrom, list.locationTo)}</p>
@@ -128,8 +149,7 @@ function TrackingTable(props) {
                                         <p className='tracking-table__arrival'>{arrivalDate(list.createdAt)}</p>
                                         <p className={`tracking-table__status ${statusText(list.status) === 'Прибыл' ? 'tracking-table__status_green' : `${statusText(list.status) === 'Отменен' && 'tracking-table__status_red'}`}`}>{statusText(list.status)}</p>
                                     </div>
-                                )}
-                                {isExhibitsTabActive && (
+                                ) : (
                                     <div key={list.id} className='tracking-table__rows'>
                                         <img className='tracking-table__picture' alt={list.name} src={list.photo} />
                                         <p className='tracking-table__name tracking-table__name_exhibits'>{list.name}</p>
