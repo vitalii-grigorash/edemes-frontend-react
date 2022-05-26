@@ -17,7 +17,6 @@
 @import url(./components/BoxRegistration/BoxRegistration.css);
 @import url(./components/BoxRegistration/BoxRegistrationGeneralInformation.css);
 @import url(./components/BoxRegistration/BoxRegistrationRoute.css);
-@import url(./components/BoxRegistration/BoxRegistrationQrCode.css);
 @import url(./components/TablePagination/TablePagination.css);
 @import url(./components/TrackingTable/TrackingTable.css);
 @import url(./components/Register/Register.css);
@@ -32,3 +31,4 @@
 @import url(./components/Profile/Profile.css);
 @import url(./components/Route/Route.css);
 @import url(./components/Information/Information.css);
+@import url(./components/QrCodePopup/QrCodePopup.css);

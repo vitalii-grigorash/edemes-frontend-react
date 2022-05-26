@@ -9,6 +9,7 @@ import Catalog from "../Catalog/Catalog";
 import Users from "../Users/Users";
 import CatalogPopup from "../CatalogPopup/CatalogPopup";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
+import QrCodePopup from "../QrCodePopup/QrCodePopup";
 import NotFound from "../NotFound/NotFound";
 import Fixation from "../Fixation/Fixation";
 import FixationHistory from "../FixationHistory/FixationHistory";
@@ -55,6 +56,17 @@ function App() {
   const [boxRegistrationCatalogsInput, setBoxRegistrationCatalogsInput] = useState('');
   const [boxRegistrationArtObjectsInput, setBoxRegistrationArtObjectsInput] = useState('');
   const [boxRegistrationSelectedArtObjectsInput, setBoxRegistrationSelectedArtObjectsInput] = useState('');
+  const [isQrCodeModalOpen, setQrCodeModalOpen] = useState(false);
+  const [qrCodeData, setQrCodeData] = useState({});
+
+  function openQrCodeModal(data) {
+    setQrCodeData(data);
+    setQrCodeModalOpen(true);
+  }
+
+  function closeQrCodeModal() {
+    setQrCodeModalOpen(false);
+  }
 
   useEffect(() => {
     if (pathname === '/box-registration' || pathname === '/catalog') {
@@ -425,6 +437,7 @@ function App() {
             searchInputCatalogs={searchInputCatalogs}
             searchInputArtObjects={searchInputArtObjects}
             searchInputSelectedArtObjects={searchInputSelectedArtObjects}
+            openQrCodeModal={openQrCodeModal}
           />
 
           <ProtectedRoute exact path="/tracking"
@@ -533,6 +546,14 @@ function App() {
           <SuccessPopup
             isOpen={isSuccessPopupOpen}
             onClosePopupClick={handleOpenSuccessPopupClick}
+          />
+        )}
+
+        {pathname === "/box-registration" && isQrCodeModalOpen && (
+          <QrCodePopup
+            isOpen={isQrCodeModalOpen}
+            onClosePopupClick={closeQrCodeModal}
+            data={qrCodeData}
           />
         )}
 

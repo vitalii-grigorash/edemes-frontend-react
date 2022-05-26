@@ -39,7 +39,8 @@ function BoxRegistration(props) {
         isSelectedArtObjectsActive,
         searchInputCatalogs,
         searchInputArtObjects,
-        searchInputSelectedArtObjects
+        searchInputSelectedArtObjects,
+        openQrCodeModal
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -47,7 +48,6 @@ function BoxRegistration(props) {
     const [isBoxRegistrationGeneralInformationActive, setBoxRegistrationGeneralInformationActive] = useState(false);
     const [isBoxRegistrationExhibitsActive, setBoxRegistrationExhibitsActive] = useState(false);
     const [isBoxRegistrationRouteActive, setBoxRegistrationRouteActive] = useState(true);
-    const [isBoxRegistrationQrCodeActive, setBoxRegistrationQrCodeActive] = useState(false);
     const [locations, setLocations] = useState([]);
     const [companies, setCompanies] = useState([]);
     const [companyLocations, setCompanyLocations] = useState([]);
@@ -246,8 +246,6 @@ function BoxRegistration(props) {
             return 'Экспонаты';
         } else if (isBoxRegistrationRouteActive) {
             return 'Маршрут';
-        } else if (isBoxRegistrationQrCodeActive) {
-            return 'QR код';
         }
     })
 
@@ -277,40 +275,25 @@ function BoxRegistration(props) {
     }, [isBoxRegistrationGeneralInformationActive, selectedArtObjects])
 
     function onGeneralInformationTabClick() {
-        setBoxRegistrationQrCodeActive(false);
         setBoxRegistrationRouteActive(false);
         setBoxRegistrationExhibitsActive(false);
         setBoxRegistrationGeneralInformationActive(true);
     }
 
     function onExhibitsTabClick() {
-        setBoxRegistrationQrCodeActive(false);
         setBoxRegistrationRouteActive(false);
         setBoxRegistrationGeneralInformationActive(false);
         setBoxRegistrationExhibitsActive(true);
     }
 
     function onRouteTabClick() {
-        setBoxRegistrationQrCodeActive(false);
-        setBoxRegistrationRouteActive(false);
         setBoxRegistrationGeneralInformationActive(false);
         setBoxRegistrationExhibitsActive(false);
         setBoxRegistrationRouteActive(true);
     }
 
-    function onQrCodeTabClick() {
-        setBoxRegistrationRouteActive(false);
-        setBoxRegistrationGeneralInformationActive(false);
-        setBoxRegistrationExhibitsActive(false);
-        setBoxRegistrationRouteActive(false);
-        setBoxRegistrationQrCodeActive(true);
-    }
-
     function prevTabClick() {
-        if (isBoxRegistrationQrCodeActive) {
-            setBoxRegistrationQrCodeActive(false);
-            setBoxRegistrationGeneralInformationActive(true);
-        } else if (isBoxRegistrationGeneralInformationActive) {
+        if (isBoxRegistrationGeneralInformationActive) {
             setBoxRegistrationGeneralInformationActive(false);
             setBoxRegistrationExhibitsActive(true);
         } else if (isBoxRegistrationExhibitsActive) {
@@ -320,15 +303,12 @@ function BoxRegistration(props) {
     }
 
     function nextTabClick() {
-        if (isBoxRegistrationGeneralInformationActive) {
-            setBoxRegistrationGeneralInformationActive(false);
-            setBoxRegistrationQrCodeActive(true)
+        if (isBoxRegistrationRouteActive) {
+            setBoxRegistrationRouteActive(false);
+            setBoxRegistrationExhibitsActive(true);
         } else if (isBoxRegistrationExhibitsActive) {
             setBoxRegistrationExhibitsActive(false);
             setBoxRegistrationGeneralInformationActive(true);
-        } else if (isBoxRegistrationRouteActive) {
-            setBoxRegistrationRouteActive(false);
-            setBoxRegistrationExhibitsActive(true);
         }
     }
 
@@ -365,7 +345,6 @@ function BoxRegistration(props) {
         resetSelectedArtObjects();
         setBoxRegistrationGeneralInformationActive(false);
         setBoxRegistrationExhibitsActive(false);
-        setBoxRegistrationQrCodeActive(false);
         setBoxRegistrationRouteActive(true);
     }
 
@@ -400,12 +379,13 @@ function BoxRegistration(props) {
                     rangeOf: generalInformation.temperature.max
                 }
             ],
-            qr: "qrCode.jpg"
+            qr: ""
         }
         BoxRegistrationApi.addNewBox(dataToRegister)
-            .then(() => {
+            .then((res) => {
                 clearAllBoxRegistrationInputs();
                 getCatalogs();
+                openQrCodeModal(res);
             })
             .catch((err) => {
                 console.log(err.message);
@@ -423,7 +403,6 @@ function BoxRegistration(props) {
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationRouteActive && 'box-registration__form-nav-text_active'}`} onClick={onRouteTabClick}>Маршрут</p>
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationExhibitsActive && 'box-registration__form-nav-text_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
                     <p className={`box-registration__form-nav-text ${isBoxRegistrationGeneralInformationActive && 'box-registration__form-nav-text_active'}`} onClick={onGeneralInformationTabClick}>Общая информация</p>
-                    <p className={`box-registration__form-nav-text ${isBoxRegistrationQrCodeActive && 'box-registration__form-nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
                 </div>
                 <div className='box-registration__heading-mobile-container'>
                     <p className='box-registration__heading-mobile'>{mobileHeading()}</p>
@@ -687,11 +666,6 @@ function BoxRegistration(props) {
                         </YMaps>
                     </div>
                 }
-                {isBoxRegistrationQrCodeActive &&
-                    <div className='box-registration-qr-code'>
-                        <div className='box-registration-qr-code__img' />
-                    </div>
-                }
                 <div className='box-registration__buttons-container'>
                     {isBoxRegistrationExhibitsActive ? (
                         <>
@@ -716,7 +690,7 @@ function BoxRegistration(props) {
                             {!isBoxRegistrationRouteActive && (
                                 <button type='button' className='box-registration__button-prev' onClick={prevTabClick}>Назад</button>
                             )}
-                            {isBoxRegistrationQrCodeActive ?
+                            {isBoxRegistrationGeneralInformationActive ?
                                 (
                                     <button type='button' className='box-registration__button-register' onClick={onRegisterButtonClick}>Зарегистрировать</button>
                                 ) : (
