@@ -155,6 +155,12 @@
     width: 343px;
     margin: 0;
 }
+.tracking__qr-code {
+    width: 343px;
+    height: 343px;
+    object-fit: contain;
+    margin: 32px auto 0 0;
+}
 @media screen and (max-width: 1020px) {
     .tracking {
         padding: 24px 0 0;

@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { Validation } from '../../utils/Validation';
 import TrackingTable from '../TrackingTable/TrackingTable';
 import Route from '../Route/Route';
+import Information from '../Information/Information';
+import qrCode from '../../images/qr.svg';
 import * as TrackingApi from "../../Api/TrackingApi";
 
 function Tracking(props) {
@@ -160,7 +162,6 @@ function Tracking(props) {
         setExhibitsTabActive(false);
         TrackingApi.getBoxArtObjects(boxData.id)
             .then((data) => {
-                console.log(data.artObjects);
                 setBoxArtObject(data.artObjects);
             })
             .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
@@ -369,6 +370,15 @@ function Tracking(props) {
                                 boxArtObjectsSearchInput={boxArtObjectsSearchInput}
                                 trackingSearchInput={trackingSearchInput}
                             />
+                        )}
+                        {isInformationTabActive && (
+                            <Information
+                                box={box}
+                                boxArtObject={boxArtObject}
+                            />
+                        )}
+                        {isQrCodeTabActive && (
+                            <img className='tracking__qr-code' src={qrCode} alt="qr код" />
                         )}
                         <div className='tracking__box-buttons-container'>
                             {isRouteTabActive && (

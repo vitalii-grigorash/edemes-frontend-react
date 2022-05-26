@@ -402,10 +402,10 @@ function BoxRegistration(props) {
             ],
             qr: "qrCode.jpg"
         }
-        console.log(dataToRegister);
         BoxRegistrationApi.addNewBox(dataToRegister)
             .then(() => {
                 clearAllBoxRegistrationInputs();
+                getCatalogs();
             })
             .catch((err) => {
                 console.log(err.message);

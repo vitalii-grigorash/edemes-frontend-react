@@ -36,7 +36,9 @@ export const getCatalog = (id) => {
         })
         .then(data => data)
         .catch((err) => {
-            throw new Error(err.message);
+            if (err.status === 404) {
+                throw new Error('В ящике нет доступных экспонатов');
+            }
         });
 };
 
