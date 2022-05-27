@@ -5,7 +5,8 @@ import Cards from '../Cards/Cards';
 function Catalog(props) {
 
     const {
-        // handleOpenCatalogPopupClick,
+        handleOpenCatalogPopupClick,
+        getCatalogs,
         handleMobileHeaderNavText,
         catalogsForRender,
         onSelectCatalogClick,
@@ -40,13 +41,18 @@ function Catalog(props) {
         handleMobileHeaderNavText('Каталог');
     });
 
+    useEffect(() => {
+        getCatalogs();
+        // eslint-disable-next-line
+    }, [])
+
     return (
         <div className="catalog">
             <Helmet
                 title='Каталог'
             />
             <h1 className='catalog__heading'>Каталог</h1>
-            {/* <button className='catalog__import-button' onClick={handleOpenCatalogPopupClick}>Импорт</button> */}
+            <button className='catalog__import-button' onClick={handleOpenCatalogPopupClick}>Импорт</button>
             <div className='catalog__main-container'>
                 <Cards
                     catalogsForRender={catalogsForRender}

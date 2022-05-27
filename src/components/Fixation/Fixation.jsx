@@ -2,19 +2,47 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from 'react-helmet-async';
 import FixationGeneralInformation from "../FixationGeneralInformation/FixationGeneralInformation";
 import FixationMoving from "../FixationMoving/FixationMoving";
-import FixationDocuments from "../FixationDocuments/FixationDocuments";
+import * as FixationApi from "../../Api/FixationApi";
 
 function Fixation(props) {
 
     const {
-        handleMobileHeaderNavText
+        handleMobileHeaderNavText,
+        fixationHash
     } = props;
 
-    const [isScanButtonActive, setScanButtonActive] = useState(false);
-    const [scanButtonText, setScanButtonText] = useState('Сканировать');
+    const [isBoxShow, setBoxShow] = useState(false);
     const [isGeneralInformationActive, setGeneralInformationActive] = useState(true);
     const [isMovingActive, setMovingActive] = useState(false);
-    const [isDocumentsActive, setDocumentsActive] = useState(false);
+    const [isQrCodeTabActive, setQrCodeTabActive] = useState(false);
+    const [box, setBox] = useState({});
+
+    // http://localhost:3000/fixation/43d13a30-7084-43d9-8c6b-00fec1423584
+
+    function handleBoxShow() {
+        setBoxShow(true);
+    }
+
+    function handleBoxHide() {
+        setBoxShow(false);
+    }
+
+    useEffect(() => {
+        if (fixationHash !== '') {
+            FixationApi.getFixationBox(fixationHash)
+                .then((data) => {
+                    if (data !== undefined) {
+                        setBox(data);
+                        handleBoxShow();
+                    } else {
+                        handleBoxHide();
+                    }
+                })
+                .catch((err) => {
+                    console.log(`Ошибка при загрузке ящика: ${err}`);
+                });
+        }
+    }, [fixationHash])
 
     useEffect(() => {
         handleMobileHeaderNavText('Фиксация');
@@ -22,25 +50,20 @@ function Fixation(props) {
 
     function onGeneralInformationTabClick() {
         setMovingActive(false);
-        setDocumentsActive(false);
+        setQrCodeTabActive(false);
         setGeneralInformationActive(true);
     }
 
     function onMovingTabClick() {
         setGeneralInformationActive(false);
-        setDocumentsActive(false);
+        setQrCodeTabActive(false);
         setMovingActive(true);
     }
 
-    function onDocumentsTabClick() {
+    function onQrCodeTabClick() {
         setGeneralInformationActive(false);
         setMovingActive(false);
-        setDocumentsActive(true);
-    }
-
-    function onScanButtonClick() {
-        setScanButtonActive(true);
-        setScanButtonText('Сканировать еще');
+        setQrCodeTabActive(true);
     }
 
     return (
@@ -50,29 +73,29 @@ function Fixation(props) {
             />
             <div className="fixation__heading-container">
                 <p className="fixation__heading">Фиксация</p>
-                <button type="button" className="fixation__scan-button" onClick={onScanButtonClick}>{scanButtonText}</button>
             </div>
-            {isScanButtonActive && (
+            {isBoxShow && (
                 <div className="fixation__main-container">
                     <div className="fixation__nav-container">
                         <p className={`fixation__nav-text ${isGeneralInformationActive && 'fixation__nav-text_active'}`} onClick={onGeneralInformationTabClick}>Общая информация</p>
-                        <p className={`fixation__nav-text ${isMovingActive && 'fixation__nav-text_active'}`} onClick={onMovingTabClick}>Перемещение</p>
-                        <p className={`fixation__nav-text ${isDocumentsActive && 'fixation__nav-text_active'}`} onClick={onDocumentsTabClick}>Документы</p>
+                        <p className={`fixation__nav-text ${isMovingActive && 'fixation__nav-text_active'}`} onClick={onMovingTabClick}>Маршрут</p>
+                        <p className={`fixation__nav-text ${isQrCodeTabActive && 'fixation__nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
                     </div>
                     {isGeneralInformationActive && (
-                        <FixationGeneralInformation />
+                        <FixationGeneralInformation
+                            box={box}
+                        />
                     )}
                     {isMovingActive && (
-                        <FixationMoving />
+                        <FixationMoving
+                            box={box}
+                        />
                     )}
-                    {isDocumentsActive && (
-                        <FixationDocuments />
+                    {isQrCodeTabActive && (
+                        <img className='fixation__qr-code' src={box.box.qr} alt="qr код" />
                     )}
                 </div>
             )}
-            <div className="fixation__bottom-container">
-                <button type="button" className="fixation__scan-button" onClick={onScanButtonClick}>{scanButtonText}</button>
-            </div>
         </div>
     );
 }

@@ -49,6 +49,11 @@ export const addNewBox = (dataToRegister) => {
         body: JSON.stringify(dataToRegister)
     })
         .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
         .catch((err) => {
             console.log(err);
             if (err.status === 500) {
@@ -56,3 +61,25 @@ export const addNewBox = (dataToRegister) => {
             }
         });
 };
+
+export const addQr = (data) => {
+    return fetch(`${API_URL}/boxes/addqr`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .catch((err) => {
+            if (err.status === 500) {
+                throw new Error('Сервер временно недоступен');
+            }
+        });
+};
+

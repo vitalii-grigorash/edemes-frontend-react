@@ -5,144 +5,147 @@
 .fixation-general-information__table-container {
     display: flex;
     flex-direction: column;
-    margin: 0 auto 0 0;
+    margin: 0 144px auto 0;
     border: 1px solid #DFDEDE;
     border-radius: 4px;
-    width: 482px;
+    box-sizing: border-box;
 }
 .fixation-general-information__table-row {
     display: flex;
-    border-bottom: 1px solid #DFDEDE;
-    height: 56px;
+    min-height: 56px;
+    border-bottom: 1px solid #DFDEDE; 
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.0025em;
+    color: #333333;
     box-sizing: border-box;
 }
 .fixation-general-information__table-row:last-of-type {
-    border-bottom: 0;
+    border-bottom: none;
 }
-.fixation-general-information__table-row-text {
-    font-size: 14px;
-    line-height: 20px;
-    color: #333333;
-    margin: auto auto auto 0;
-}
-.fixation-general-information__table-row-text_heading {
+.fixation-general-information__table-heading {
     font-weight: 500;
-    min-width: 203px;
     margin: auto 32px;
+    min-width: 203px;
+    max-width: 203px;
 }
-.fixation-general-information__table-row-edit-button {
-    background-image: url('../../images/edit-icon.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    margin: auto 23px auto auto;
+.fixation-general-information__table-value {
+    margin: auto 45px auto 0;
+    min-width: 170px;
+    max-width: 170px;
 }
 .fixation-general-information__img-container {
     display: flex;
     flex-direction: column;
-    margin: 0 62px 0 auto;
+    margin: 0 auto auto 0;
+}
+.fixation-general-information__img-main {
+    width: 376px;
+    height: 360px;
+    margin: 0;
+    object-fit: cover;
+}
+.fixation-general-information__grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(auto, 1fr);
+    margin: 16px 0 0;
+    grid-row-gap: 16px;
+    grid-column-gap: 16px;
+}
+.fixation-general-information__grid-img-container {
+    display: flex;
+    position: relative;
+    margin: 0;
 }
 .fixation-general-information__img {
-    background-image: url('../../images/box-img.svg');
+    width: 82px;
+    height: 82px;
+    object-fit: cover;
+    margin: 0;
+}
+.fixation-general-information__img-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+.fixation-general-information__img-overlay:hover {
+    background: rgba(0, 0, 0, 0);
+    cursor: pointer;
+}
+.fixation-general-information__img-overlay_active {
+    background: rgba(0, 0, 0, 0);
+}
+.fixation-general-information__img-overlay_active:hover {
+    cursor: default;
+}
+.fixation-general-information__img-add-container {
+    display: flex;
+    margin: 16px auto 0 0;
+    cursor: pointer;
+}
+.fixation-general-information__img-add-cross {
+    background-image: url('../../images/add-cross.svg');
     background-size: cover;
     background-repeat: no-repeat;
-    width: 360px;
-    height: 405px;
+    width: 24px;
+    height: 24px;
+    margin: auto 8px auto 0;
 }
-.fixation-general-information__img-add-button {
-    width: 163px;
-    height: 46px;
-    background: #336699;
-    border-radius: 4px;
-    border: none;
-    margin: 32px auto 0 0;
-    cursor: pointer;
-    color: #FFFFFF;
+.fixation-general-information__img-add-text {
     font-size: 16px;
-    line-height: 22px;
+    line-height: 24px;
+    color: #333333;
+    opacity: 0.9;
+    margin: auto 0;
 }
-@media screen and (max-width: 1330px) {
+@media screen and (max-width: 1400px) {
+    .fixation-general-information__table-container {
+        margin: 0 20px auto 0;
+    }
+}
+@media screen and (max-width: 1275px) {
+    .fixation-general-information {
+        flex-direction: column;
+    }
+    .fixation-general-information__table-container {
+        margin: 0 auto 0 0;
+    }
     .fixation-general-information__img-container {
-        margin: 0 0 0 auto;
-    }
-}
-@media screen and (max-width: 1265px) {
-    .fixation-general-information__table-container {
-        width: 429px;
-    }
-    .fixation-general-information__table-row-text_heading {
-        min-width: 150px;
-    }
-}
-@media screen and (max-width: 1210px) {
-    .fixation-general-information__table-container {
-        width: 400px;
-    }
-}
-@media screen and (max-width: 1180px) {
-    .fixation-general-information__table-container {
-        width: 360px;
-    }
-    .fixation-general-information__table-row-text_heading {
-        min-width: 130px;
-        margin: auto 24px;
-    }
-}
-@media screen and (max-width: 1135px) {
-    .fixation-general-information__img {
-        width: 330px;
-        height: 370px;
-    }
-    .fixation-general-information__table-row {
-        height: 46px;
-    }
-}
-@media screen and (max-width: 1110px) {
-    .fixation-general-information__img {
-        width: 270px;
-        height: 300px;
-    }
-    .fixation-general-information__table-row {
-        height: 40px;
-    }
-    .fixation-general-information__table-row-text {
-        font-size: 12px;
-        line-height: 18px;
-    }
-}
-@media screen and (max-width: 1050px) {
-    .fixation-general-information__img {
-        width: 250px;
-        height: 280px;
+        margin: 32px auto 0 0;
     }
 }
 @media screen and (max-width: 740px) {
     .fixation-general-information {
-        display: flex;
         margin: 24px 0 0;
     }
-    .fixation-general-information__table-container {
-        margin: 0;
-        width: 343px;
+    .fixation-general-information__table-heading {
+        min-width: 130px;
+        max-width: 130px;
     }
-    .fixation-general-information__table-row {
-        height: 42px;
-    }
-    .fixation-general-information__table-row-text {
-        font-size: 12px;
-        line-height: 16px;
-    }
-    .fixation-general-information__table-row-text_heading {
-        min-width: 150px;
-        margin: auto 16px;
-    }
-    .fixation-general-information__table-row-edit-button {
-        width: 20px;
-        height: 20px;
+    .fixation-general-information__table-value {
+        margin: auto 32px auto 0;
+        min-width: 117px;
+        max-width: 117px;
     }
     .fixation-general-information__img-container {
-        display: none;
+        margin: 32px 0 0;
+    }
+    .fixation-general-information__img-main {
+        width: 343px;
+        height: 327px;
+    }
+    .fixation-general-information__grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-row-gap: 20px;
+        grid-column-gap: 20px;
+    }
+    .fixation-general-information__img {
+        width: 101px;
+        height: 101px;
     }
 }

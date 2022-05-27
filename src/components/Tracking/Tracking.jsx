@@ -4,7 +4,6 @@ import { Validation } from '../../utils/Validation';
 import TrackingTable from '../TrackingTable/TrackingTable';
 import Route from '../Route/Route';
 import Information from '../Information/Information';
-import qrCode from '../../images/qr.svg';
 import * as TrackingApi from "../../Api/TrackingApi";
 
 function Tracking(props) {
@@ -149,6 +148,7 @@ function Tracking(props) {
     useEffect(() => {
         TrackingApi.getAllBoxes()
             .then((data) => {
+                console.log(data);
                 setArtObjectsData(data.artObjects);
                 setBoxesData(data.boxes);
             })
@@ -156,6 +156,7 @@ function Tracking(props) {
     }, []);
 
     function onBoxClick(boxData) {
+        console.log(boxData);
         setBox(boxData);
         setBoxOpened(true);
         setBoxesTabActive(false);
@@ -163,6 +164,7 @@ function Tracking(props) {
         TrackingApi.getBoxArtObjects(boxData.id)
             .then((data) => {
                 setBoxArtObject(data.artObjects);
+                console.log(data);
             })
             .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
     }
@@ -378,7 +380,7 @@ function Tracking(props) {
                             />
                         )}
                         {isQrCodeTabActive && (
-                            <img className='tracking__qr-code' src={qrCode} alt="qr код" />
+                            <img className='tracking__qr-code' src={box.qr} alt="qr код" />
                         )}
                         <div className='tracking__box-buttons-container'>
                             {isRouteTabActive && (

@@ -16,7 +16,7 @@
     color: #333333;
     margin: 0 auto 0 0;
 }
-/* .catalog__import-button {
+.catalog__import-button {
     width: 95px;
     height: 46px;
     background: #336699;
@@ -30,7 +30,7 @@
     color: #FFFFFF;
     margin: 15px auto 0 0;
     cursor: pointer;
-} */
+}
 .catalog__main-container {
     background: #FFFFFF;
     box-shadow: 0px 6px 16px rgba(54, 58, 72, 0.07);

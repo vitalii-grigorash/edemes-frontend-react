@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import React from "react";
+import { Link, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function SideBar(props) {
@@ -8,22 +8,13 @@ function SideBar(props) {
         logout,
         isMobileSideBarOpen,
         onCloseMobileSideBar,
-        userName
+        userName,
+        fixationHash
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
 
     const { pathname } = useLocation();
-    const history = useHistory();
-
-    useEffect(() => {
-        if (currentUser.role === "Администратор") {
-            history.push('/box-registration');
-        }
-        if (currentUser.role === "Оператор") {
-            history.push('/fixation');
-        }
-    }, [history, currentUser.role]);
 
     function onLogoutClick() {
         logout();
@@ -85,7 +76,7 @@ function SideBar(props) {
                             <div className='side-bar__link-icon side-bar__link-icon_profile' />
                             <p className='side-bar__link-text'>Мой профиль</p>
                         </Link>
-                        <Link to={'/fixation'} className={pathname === '/fixation' ? 'side-bar__link-container side-bar__link-container_active' : 'side-bar__link-container'} onClick={onCloseMobileSideBar}>
+                        <Link to={'/fixation'} className={pathname === '/fixation' || pathname === `/fixation/${fixationHash}` ? 'side-bar__link-container side-bar__link-container_active' : 'side-bar__link-container'} onClick={onCloseMobileSideBar}>
                             <div className='side-bar__link-icon side-bar__link-icon_fixation' />
                             <p className='side-bar__link-text'>Фиксация</p>
                         </Link>

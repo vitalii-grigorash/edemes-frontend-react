@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import ProtectedRoute from "../../utils/ProtectedRoute";
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import SideBar from "../SideBar/SideBar";
 import Header from "../Header/Header";
 import BoxRegistration from "../BoxRegistration/BoxRegistration";
@@ -10,7 +9,7 @@ import Users from "../Users/Users";
 import CatalogPopup from "../CatalogPopup/CatalogPopup";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
 import QrCodePopup from "../QrCodePopup/QrCodePopup";
-import NotFound from "../NotFound/NotFound";
+// import NotFound from "../NotFound/NotFound";
 import Fixation from "../Fixation/Fixation";
 import FixationHistory from "../FixationHistory/FixationHistory";
 import Login from "../Login/Login";
@@ -58,6 +57,7 @@ function App() {
   const [boxRegistrationSelectedArtObjectsInput, setBoxRegistrationSelectedArtObjectsInput] = useState('');
   const [isQrCodeModalOpen, setQrCodeModalOpen] = useState(false);
   const [qrCodeData, setQrCodeData] = useState({});
+  const [fixationHash, setFixationHash] = useState('');
 
   function openQrCodeModal(data) {
     setQrCodeData(data);
@@ -296,17 +296,47 @@ function App() {
       createUserName(user);
       setAuthError('');
       setAuthValidate(true);
+      setCurrentUser(user);
+      if (user.role === "Администратор") {
+        history.push('/box-registration');
+      }
+      if (user.role === "Оператор") {
+        history.push('/fixation');
+      }
     } else {
       logout();
     }
   }
 
   useEffect(() => {
+
+    const url = window.location.href.split('/');
+
+    if (url[4]) {
+      setFixationHash(`${url[4]}`);
+    }
+
     if (localStorage.getItem('user')) {
+
       const userData = localStorage.getItem('user');
       const user = JSON.parse(userData);
+
+      setLoggedIn(true);
+      createUserName(user);
+      setAuthError('');
+      setAuthValidate(true);
       setCurrentUser(user);
-      login(user);
+
+      if (`/${url[3]}` === '/') {
+        if (user.role === "Администратор") {
+          history.push('/box-registration');
+        } else if (user.role === "Оператор") {
+          history.push('/fixation');
+        }
+      }
+
+    } else {
+      logout();
     }
     // eslint-disable-next-line
   }, [history]);
@@ -314,7 +344,6 @@ function App() {
   function handleLogin(email, password) {
     Auth.authorize(email, password)
       .then((res) => {
-        setCurrentUser(res.user);
         localStorage.setItem('user', JSON.stringify(res.user));
         login(res.user);
       })
@@ -391,6 +420,7 @@ function App() {
               onCloseMobileSideBar={handleOpenMobileSideBar}
               isMobileSideBarOpen={isMobileSideBarOpen}
               userName={userName}
+              fixationHash={fixationHash}
             />
 
             <Header
@@ -404,108 +434,124 @@ function App() {
 
         <Switch>
 
-          <ProtectedRoute exact path="/box-registration"
-            isLoggedIn={isLoggedIn}
-            component={BoxRegistration}
-            handleMobileHeaderNavText={handleMobileHeaderNavText}
-            getCatalogs={getCatalogs}
-            catalogsForRender={catalogsForRender}
-            onSelectCatalogClick={onSelectCatalogClick}
-            onDeselectCatalogClick={onDeselectCatalogClick}
-            selectedArtObjects={selectedArtObjects}
-            selectedArtObjectsForRender={selectedArtObjectsForRender}
-            onOpenCatalogClick={onOpenCatalogClick}
-            artObjectsForRender={artObjectsForRender}
-            onSelectArtObjectClick={onSelectArtObjectClick}
-            onDeselectArtObjectClick={onDeselectArtObjectClick}
-            resetSelectedArtObjects={resetSelectedArtObjects}
-            handleCardActive={handleCardActive}
-            handleTableActive={handleTableActive}
-            isCardActive={isCardActive}
-            isTableActive={isTableActive}
-            boxRegistrationSearchInput={boxRegistrationSearchInput}
-            onShowAddedArtObjectsClick={onShowAddedArtObjectsClick}
-            handleArtObjectsActive={handleArtObjectsActive}
-            showArtObjectInfo={showArtObjectInfo}
-            catalogsBackClick={catalogsBackClick}
-            artObjectsBackClick={artObjectsBackClick}
-            isCatalogsActive={isCatalogsActive}
-            isArtObjectsActive={isArtObjectsActive}
-            isArtObjectInfoOpen={isArtObjectInfoOpen}
-            artObject={artObject}
-            isSelectedArtObjectsActive={isSelectedArtObjectsActive}
-            searchInputCatalogs={searchInputCatalogs}
-            searchInputArtObjects={searchInputArtObjects}
-            searchInputSelectedArtObjects={searchInputSelectedArtObjects}
-            openQrCodeModal={openQrCodeModal}
-          />
+          {isLoggedIn && (
+            <Route exact path="/box-registration">
+              <BoxRegistration
+                handleMobileHeaderNavText={handleMobileHeaderNavText}
+                getCatalogs={getCatalogs}
+                catalogsForRender={catalogsForRender}
+                onSelectCatalogClick={onSelectCatalogClick}
+                onDeselectCatalogClick={onDeselectCatalogClick}
+                selectedArtObjects={selectedArtObjects}
+                selectedArtObjectsForRender={selectedArtObjectsForRender}
+                onOpenCatalogClick={onOpenCatalogClick}
+                artObjectsForRender={artObjectsForRender}
+                onSelectArtObjectClick={onSelectArtObjectClick}
+                onDeselectArtObjectClick={onDeselectArtObjectClick}
+                resetSelectedArtObjects={resetSelectedArtObjects}
+                handleCardActive={handleCardActive}
+                handleTableActive={handleTableActive}
+                isCardActive={isCardActive}
+                isTableActive={isTableActive}
+                boxRegistrationSearchInput={boxRegistrationSearchInput}
+                onShowAddedArtObjectsClick={onShowAddedArtObjectsClick}
+                handleArtObjectsActive={handleArtObjectsActive}
+                showArtObjectInfo={showArtObjectInfo}
+                catalogsBackClick={catalogsBackClick}
+                artObjectsBackClick={artObjectsBackClick}
+                isCatalogsActive={isCatalogsActive}
+                isArtObjectsActive={isArtObjectsActive}
+                isArtObjectInfoOpen={isArtObjectInfoOpen}
+                artObject={artObject}
+                isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+                searchInputCatalogs={searchInputCatalogs}
+                searchInputArtObjects={searchInputArtObjects}
+                searchInputSelectedArtObjects={searchInputSelectedArtObjects}
+                openQrCodeModal={openQrCodeModal}
+              />
+            </Route>
+          )}
 
-          <ProtectedRoute exact path="/tracking"
-            isLoggedIn={isLoggedIn}
-            component={Tracking}
-            handleMobileHeaderNavText={handleMobileHeaderNavText}
-          />
+          {isLoggedIn && (
+            <Route exact path="/tracking">
+              <Tracking
+                handleMobileHeaderNavText={handleMobileHeaderNavText}
+              />
+            </Route>
+          )}
 
-          <ProtectedRoute exact path="/catalog"
-            isLoggedIn={isLoggedIn}
-            component={Catalog}
-            handleOpenCatalogPopupClick={handleOpenCatalogPopupClick}
-            handleMobileHeaderNavText={handleMobileHeaderNavText}
-            catalogsForRender={catalogsForRender}
-            onSelectCatalogClick={onSelectCatalogClick}
-            onDeselectCatalogClick={onDeselectCatalogClick}
-            selectedArtObjects={selectedArtObjects}
-            selectedArtObjectsForRender={selectedArtObjectsForRender}
-            onOpenCatalogClick={onOpenCatalogClick}
-            artObjectsForRender={artObjectsForRender}
-            onSelectArtObjectClick={onSelectArtObjectClick}
-            onDeselectArtObjectClick={onDeselectArtObjectClick}
-            handleArtObjectsActive={handleArtObjectsActive}
-            isCatalogsActive={isCatalogsActive}
-            isArtObjectsActive={isArtObjectsActive}
-            showArtObjectInfo={showArtObjectInfo}
-            isArtObjectInfoOpen={isArtObjectInfoOpen}
-            artObject={artObject}
-            onShowAddedArtObjectsClick={onShowAddedArtObjectsClick}
-            isSelectedArtObjectsActive={isSelectedArtObjectsActive}
-            isCardActive={isCardActive}
-            handleCardActive={handleCardActive}
-            isTableActive={isTableActive}
-            handleTableActive={handleTableActive}
-            boxRegistrationSearchInput={boxRegistrationSearchInput}
-            searchInputCatalogs={searchInputCatalogs}
-            searchInputArtObjects={searchInputArtObjects}
-            searchInputSelectedArtObjects={searchInputSelectedArtObjects}
-            catalogsBackClick={catalogsBackClick}
-            artObjectsBackClick={artObjectsBackClick}
-          />
+          {isLoggedIn && (
+            <Route exact path="/catalog">
+              <Catalog
+                getCatalogs={getCatalogs}
+                handleOpenCatalogPopupClick={handleOpenCatalogPopupClick}
+                handleMobileHeaderNavText={handleMobileHeaderNavText}
+                catalogsForRender={catalogsForRender}
+                onSelectCatalogClick={onSelectCatalogClick}
+                onDeselectCatalogClick={onDeselectCatalogClick}
+                selectedArtObjects={selectedArtObjects}
+                selectedArtObjectsForRender={selectedArtObjectsForRender}
+                onOpenCatalogClick={onOpenCatalogClick}
+                artObjectsForRender={artObjectsForRender}
+                onSelectArtObjectClick={onSelectArtObjectClick}
+                onDeselectArtObjectClick={onDeselectArtObjectClick}
+                handleArtObjectsActive={handleArtObjectsActive}
+                isCatalogsActive={isCatalogsActive}
+                isArtObjectsActive={isArtObjectsActive}
+                showArtObjectInfo={showArtObjectInfo}
+                isArtObjectInfoOpen={isArtObjectInfoOpen}
+                artObject={artObject}
+                onShowAddedArtObjectsClick={onShowAddedArtObjectsClick}
+                isSelectedArtObjectsActive={isSelectedArtObjectsActive}
+                isCardActive={isCardActive}
+                handleCardActive={handleCardActive}
+                isTableActive={isTableActive}
+                handleTableActive={handleTableActive}
+                boxRegistrationSearchInput={boxRegistrationSearchInput}
+                searchInputCatalogs={searchInputCatalogs}
+                searchInputArtObjects={searchInputArtObjects}
+                searchInputSelectedArtObjects={searchInputSelectedArtObjects}
+                catalogsBackClick={catalogsBackClick}
+                artObjectsBackClick={artObjectsBackClick}
+              />
+            </Route>
+          )}
 
-          <ProtectedRoute exact path="/users"
-            isLoggedIn={isLoggedIn}
-            component={Users}
-            handleMobileHeaderNavText={handleMobileHeaderNavText}
-            addUser={addUser}
-            addNewUserError={addNewUserError}
-          />
+          {isLoggedIn && (
+            <Route exact path="/users">
+              <Users
+                handleMobileHeaderNavText={handleMobileHeaderNavText}
+                addUser={addUser}
+                addNewUserError={addNewUserError}
+              />
+            </Route>
+          )}
 
-          <ProtectedRoute exact path="/profile"
-            isLoggedIn={isLoggedIn}
-            component={Profile}
-            handleMobileHeaderNavText={handleMobileHeaderNavText}
-            editUser={editUser}
-          />
+          {isLoggedIn && (
+            <Route exact path="/profile">
+              <Profile
+                handleMobileHeaderNavText={handleMobileHeaderNavText}
+                editUser={editUser}
+              />
+            </Route>
+          )}
 
-          <ProtectedRoute exact path="/fixation"
-            isLoggedIn={isLoggedIn}
-            component={Fixation}
-            handleMobileHeaderNavText={handleMobileHeaderNavText}
-          />
+          {isLoggedIn && (
+            <Route path="/fixation">
+              <Fixation
+                handleMobileHeaderNavText={handleMobileHeaderNavText}
+                fixationHash={fixationHash}
+              />
+            </Route>
+          )}
 
-          <ProtectedRoute exact path="/fixation-history"
-            isLoggedIn={isLoggedIn}
-            component={FixationHistory}
-            handleMobileHeaderNavText={handleMobileHeaderNavText}
-          />
+          {isLoggedIn && (
+            <Route exact path="/fixation-history">
+              <FixationHistory
+                handleMobileHeaderNavText={handleMobileHeaderNavText}
+              />
+            </Route>
+          )}
 
           <Route path='/register'>
             <Register
@@ -522,14 +568,14 @@ function App() {
             />
           </Route>
 
-          <Route>
+          {/* <Route>
             {!isLoggedIn && <Redirect from='/' to='/login' />}
           </Route>
 
           <Switch>
             <Route exact path="/404" component={NotFound} />
             <Redirect from='*' to='/404' />
-          </Switch>
+          </Switch> */}
 
         </Switch>
 
