@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import TrackingTableExhibitsData from '../../utils/TrackingTableExhibitsData.json';
-import TrackingTableBoxesData from '../../utils/TrackingTableBoxesData.json';
-import TrackingTable from '../TrackingTable/TrackingTable';
+import * as FixationApi from "../../Api/FixationApi";
 
 function FixationHistory(props) {
 
@@ -11,30 +9,23 @@ function FixationHistory(props) {
     } = props;
 
     const [isBoxesTabActive, setBoxesTabActive] = useState(true);
-    const [isExhibitsTabActive, setExhibitsTabActive] = useState(false);
-    const boxesTablePlaceholder = 'Введите название ящика';
-    const exhibitsTablePlaceholder = 'Введите название экспоната';
+
+    useEffect(() => {
+        FixationApi.getFixationHistory()
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                console.log(`Ошибка при загрузке ящиков: ${err}`);
+            });
+    })
 
     useEffect(() => {
         handleMobileHeaderNavText('История фиксаций');
     });
 
     function onBoxesTabClick() {
-        setExhibitsTabActive(false);
         setBoxesTabActive(true);
-    }
-
-    function onExhibitsTabClick() {
-        setBoxesTabActive(false);
-        setExhibitsTabActive(true);
-    }
-
-    function onBoxesSearchClick() {
-        console.log('onBoxesSearchClick');
-    }
-
-    function onExhibitsSearchClick() {
-        console.log('onExhibitsSearchClick');
     }
 
     return (
@@ -46,21 +37,9 @@ function FixationHistory(props) {
             <div className='fixation-history__table'>
                 <div className='fixation-history__tabs-container'>
                     <p className={`fixation-history__tab ${isBoxesTabActive && 'fixation-history__tab_active'}`} onClick={onBoxesTabClick}>Ящики</p>
-                    <p className={`fixation-history__tab ${isExhibitsTabActive && 'fixation-history__tab_active'}`} onClick={onExhibitsTabClick}>Экспонаты</p>
                 </div>
                 {isBoxesTabActive && (
-                    <TrackingTable
-                        dataForRender={TrackingTableBoxesData}
-                        inputPlaceholder={boxesTablePlaceholder}
-                        onSearchClick={onBoxesSearchClick}
-                    />
-                )}
-                {isExhibitsTabActive && (
-                    <TrackingTable
-                        dataForRender={TrackingTableExhibitsData}
-                        inputPlaceholder={exhibitsTablePlaceholder}
-                        onSearchClick={onExhibitsSearchClick}
-                    />
+                    <p>Ящики</p>
                 )}
             </div>
         </section>

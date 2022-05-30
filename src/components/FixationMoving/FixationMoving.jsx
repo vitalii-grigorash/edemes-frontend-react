@@ -6,6 +6,8 @@ function FixationMoving(props) {
         box
     } = props;
 
+    console.log(box);
+
     function departureDate(date) {
         const dateArray = date.split(' ');
         return `${dateArray[0] + '.' + dateArray[1] + '.' + dateArray[2]}`;
@@ -58,49 +60,21 @@ function FixationMoving(props) {
                 </div>
             </div>
             <div className='fixation-moving__steps-container'>
-                <div className="fixation-moving__steps-numbers-container">
-                    <div className="fixation-moving__step-container">
-                        <div className="fixation-moving__step-check-icon" />
+                {box.fixList.map((fix, index) => (
+                    <div key={index} className="fixation-moving__step-container">
+                        <div className="fixation-moving__step-number-container">
+                            {box.fixList.length - 1 === index ? (
+                                <div className="fixation-moving__step-check-icon" />
+                            ) : (
+                                <p className="fixation-moving__step-value">{index}</p>
+                            )}
+                        </div>
+                        <div className="fixation-moving__step-info-container">
+                            <p className="fixation-moving__steps-info-status">{fix.status}</p>
+                            <p className="fixation-moving__steps-info-description">{fix.Location.name}</p>
+                        </div>
                     </div>
-                    <div className="fixation-moving__step-line" />
-                    <div className="fixation-moving__step-container">
-                        <p className="fixation-moving__step-value">2</p>
-                    </div>
-                    <div className="fixation-moving__step-line" />
-                    <div className="fixation-moving__step-container">
-                        <p className="fixation-moving__step-value">3</p>
-                    </div>
-                    <div className="fixation-moving__step-line" />
-                    <div className="fixation-moving__step-container">
-                        <p className="fixation-moving__step-value">4</p>
-                    </div>
-                    <div className="fixation-moving__step-line" />
-                    <div className="fixation-moving__step-container">
-                        <p className="fixation-moving__step-value">5</p>
-                    </div>
-                </div>
-                <div className="rfixation-moving__steps-info-container">
-                    <div className="fixation-moving__step-info-container">
-                        <p className="fixation-moving__steps-info-status">Создано</p>
-                        <p className="fixation-moving__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                    <div className="fixation-moving__step-info-container">
-                        <p className="fixation-moving__steps-info-status">Создано</p>
-                        <p className="fixation-moving__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                    <div className="fixation-moving__step-info-container">
-                        <p className="fixation-moving__steps-info-status">Создано</p>
-                        <p className="fixation-moving__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                    <div className="fixation-moving__step-info-container">
-                        <p className="fixation-moving__steps-info-status">Создано</p>
-                        <p className="fixation-moving__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                    <div className="fixation-moving__step-info-container">
-                        <p className="fixation-moving__steps-info-status">Создано</p>
-                        <p className="fixation-moving__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                </div>
+                ))}
             </div>
         </section>
     );

@@ -17,7 +17,7 @@ function Fixation(props) {
     const [isQrCodeTabActive, setQrCodeTabActive] = useState(false);
     const [box, setBox] = useState({});
 
-    // http://localhost:3000/fixation/43d13a30-7084-43d9-8c6b-00fec1423584
+    // http://localhost:3000/fixation/4388fad7-1834-4a67-88c5-b165e36a8c73
 
     function handleBoxShow() {
         setBoxShow(true);

@@ -44,20 +44,23 @@
 }
 .fixation-moving__steps-container {
     display: flex;
-    margin: 0;
-}
-.fixation-moving__steps-numbers-container {
-    display: flex;
     flex-direction: column;
-    margin: 0 26px auto 0;
+    margin: 0 0 auto 0;
 }
 .fixation-moving__step-container {
+    display: flex;
+    margin: 40px 0 auto;
+}
+.fixation-moving__step-container:first-of-type {
+    margin: 0 0 auto;
+}
+.fixation-moving__step-number-container {
     display: flex;
     background: #333333;
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    margin: 0 0 auto;
+    margin: auto 26px auto 0;
 }
 .fixation-moving__step-value {
     margin: auto;
@@ -73,23 +76,9 @@
     height: 24px;
     margin: auto;
 }
-.fixation-moving__step-line {
-    width: 2px;
-    height: 55px;
-    background: #333333;
-    margin: 0 auto;
-}
-.fixation-moving__steps-info-container {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-}
 .fixation-moving__step-info-container {
     display: flex;
     flex-direction: column;
-    margin: 40px 0 0 0;
-}
-.fixation-moving__step-info-container:first-of-type {
     margin: 0;
 }
 .fixation-moving__steps-info-status {
@@ -146,8 +135,5 @@
     .fixation-moving__steps-info-description {
         max-width: 235px;
         min-width: 235px;
-    }
-    .fixation-moving__step-line {
-        height: 76px;
     }
 }
