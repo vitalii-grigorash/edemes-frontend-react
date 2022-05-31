@@ -23,12 +23,15 @@ export const getFixationBox = (hashQr) => {
         });
 };
 
-export const getFixationHistory = () => {
+export const getFixationHistory = (userId) => {
     return fetch(`${API_URL}/fixes/userfixes`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+            id: userId
+        })
     })
         .then(res => res.ok ? res : Promise.reject(res))
         .then((res) => {
@@ -41,5 +44,31 @@ export const getFixationHistory = () => {
             if (err.status === 404) {
                 throw new Error('Нет доступных ящиков');
             }
+        });
+};
+
+export const addFixation = (fixData) => {
+    return fetch(`${API_URL}/fixes`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: fixData.userId,
+            boxId: fixData.boxId,
+            comment: fixData.comment,
+            photo: fixData.photo,
+            status: fixData.status
+        })
+    })
+        .then(res => res.ok ? res : Promise.reject(res))
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            }
+        })
+        .then(data => data)
+        .catch((err) => {
+            console.log(err);
         });
 };

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import * as FixationApi from "../../Api/FixationApi";
 
 function FixationHistory(props) {
@@ -8,17 +9,19 @@ function FixationHistory(props) {
         handleMobileHeaderNavText
     } = props;
 
+    const currentUser = React.useContext(CurrentUserContext);
+
     const [isBoxesTabActive, setBoxesTabActive] = useState(true);
 
     useEffect(() => {
-        FixationApi.getFixationHistory()
+        FixationApi.getFixationHistory(currentUser.id)
             .then((data) => {
-                console.log(data);
+                console.log(data.fixesList);
             })
             .catch((err) => {
                 console.log(`Ошибка при загрузке ящиков: ${err}`);
             });
-    })
+    }, [currentUser.id])
 
     useEffect(() => {
         handleMobileHeaderNavText('История фиксаций');

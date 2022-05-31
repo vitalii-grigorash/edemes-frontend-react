@@ -66,7 +66,7 @@ function FixationMoving(props) {
                             {box.fixList.length - 1 === index ? (
                                 <div className="fixation-moving__step-check-icon" />
                             ) : (
-                                <p className="fixation-moving__step-value">{index}</p>
+                                <p className="fixation-moving__step-value">{index + 1}</p>
                             )}
                         </div>
                         <div className="fixation-moving__step-info-container">

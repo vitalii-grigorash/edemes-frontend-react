@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import FixationGeneralInformation from "../FixationGeneralInformation/FixationGeneralInformation";
 import FixationMoving from "../FixationMoving/FixationMoving";
 import * as FixationApi from "../../Api/FixationApi";
+import { Validation } from '../../utils/Validation';
 
 function Fixation(props) {
 
@@ -11,13 +12,24 @@ function Fixation(props) {
         fixationHash
     } = props;
 
+    const comment = Validation();
     const [isBoxShow, setBoxShow] = useState(false);
     const [isGeneralInformationActive, setGeneralInformationActive] = useState(true);
     const [isMovingActive, setMovingActive] = useState(false);
     const [isQrCodeTabActive, setQrCodeTabActive] = useState(false);
+    const [currentRow, setCurrentRow] = useState(0);
     const [box, setBox] = useState({});
+    const [comments, setComments] = useState([]);
 
-    // http://localhost:3000/fixation/4388fad7-1834-4a67-88c5-b165e36a8c73
+    // http://localhost:3000/fixation/01d99e8c-3c3a-4af8-9c41-b99cd1b4aca1
+
+    function handleShowMore() {
+        setCurrentRow(currentRow + 1);
+    }
+
+    function hideComments() {
+        setCurrentRow(0);
+    }
 
     function handleBoxShow() {
         setBoxShow(true);
@@ -27,12 +39,14 @@ function Fixation(props) {
         setBoxShow(false);
     }
 
-    useEffect(() => {
+    function getFixation() {
         if (fixationHash !== '') {
             FixationApi.getFixationBox(fixationHash)
                 .then((data) => {
                     if (data !== undefined) {
+                        console.log(data);
                         setBox(data);
+                        setComments(data.fixList);
                         handleBoxShow();
                     } else {
                         handleBoxHide();
@@ -42,7 +56,13 @@ function Fixation(props) {
                     console.log(`Ошибка при загрузке ящика: ${err}`);
                 });
         }
-    }, [fixationHash])
+    }
+
+    useEffect(() => {
+        console.log('fixation');
+        getFixation();
+        // eslint-disable-next-line
+    }, []);
 
     useEffect(() => {
         handleMobileHeaderNavText('Фиксация');
@@ -84,6 +104,13 @@ function Fixation(props) {
                     {isGeneralInformationActive && (
                         <FixationGeneralInformation
                             box={box}
+                            handleShowMore={handleShowMore}
+                            hideComments={hideComments}
+                            currentRow={currentRow}
+                            comments={comments}
+                            comment={comment}
+                            getFixation={getFixation}
+
                         />
                     )}
                     {isMovingActive && (

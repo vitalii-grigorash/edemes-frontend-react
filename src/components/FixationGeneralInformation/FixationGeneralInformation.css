@@ -1,11 +1,19 @@
 .fixation-general-information {
     display: flex;
+    flex-direction: column;
     margin: 32px 0 0;
+}
+.fixation-general-information__main-container {
+    display: flex;
+    margin: 0 auto 0 0;
+}
+.fixation-general-information__main-container:last-of-type {
+    margin: 24px auto 0 0;
 }
 .fixation-general-information__table-container {
     display: flex;
     flex-direction: column;
-    margin: 0 144px auto 0;
+    margin: 0 24px auto 0;
     border: 1px solid #DFDEDE;
     border-radius: 4px;
     box-sizing: border-box;
@@ -103,19 +111,170 @@
     opacity: 0.9;
     margin: auto 0;
 }
+.fixation-general-information__comments-container {
+    display: flex;
+    flex-direction: column;
+    width: 482px;
+    border: 1px solid #DFDEDE;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #333333;
+    padding: 24px;
+    box-sizing: border-box;
+    margin: 0 24px auto 0;
+}
+.fixation-general-information__comments-heading {
+    font-size: 18px;
+    line-height: 21px;
+    margin: 0 auto 0 0;
+}
+.fixation-general-information__comment-container {
+    display: flex;
+    flex-direction: column;
+    margin: 16px 0 0;
+    border-bottom: 1px solid #DFDEDE;
+}
+.fixation-general-information__comment-container:first-of-type {
+    margin: 32px 0 0;
+}
+.fixation-general-information__comment-container:last-of-type {
+    border-bottom: none;
+}
+.fixation-general-information__comment-heading-container {
+    display: flex;
+    margin: 0;
+}
+.fixation-general-information__comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: auto 16px auto 0;
+}
+.fixation-general-information__comment-name {
+    margin: auto auto auto 0;
+}
+.fixation-general-information__comment-date {
+    margin: auto 0;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.1px;
+    color: #666666;
+    opacity: 0.7;
+}
+.fixation-general-information__comment {
+    margin: 16px 0;
+    max-width: 434px;
+    min-width: 434px;
+}
+.fixation-general-information__more-comments {
+    font-size: 14px;
+    line-height: 21px;
+    color: #336699;
+    cursor: pointer;
+    margin: 8px auto 0 0;
+}
+.fixation-general-information__comment-imput {
+    height: 40px;
+    margin: 32px 0 0;
+    border: 1.26425px solid #DFDEDE;
+    border-radius: 4px;
+    padding: 0 16px;
+}
+.fixation-general-information__status-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #DFDEDE;
+    border-radius: 4px;
+    padding: 24px;
+    box-sizing: border-box;
+    margin: 0 auto auto 0;
+    font-size: 18px;
+    line-height: 21px;
+    color: #333333;
+}
+.fixation-general-information__status-heading {
+    margin: 0 auto 0 0;
+}
+.fixation-general-information__status-radio {
+    margin: 32px auto 0 0;
+}
+.fixation-general-information__status-radio:last-of-type {
+    margin: 16px auto 0 0;
+}
+.fixation-general-information__status-radio input[type=radio] {
+	display: none;
+}
+.fixation-general-information__status-radio input[type=radio]:checked + label:before {
+	background-image: url('../../images/radio-active.svg');
+    background-repeat: no-repeat;
+}
+.fixation-general-information__status-radio label:before {
+	content: "";
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	left: 0;
+    top: 2px;
+    background-image: url('../../images/radio-disabled.svg');
+    background-repeat: no-repeat;
+}
+.fixation-general-information__status-radio label {
+	display: inline-block;
+	cursor: pointer;
+	position: relative;
+	padding-left: 20px;
+	user-select: none;
+    font-size: 18px;
+    line-height: 21px;
+    color: #333333;
+}
+.fixation-general-information__save-button {
+    width: 215px;
+    height: 46px;
+    background: #FFFFFF;
+    border: 1px solid #336699;
+    border-radius: 4px;
+    margin: 24px auto 0 0;
+    font-size: 16px;
+    line-height: 22px;
+    color: #336699;
+    cursor: pointer;
+}
 @media screen and (max-width: 1400px) {
     .fixation-general-information__table-container {
         margin: 0 20px auto 0;
     }
+    .fixation-general-information__comments-container {
+        margin: 0 20px auto 0;
+    }
 }
 @media screen and (max-width: 1275px) {
-    .fixation-general-information {
+    .fixation-general-information__main-container {
         flex-direction: column;
+        margin: 0 auto 0 0;
+    }
+    .fixation-general-information__main-container:last-of-type {
+        margin: 32px auto 0 0;
     }
     .fixation-general-information__table-container {
         margin: 0 auto 0 0;
     }
     .fixation-general-information__img-container {
+        margin: 32px auto 0 0;
+    }
+    .fixation-general-information__img-main {
+        width: 482px;
+        height: 360px;
+    }
+    .fixation-general-information__comments-container {
+        margin: 0 auto 0 0;
+    }
+    .fixation-general-information__status-container {
         margin: 32px auto 0 0;
     }
 }
@@ -147,5 +306,55 @@
     .fixation-general-information__img {
         width: 101px;
         height: 101px;
+    }
+    .fixation-general-information__comments-container {
+        width: 343px;
+        padding: 16px;
+        font-size: 14px;
+        line-height: 18px;
+    }
+    .fixation-general-information__comments-heading {
+        font-size: 16px;
+        line-height: 18px;
+    }
+    .fixation-general-information__comment-container:first-of-type {
+        margin: 24px 0 0;
+    }
+    .fixation-general-information__comment-date {
+        font-size: 12px;
+        line-height: 16px;
+    }
+    .fixation-general-information__comment {
+        max-width: 309px;
+        min-width: 309px;
+    }
+    .fixation-general-information__more-comments {
+        font-size: 12px;
+        line-height: 16px;
+    }
+    .fixation-general-information__comment-imput {
+        margin: 24px 0 0;
+    }
+    .fixation-general-information__status-container {
+        padding: 16px;
+        width: 343px;
+        margin: 32px 0 0;
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .fixation-general-information__status-radio {
+        margin: 24px auto 0 0;
+    }
+    .fixation-general-information__status-radio label:before {
+        top: 1px;
+    }
+    .fixation-general-information__status-radio label {
+        padding-left: 25px;
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .fixation-general-information__save-button {
+        width: 343px;
+        margin: 32px auto 0;
     }
 }
