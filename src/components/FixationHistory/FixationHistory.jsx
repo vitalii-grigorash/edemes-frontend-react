@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { Validation } from '../../utils/Validation';
 import HistoryTable from '../HistoryTable/HistoryTable';
+import FixationGeneralInformation from "../FixationGeneralInformation/FixationGeneralInformation";
+import FixationMoving from "../FixationMoving/FixationMoving";
 import * as FixationApi from "../../Api/FixationApi";
 import * as TrackingApi from "../../Api/TrackingApi";
 
@@ -22,6 +24,11 @@ function FixationHistory(props) {
     const [boxesHistoryForRender, setBoxesHistoryForRender] = useState([]);
     const [box, setBox] = useState({});
     const [isBoxOpened, setBoxOpened] = useState(false);
+    const [isGeneralInformationActive, setGeneralInformationActive] = useState(true);
+    const [isMovingActive, setMovingActive] = useState(false);
+    const [isQrCodeTabActive, setQrCodeTabActive] = useState(false);
+    const [currentRow, setCurrentRow] = useState(0);
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
         FixationApi.getFixationHistory(currentUser.id)
@@ -55,7 +62,7 @@ function FixationHistory(props) {
             } else {
                 const dataForRender = [];
                 boxesHistory.forEach((box) => {
-                    if (box.name.toLowerCase().includes(historyBoxesInput.toLowerCase())) {
+                    if (box.box.name.toLowerCase().includes(historyBoxesInput.toLowerCase())) {
                         dataForRender.push(box);
                     }
                 })
@@ -75,9 +82,10 @@ function FixationHistory(props) {
         setBox(boxData);
         setBoxOpened(true);
         setBoxesTabActive(false);
-        TrackingApi.getBoxArtObjects(boxData.id)
+        TrackingApi.getBoxArtObjects(boxData.box.id)
             .then((data) => {
-                console.log(data);
+                console.log(data.fixes);
+                setComments(data.fixes)
             })
             .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
     }
@@ -108,6 +116,32 @@ function FixationHistory(props) {
         return 'ящиков'
     }
 
+    function onGeneralInformationTabClick() {
+        setMovingActive(false);
+        setQrCodeTabActive(false);
+        setGeneralInformationActive(true);
+    }
+
+    function onMovingTabClick() {
+        setGeneralInformationActive(false);
+        setQrCodeTabActive(false);
+        setMovingActive(true);
+    }
+
+    function onQrCodeTabClick() {
+        setGeneralInformationActive(false);
+        setMovingActive(false);
+        setQrCodeTabActive(true);
+    }
+
+    function handleShowMore() {
+        setCurrentRow(currentRow + 1);
+    }
+
+    function hideComments() {
+        setCurrentRow(0);
+    }
+
     return (
         <section className='fixation-history'>
             <Helmet
@@ -133,7 +167,33 @@ function FixationHistory(props) {
                     </div>
                 </>
             ) : (
-                <p>{box.name}</p>
+                <div className="fixation__main-container">
+                    <div className="fixation__nav-container">
+                        <p className={`fixation__nav-text ${isGeneralInformationActive && 'fixation__nav-text_active'}`} onClick={onGeneralInformationTabClick}>Общая информация</p>
+                        <p className={`fixation__nav-text ${isMovingActive && 'fixation__nav-text_active'}`} onClick={onMovingTabClick}>Маршрут</p>
+                        <p className={`fixation__nav-text ${isQrCodeTabActive && 'fixation__nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
+                    </div>
+                    {isGeneralInformationActive && (
+                        <FixationGeneralInformation
+                            box={box}
+                            handleShowMore={handleShowMore}
+                            hideComments={hideComments}
+                            currentRow={currentRow}
+                            comments={comments}
+                            isFixationPage={false}
+                        />
+                    )}
+                    {isMovingActive && (
+                        <FixationMoving
+                            box={box}
+                            fixList={comments}
+                            isFixationPage={false}
+                        />
+                    )}
+                    {isQrCodeTabActive && (
+                        <img className='fixation__qr-code' src={box.box.qr} alt="qr код" />
+                    )}
+                </div>
             )}
         </section>
     );

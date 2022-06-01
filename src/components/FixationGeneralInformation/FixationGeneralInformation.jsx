@@ -13,7 +13,8 @@ function FixationGeneralInformation(props) {
         currentRow,
         comments,
         comment,
-        getFixation
+        getFixation,
+        isFixationPage
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -34,17 +35,32 @@ function FixationGeneralInformation(props) {
     };
 
     useEffect(() => {
-        if (box.requirements.length !== 0) {
-            box.requirements.forEach((requirement) => {
-                if (requirement.Requirement.type === 'Влажность') {
-                    setHumidity(requirement.Requirement.rangeIn);
-                } else if (requirement.Requirement.type === 'Температура') {
-                    setTemperatureRangeIn(requirement.Requirement.rangeIn);
-                    setTemperatureRangeOf(`- ${requirement.Requirement.rangeOf}`);
-                } else {
-                    setRestrictions(requirement.Requirement.type);
-                }
-            })
+        if (isFixationPage) {
+            if (box.requirements.length !== 0) {
+                box.requirements.forEach((requirement) => {
+                    if (requirement.Requirement.type === 'Влажность') {
+                        setHumidity(requirement.Requirement.rangeIn);
+                    } else if (requirement.Requirement.type === 'Температура') {
+                        setTemperatureRangeIn(requirement.Requirement.rangeIn);
+                        setTemperatureRangeOf(`- ${requirement.Requirement.rangeOf}`);
+                    } else {
+                        setRestrictions(requirement.Requirement.type);
+                    }
+                })
+            }
+        } else {
+            if (box.box.Requirements.length !== 0) {
+                box.box.Requirements.forEach((requirement) => {
+                    if (requirement.type === 'Влажность') {
+                        setHumidity(requirement.rangeIn);
+                    } else if (requirement.type === 'Температура') {
+                        setTemperatureRangeIn(requirement.rangeIn);
+                        setTemperatureRangeOf(`- ${requirement.rangeOf}`);
+                    } else {
+                        setRestrictions(requirement.type);
+                    }
+                })
+            }
         }
     })
 
@@ -191,41 +207,47 @@ function FixationGeneralInformation(props) {
                             )}
                         </>
                     )}
-                    <input
-                        type="text"
-                        className='fixation-general-information__comment-imput'
-                        name="comment"
-                        placeholder='Напишите текст здесь...'
-                        value={comment.value}
-                        onChange={comment.onChange}
-                    />
-                </div>
-                <div className="fixation-general-information__status-container">
-                    <p className="fixation-general-information__status-heading">Статус</p>
-                    <div className="fixation-general-information__status-radio">
+                    {isFixationPage && (
                         <input
-                            id="onWay"
-                            type="radio"
-                            name="status"
-                            value="В пути, промежуточный пункт"
-                            onChange={onRadioСhange}
-                            defaultChecked
+                            type="text"
+                            className='fixation-general-information__comment-imput'
+                            name="comment"
+                            placeholder='Напишите текст здесь...'
+                            value={comment.value}
+                            onChange={comment.onChange}
                         />
-                        <label htmlFor="onWay">В пути, промежуточный пункт</label>
-                    </div>
-                    <div className="fixation-general-information__status-radio">
-                        <input
-                            id="arrival"
-                            type="radio"
-                            name="status"
-                            value="Прибытие в пункт назначения"
-                            onChange={onRadioСhange}
-                        />
-                        <label htmlFor="arrival">Прибытие в пункт назначения</label>
-                    </div>
+                    )}
                 </div>
+                {isFixationPage && (
+                    <div className="fixation-general-information__status-container">
+                        <p className="fixation-general-information__status-heading">Статус</p>
+                        <div className="fixation-general-information__status-radio">
+                            <input
+                                id="onWay"
+                                type="radio"
+                                name="status"
+                                value="В пути, промежуточный пункт"
+                                onChange={onRadioСhange}
+                                defaultChecked
+                            />
+                            <label htmlFor="onWay">В пути, промежуточный пункт</label>
+                        </div>
+                        <div className="fixation-general-information__status-radio">
+                            <input
+                                id="arrival"
+                                type="radio"
+                                name="status"
+                                value="Прибытие в пункт назначения"
+                                onChange={onRadioСhange}
+                            />
+                            <label htmlFor="arrival">Прибытие в пункт назначения</label>
+                        </div>
+                    </div>
+                )}
             </div>
-            <button className="fixation-general-information__save-button" onClick={onFixBoxClick}>Сохранить изменения</button>
+            {isFixationPage && (
+                <button className="fixation-general-information__save-button" onClick={onFixBoxClick}>Сохранить изменения</button>
+            )}
         </section>
     );
 }

@@ -83,7 +83,7 @@ function HistoryTable(props) {
                     <>
                         {dataForRender.slice(showResultsFrom, resultsShow).map((list) => (
                             <div key={list.id} className='history-table__rows' onClick={() => onBoxClick(list)}>
-                                <p className='history-table__name'>{list.name}</p>
+                                <p className='history-table__name'>{list.box.name}</p>
                                 <p className='history-table__route'>{routeConvert(list.from, list.to)}</p>
                                 <p className='history-table__fix-date'>{fixDate(list.createdAt)}</p>
                                 <p className={`history-table__status ${statusText(list.status) === 'Прибыл' ? 'history-table__status_green' : `${statusText(list.status) === 'Отменен' && 'history-table__status_red'}`}`}>{statusText(list.status)}</p>

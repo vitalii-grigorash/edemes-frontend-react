@@ -3,7 +3,9 @@ import React from "react";
 function FixationMoving(props) {
 
     const {
-        box
+        box,
+        fixList,
+        isFixationPage
     } = props;
 
     console.log(box);
@@ -32,7 +34,11 @@ function FixationMoving(props) {
                 <p className="fixation-moving__info-heading">Информация о перемещении</p>
                 <div className="fixation-moving__info-rows-container">
                     <p className="fixation-moving__info-row-heading">Маршрут</p>
-                    <p className="fixation-moving__info-row-text">{routeConvert(box.locationFrom, box.locationTo)}</p>
+                    {isFixationPage ? (
+                        <p className="fixation-moving__info-row-text">{routeConvert(box.locationFrom, box.locationTo)}</p>
+                    ) : (
+                        <p className="fixation-moving__info-row-text">{routeConvert(box.from, box.to)}</p>
+                    )}
                 </div>
                 <div className="fixation-moving__info-rows-container">
                     <p className="fixation-moving__info-row-heading">Текущее место положения</p>
@@ -52,31 +58,62 @@ function FixationMoving(props) {
                 </div>
                 <div className="fixation-moving__info-rows-container">
                     <p className="fixation-moving__info-row-heading">Адрес отправителя</p>
-                    <p className="fixation-moving__info-row-text">{box.locationFrom}</p>
+                    {isFixationPage ? (
+                        <p className="fixation-moving__info-row-text">{box.locationFrom}</p>
+                    ) : (
+                        <p className="fixation-moving__info-row-text">{box.from}</p>
+                    )}
                 </div>
                 <div className="fixation-moving__info-rows-container">
                     <p className="fixation-moving__info-row-heading">Адрес получателя</p>
-                    <p className="fixation-moving__info-row-text">{box.locationTo}</p>
+                    {isFixationPage ? (
+                        <p className="fixation-moving__info-row-text">{box.locationTo}</p>
+                    ) : (
+                        <p className="fixation-moving__info-row-text">{box.to}</p>
+                    )}
                 </div>
             </div>
             <div className='fixation-moving__steps-container'>
-                {box.fixList.map((fix, index) => (
-                    <div key={index} className="fixation-moving__step-container">
-                        <div className="fixation-moving__step-number-container">
-                            {box.fixList.length - 1 === index ? (
-                                <div className="fixation-moving__step-check-icon" />
-                            ) : (
-                                <p className="fixation-moving__step-value">{index + 1}</p>
-                            )}
-                        </div>
-                        <div className="fixation-moving__step-info-container">
-                            <p className="fixation-moving__steps-info-status">{fix.status}</p>
-                            <p className="fixation-moving__steps-info-description">{fix.Location.name}</p>
-                        </div>
-                    </div>
-                ))}
+                {isFixationPage ? (
+                    <>
+                        {box.fixList.map((fix, index) => (
+                            <div key={index} className="fixation-moving__step-container">
+                                <div className="fixation-moving__step-number-container">
+                                    {box.fixList.length - 1 === index ? (
+                                        <div className="fixation-moving__step-check-icon" />
+                                    ) : (
+                                        <p className="fixation-moving__step-value">{index + 1}</p>
+                                    )}
+                                </div>
+                                <div className="fixation-moving__step-info-container">
+                                    <p className="fixation-moving__steps-info-status">{fix.status}</p>
+                                    <p className="fixation-moving__steps-info-description">{fix.Location.name}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        {fixList.map((fix, index) => (
+                            <div key={index} className="fixation-moving__step-container">
+                                <div className="fixation-moving__step-number-container">
+                                    {fixList.length - 1 === index ? (
+                                        <div className="fixation-moving__step-check-icon" />
+                                    ) : (
+                                        <p className="fixation-moving__step-value">{index + 1}</p>
+                                    )}
+                                </div>
+                                <div className="fixation-moving__step-info-container">
+                                    <p className="fixation-moving__steps-info-status">{fix.status}</p>
+                                    {/* Добавить сюда из API Location, а пока хардкод */}
+                                    <p className="fixation-moving__steps-info-description">г. Санкт-Петербург, ул. Пушкина, д. 7</p>
+                                </div>
+                            </div>
+                        ))}
+                    </>
+                )}
             </div>
-        </section>
+        </section >
     );
 }
 

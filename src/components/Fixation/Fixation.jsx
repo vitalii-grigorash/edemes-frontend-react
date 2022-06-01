@@ -21,8 +21,7 @@ function Fixation(props) {
     const [box, setBox] = useState({});
     const [comments, setComments] = useState([]);
 
-    // http://localhost:3000/fixation/5c9a9ca2-bd31-4ad2-92ea-6190ecf93a51
-    // http://localhost:3000/fixation/467df7a0-262c-47da-a506-2d4cfdf5c718
+    // http://localhost:3000/fixation/9662ac60-614d-4f0d-8a53-8a5058437341
 
     function handleShowMore() {
         setCurrentRow(currentRow + 1);
@@ -110,12 +109,14 @@ function Fixation(props) {
                             comments={comments}
                             comment={comment}
                             getFixation={getFixation}
+                            isFixationPage={true}
 
                         />
                     )}
                     {isMovingActive && (
                         <FixationMoving
                             box={box}
+                            isFixationPage={true}
                         />
                     )}
                     {isQrCodeTabActive && (

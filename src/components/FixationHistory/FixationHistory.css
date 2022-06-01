@@ -33,6 +33,8 @@
 }
 .fixation-history__tab {
     margin: 0 24px 0 0;
+    font-size: 18px;
+    line-height: 21px;
     cursor: pointer;
 }
 .fixation-history__tab:last-of-type {
@@ -58,7 +60,9 @@
 }
 @media screen and (max-width: 740px) {
     .fixation-history {
-        padding: 0;
+        padding: 0 0 32px;
+        font-size: 14px;
+        line-height: 16px;
     }
     .fixation-history__table {
         width: 375px;

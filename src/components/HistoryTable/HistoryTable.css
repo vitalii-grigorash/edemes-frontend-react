@@ -75,7 +75,7 @@
     cursor: default;
     background: #FFFFFF;
 }
-.history-table__rows_no-results {
+.history-table__rows_no-results:hover {
     cursor: default;
     background: #FFFFFF;
 }
