@@ -140,9 +140,6 @@
 .fixation-general-information__comment-container:first-of-type {
     margin: 32px 0 0;
 }
-.fixation-general-information__comment-container:last-of-type {
-    border-bottom: none;
-}
 .fixation-general-information__comment-heading-container {
     display: flex;
     margin: 0;

@@ -1,0 +1,224 @@
+.history-table {
+    display: flex;
+    flex-direction: column;
+}
+.history-table__under-table-container {
+    display: flex;
+    flex-direction: column;
+    margin: 24px 0 0;
+}
+.history-table__search-container {
+    display: flex;
+    margin: 0 auto 0 0;
+    position: relative;
+}
+.history-table__results {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.0025em;
+    color: #666666;
+    margin: 26px auto 0 0;
+}
+.history-table__search-icon {
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    background-image: url('../../images/search.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+.history-table__search-input {
+    width: 300px;
+    height: 46px;
+    margin: 0 8px 0 0;
+    border: 1px solid #CCCCCC;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #333333;
+    padding: 0 16px 0 50px;
+}
+.history-table__search-input::placeholder {
+    font-size: 16px;
+    line-height: 22px;
+    color: #666666;
+    opacity: 0.9;
+}
+.history-table__container {
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    margin: 10px 0 0;
+}
+.history-table__rows {
+    display: flex;
+    min-height: 52px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #CCCCCC;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.0025em;
+    color: #333333;
+}
+.history-table__rows:hover {
+    background: #ECEDF3;
+    cursor: pointer;
+}
+.history-table__rows_heading {
+    font-weight: 500;
+}
+.history-table__rows_heading:hover {
+    cursor: default;
+    background: #FFFFFF;
+}
+.history-table__rows_no-results {
+    cursor: default;
+    background: #FFFFFF;
+}
+.history-table__name {
+    min-width: 300px;
+    max-width: 300px;
+    margin: auto 32px;
+}
+.history-table__route {
+    min-width: 300px;
+    max-width: 300px;
+    margin: auto 32px auto 0;
+}
+.history-table__fix-date {
+    min-width: 130px;
+    margin: auto 32px auto 0;
+}
+.history-table__status {
+    min-width: 100px;
+    margin: auto auto auto 0;
+}
+.history-table__status_green {
+    color: #0FB971;
+}
+.history-table__status_red {
+    color: #E84747;
+}
+.history-table__no-results-text {
+    margin: auto;
+}
+@media screen and (max-width: 1415px) {
+    .history-table__name {
+        min-width: 250px;
+        max-width: 250px;
+    }
+}
+@media screen and (max-width: 1370px) {
+    .history-table__name {
+        min-width: 200px;
+        max-width: 200px;
+    }
+    .history-table__route {
+        min-width: 250px;
+        max-width: 250px;
+    }
+}
+@media screen and (max-width: 1315px) {
+    .history-table__rows {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    .history-table__name {
+        max-width: 190px;
+        min-width: 190px;
+        margin: auto 16px;
+    }
+    .history-table__route {
+        min-width: 220px;
+        max-width: 220px;
+        margin: auto 16px auto 0;
+    }
+    .history-table__fix-date {
+        min-width: 140px;
+        margin: auto 16px auto 0;
+    }
+    .history-table__status {
+        min-width: 90px;
+    }
+}
+@media screen and (max-width: 1180px) {
+    .history-table__name {
+        max-width: 180px;
+        min-width: 180px;
+    }
+    .history-table__route {
+        min-width: 180px;
+        max-width: 180px;
+    }
+    .history-table__fix-date {
+        min-width: 130px;
+    }
+    .history-table__status {
+        min-width: 80px;
+    }
+}
+@media screen and (max-width: 1055px) {
+    .history-table__name {
+        max-width: 160px;
+        min-width: 160px;
+    }
+    .history-table__route {
+        max-width: 160px;
+        min-width: 160px;
+    }
+}
+@media screen and (max-width: 740px) {
+    .history-table__under-table-container {
+        margin: 24px 0 0;
+    }
+    .history-table__search-icon {
+        left: 16px;
+        top: 11px;
+        width: 24px;
+        height: 24px;
+    }
+    .history-table__search-input {
+        width: 343px;
+        height: 48px;
+        padding: 0 5px 0 50px;
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .history-table__search-input::placeholder {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .history-table__results {
+        margin: 24px auto 0 0;
+    }
+    .history-table__container {
+        margin: 8px 0 0;
+    }
+    .history-table__rows {
+        min-height: 38px;
+        font-size: 9px;
+        line-height: 12px;
+    }
+    .history-table__name {
+        min-width: 90px;
+        max-width: 90px;
+        margin: auto 9px;
+    }
+    .history-table__route {
+        min-width: 90px;
+        max-width: 90px;
+        margin: auto 9px auto 0;
+    }
+    .history-table__fix-date {
+        min-width: 70px;
+        max-width: 70px;
+        margin: auto 9px auto 0;
+    }
+    .history-table__status {
+        min-width: 50px;
+    }
+}

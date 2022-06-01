@@ -21,7 +21,8 @@ function Fixation(props) {
     const [box, setBox] = useState({});
     const [comments, setComments] = useState([]);
 
-    // http://localhost:3000/fixation/01d99e8c-3c3a-4af8-9c41-b99cd1b4aca1
+    // http://localhost:3000/fixation/5c9a9ca2-bd31-4ad2-92ea-6190ecf93a51
+    // http://localhost:3000/fixation/467df7a0-262c-47da-a506-2d4cfdf5c718
 
     function handleShowMore() {
         setCurrentRow(currentRow + 1);
@@ -59,7 +60,6 @@ function Fixation(props) {
     }
 
     useEffect(() => {
-        console.log('fixation');
         getFixation();
         // eslint-disable-next-line
     }, []);
