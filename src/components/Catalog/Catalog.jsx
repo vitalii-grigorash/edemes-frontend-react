@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Cards from '../Cards/Cards';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function Catalog(props) {
 
@@ -37,14 +39,27 @@ function Catalog(props) {
         catalogsBackClick,
     } = props;
 
-    useEffect(() => {
-        handleMobileHeaderNavText('Каталог');
-    });
+    const currentUser = React.useContext(CurrentUserContext);
+    const history = useHistory();
 
     useEffect(() => {
-        getCatalogs();
+        if (currentUser.role === 'Оператор') {
+            history.push('/fixation');
+        }
+    })
+
+    useEffect(() => {
+        if (currentUser.role === 'Администратор') {
+            handleMobileHeaderNavText('Каталог');
+        }
+    }, [currentUser.role, handleMobileHeaderNavText]);
+
+    useEffect(() => {
+        if (currentUser.role === 'Администратор') {
+            getCatalogs();
+        }
         // eslint-disable-next-line
-    }, [])
+    }, [currentUser.role])
 
     return (
         <div className="catalog">

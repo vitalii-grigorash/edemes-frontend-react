@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Validation } from '../../utils/Validation';
 import UsersTable from '../UsersTable/UsersTable';
@@ -15,6 +15,7 @@ function Users(props) {
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
+    const history = useHistory();
 
     const { pathname } = useLocation();
     const [isRoleOptionsContainerOpen, setRoleOptionsContainerOpen] = useState(false);
@@ -39,6 +40,12 @@ function Users(props) {
     const [isFilterActive, setFilterActive] = useState(false);
     const [isApplyClicked, setApplyClicked] = useState(false);
     const [isReloadUsersList, setReloadUsersList] = useState(false);
+
+    useEffect(() => {
+        if (currentUser.role === 'Оператор') {
+            history.push('/fixation');
+        }
+    })
 
     function byField(field) {
         return (a, b) => a[field] > b[field] ? 1 : -1;
@@ -172,8 +179,10 @@ function Users(props) {
     const email = Validation();
 
     useEffect(() => {
-        handleMobileHeaderNavText('Пользователи');
-    });
+        if (currentUser.role === 'Администратор') {
+            handleMobileHeaderNavText('Пользователи');
+        }
+    }, [currentUser.role, handleMobileHeaderNavText]);
 
     function getUsers() {
         UsersApi.getAllUsers()
@@ -196,19 +205,23 @@ function Users(props) {
     }
 
     useEffect(() => {
-        if (isReloadUsersList) {
-            applyFilter();
-            setReloadUsersList(false);
+        if (currentUser.role === 'Администратор') {
+            if (isReloadUsersList) {
+                applyFilter();
+                setReloadUsersList(false);
+            }
         }
         // eslint-disable-next-line
-    }, [isReloadUsersList])
+    }, [isReloadUsersList, currentUser.role])
 
     useEffect(() => {
-        if (pathname === '/users') {
-            getUsers();
+        if (currentUser.role === 'Администратор') {
+            if (pathname === '/users') {
+                getUsers();
+            }
         }
         // eslint-disable-next-line
-    }, [pathname])
+    }, [pathname, currentUser.role])
 
     function handleUserActive(user) {
         UsersApi.changeActiveUser(user.id)

@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Validation } from '../../utils/Validation';
 import TrackingTable from '../TrackingTable/TrackingTable';
 import Route from '../Route/Route';
 import Information from '../Information/Information';
 import * as TrackingApi from "../../Api/TrackingApi";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function Tracking(props) {
 
     const {
         handleMobileHeaderNavText
     } = props;
+
+    const currentUser = React.useContext(CurrentUserContext);
+    const history = useHistory();
 
     const boxesSearchInput = Validation();
     const artObjectsSearchInput = Validation();
@@ -36,6 +41,12 @@ function Tracking(props) {
     const [boxArtObject, setBoxArtObject] = useState([]);
     const [currentRow, setCurrentRow] = useState(0);
     const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        if (currentUser.role === 'Оператор') {
+            history.push('/fixation');
+        }
+    })
 
     function onBackButtonClick() {
         setBoxOpened(false);
@@ -63,25 +74,30 @@ function Tracking(props) {
     }
 
     useEffect(() => {
-        handleMobileHeaderNavText('Отслеживание');
-    });
+        if (currentUser.role === 'Администратор') {
+            handleMobileHeaderNavText('Отслеживание');
+        }
+    }, [currentUser.role, handleMobileHeaderNavText]);
 
     useEffect(() => {
-        if (isRouteTabActive) {
-            setTabName('Маршрут');
-        } else if (isArtObjectsTabActive) {
-            setTabName('Экспонаты');
-        } else if (isInformationTabActive) {
-            setTabName('Общая информация');
-        } else if (isQrCodeTabActive) {
-            setTabName('QR код');
+        if (currentUser.role === 'Администратор') {
+            if (isRouteTabActive) {
+                setTabName('Маршрут');
+            } else if (isArtObjectsTabActive) {
+                setTabName('Экспонаты');
+            } else if (isInformationTabActive) {
+                setTabName('Общая информация');
+            } else if (isQrCodeTabActive) {
+                setTabName('QR код');
+            }
         }
     },
         [
             isRouteTabActive,
             isArtObjectsTabActive,
             isInformationTabActive,
-            isQrCodeTabActive
+            isQrCodeTabActive,
+            currentUser.role
         ]
     )
 
@@ -96,41 +112,43 @@ function Tracking(props) {
     }
 
     useEffect(() => {
-        if (isBoxesTabActive) {
-            if (trackingBoxesInput === '') {
-                setBoxesDataForRender(boxesData);
-            } else {
-                const dataForRender = [];
-                boxesData.forEach((box) => {
-                    if (box.name.toLowerCase().includes(trackingBoxesInput.toLowerCase())) {
-                        dataForRender.push(box);
-                    }
-                })
-                setBoxesDataForRender(dataForRender);
-            }
-        } else if (isExhibitsTabActive) {
-            if (trackingArtObjectsInput === '') {
-                setArtObjectsDataForRender(artObjectsData);
-            } else {
-                const dataForRender = [];
-                artObjectsData.forEach((artObject) => {
-                    if (artObject.name.toLowerCase().includes(trackingArtObjectsInput.toLowerCase())) {
-                        dataForRender.push(artObject);
-                    }
-                })
-                setArtObjectsDataForRender(dataForRender);
-            }
-        } else if (isArtObjectsTabActive) {
-            if (trackingBoxArtObjectsInput === '') {
-                setBoxArtObjectsDataForRender(boxArtObject);
-            } else {
-                const dataForRender = [];
-                boxArtObject.forEach((artObject) => {
-                    if (artObject.name.toLowerCase().includes(trackingBoxArtObjectsInput.toLowerCase())) {
-                        dataForRender.push(artObject);
-                    }
-                })
-                setBoxArtObjectsDataForRender(dataForRender);
+        if (currentUser.role === 'Администратор') {
+            if (isBoxesTabActive) {
+                if (trackingBoxesInput === '') {
+                    setBoxesDataForRender(boxesData);
+                } else {
+                    const dataForRender = [];
+                    boxesData.forEach((box) => {
+                        if (box.name.toLowerCase().includes(trackingBoxesInput.toLowerCase())) {
+                            dataForRender.push(box);
+                        }
+                    })
+                    setBoxesDataForRender(dataForRender);
+                }
+            } else if (isExhibitsTabActive) {
+                if (trackingArtObjectsInput === '') {
+                    setArtObjectsDataForRender(artObjectsData);
+                } else {
+                    const dataForRender = [];
+                    artObjectsData.forEach((artObject) => {
+                        if (artObject.name.toLowerCase().includes(trackingArtObjectsInput.toLowerCase())) {
+                            dataForRender.push(artObject);
+                        }
+                    })
+                    setArtObjectsDataForRender(dataForRender);
+                }
+            } else if (isArtObjectsTabActive) {
+                if (trackingBoxArtObjectsInput === '') {
+                    setBoxArtObjectsDataForRender(boxArtObject);
+                } else {
+                    const dataForRender = [];
+                    boxArtObject.forEach((artObject) => {
+                        if (artObject.name.toLowerCase().includes(trackingBoxArtObjectsInput.toLowerCase())) {
+                            dataForRender.push(artObject);
+                        }
+                    })
+                    setBoxArtObjectsDataForRender(dataForRender);
+                }
             }
         }
     },
@@ -143,19 +161,22 @@ function Tracking(props) {
             trackingArtObjectsInput,
             trackingBoxArtObjectsInput,
             boxArtObject,
-            trackingBoxesInput
+            trackingBoxesInput,
+            currentUser.role
         ]
     );
 
     useEffect(() => {
-        TrackingApi.getAllBoxes()
-            .then((data) => {
-                console.log(data);
-                setArtObjectsData(data.artObjects);
-                setBoxesData(data.boxes);
-            })
-            .catch((err) => console.log(`Ошибка при загрузке ящиков: ${err}`));
-    }, []);
+        if (currentUser.role === 'Администратор') {
+            TrackingApi.getAllBoxes()
+                .then((data) => {
+                    console.log(data);
+                    setArtObjectsData(data.artObjects);
+                    setBoxesData(data.boxes);
+                })
+                .catch((err) => console.log(`Ошибка при загрузке ящиков: ${err}`));
+        }
+    }, [currentUser.role]);
 
     function onBoxClick(boxData) {
         console.log(boxData);

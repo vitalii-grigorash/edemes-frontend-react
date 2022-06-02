@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { YMaps, Map, GeoObject } from 'react-yandex-maps';
 import { Validation } from '../../utils/Validation';
@@ -44,6 +44,7 @@ function BoxRegistration(props) {
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
+    const history = useHistory();
     const { pathname } = useLocation();
     const [isBoxRegistrationGeneralInformationActive, setBoxRegistrationGeneralInformationActive] = useState(false);
     const [isBoxRegistrationExhibitsActive, setBoxRegistrationExhibitsActive] = useState(false);
@@ -72,6 +73,12 @@ function BoxRegistration(props) {
     const [isConditionSelected, setConditionSelected] = useState(false);
     const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
 
+    useEffect(() => {
+        if (currentUser.role === 'Оператор') {
+            history.push('/fixation');
+        }
+    })
+
     const myGeoObject = {
         geometry: {
             type: "LineString",
@@ -97,9 +104,11 @@ function BoxRegistration(props) {
     ]
 
     useEffect(() => {
-        getCatalogs();
+        if (currentUser.role === 'Администратор') {
+            getCatalogs();
+        }
         // eslint-disable-next-line
-    }, [])
+    }, [currentUser.role])
 
     function handleShowConditions() {
         if (isConditionsActive) {
@@ -120,10 +129,12 @@ function BoxRegistration(props) {
     }
 
     useEffect(() => {
-        if (isRouteFromSelected && isAddressSelected) {
-            setMapWithCoordinatesActive(true);
+        if (currentUser.role === 'Администратор') {
+            if (isRouteFromSelected && isAddressSelected) {
+                setMapWithCoordinatesActive(true);
+            }
         }
-    }, [isAddressSelected, isRouteFromSelected])
+    }, [isAddressSelected, isRouteFromSelected, currentUser.role])
 
     const route = {
         locationIdFrom: locationIdFrom,
@@ -172,11 +183,13 @@ function BoxRegistration(props) {
     }
 
     useEffect(() => {
-        if (pathname === '/box-registration') {
-            showLocations();
-            showCompanies();
+        if (currentUser.role === 'Администратор') {
+            if (pathname === '/box-registration') {
+                showLocations();
+                showCompanies();
+            }
         }
-    }, [pathname]);
+    }, [pathname, currentUser.role]);
 
     function handleSelectRouteFrom() {
         if (isSelectRouteFromActive) {
@@ -250,8 +263,10 @@ function BoxRegistration(props) {
     })
 
     useEffect(() => {
-        handleMobileHeaderNavText('Регистрация ящика');
-    });
+        if (currentUser.role === 'Администратор') {
+            handleMobileHeaderNavText('Регистрация ящика');
+        }
+    }, [currentUser.role, handleMobileHeaderNavText]);
 
     function sumTotalPrice(allPrices) {
         let totalPrice = 0;
@@ -262,17 +277,19 @@ function BoxRegistration(props) {
     }
 
     useEffect(() => {
-        if (isBoxRegistrationGeneralInformationActive) {
-            if (selectedArtObjects.length !== 0) {
-                const allPrices = selectedArtObjects.map((artObject) => {
-                    return artObject.price;
-                })
-                sumTotalPrice(allPrices);
-            } else {
-                setTotalArtObjectsPrice(0);
+        if (currentUser.role === 'Администратор') {
+            if (isBoxRegistrationGeneralInformationActive) {
+                if (selectedArtObjects.length !== 0) {
+                    const allPrices = selectedArtObjects.map((artObject) => {
+                        return artObject.price;
+                    })
+                    sumTotalPrice(allPrices);
+                } else {
+                    setTotalArtObjectsPrice(0);
+                }
             }
         }
-    }, [isBoxRegistrationGeneralInformationActive, selectedArtObjects])
+    }, [isBoxRegistrationGeneralInformationActive, selectedArtObjects, currentUser.role])
 
     function onGeneralInformationTabClick() {
         setBoxRegistrationRouteActive(false);
