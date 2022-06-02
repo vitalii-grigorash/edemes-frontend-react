@@ -7,7 +7,7 @@
     flex-direction: column;
     background: #EEF0F1;
     border-radius: 4px;
-    margin: 0 auto 0 0;
+    margin: 0 53px auto 0;
     padding: 32px;
     width: auto;
     box-sizing: border-box;
@@ -54,70 +54,6 @@
     color: #336699;
     margin: 24px auto 0 0;
 }
-.route__steps-container {
-    display: flex;
-    margin: 0;
-}
-.route__steps-numbers-container {
-    display: flex;
-    flex-direction: column;
-    margin: 0 26px auto 0;
-}
-.route__step-container {
-    display: flex;
-    background: #333333;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    margin: 0 0 auto;
-}
-.route__step-value {
-    margin: auto;
-    font-size: 24px;
-    line-height: 24px;
-    color: #FFFFFF;
-}
-.route__step-check-icon {
-    background-image: url('../../images/check-icon.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-    margin: auto;
-}
-.route__step-line {
-    width: 2px;
-    height: 55px;
-    background: #333333;
-    margin: 0 auto;
-}
-.route__steps-info-container {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-}
-.route__step-info-container {
-    display: flex;
-    flex-direction: column;
-    margin: 40px 0 0 0;
-}
-.route__step-info-container:first-of-type {
-    margin: 0;
-}
-.route__steps-info-status {
-    font-size: 16px;
-    line-height: 24px;
-    color: #333333;
-    margin: 0 auto 0 0;
-}
-.route__steps-info-description {
-    font-size: 14px;
-    line-height: 21px;
-    color: #333333;
-    margin: 16px auto 0 0;
-    max-width: 391px;
-    min-width: 391px;
-}
 @media screen and (max-width: 1415px) {
     .route__info-container {
         padding: 16px;
@@ -129,9 +65,6 @@
     }
     .route__info-container {
         margin: 0 auto 0 0;
-    }
-    .route__steps-container {
-        margin: 38px auto 0 0;
     }
 }
 @media screen and (max-width: 1130px) {
@@ -151,15 +84,5 @@
     .route__info-row-text {
         max-width: 167px;
         min-width: 167px;
-    }
-    .route__steps-container {
-        margin: 24px auto 0 0;
-    }
-    .route__steps-info-description {
-        max-width: 235px;
-        min-width: 235px;
-    }
-    .route__step-line {
-        height: 76px;
     }
 }

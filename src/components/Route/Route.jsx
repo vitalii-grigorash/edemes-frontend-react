@@ -4,7 +4,8 @@ function Route(props) {
 
     const {
         box,
-        onDisbandButtonClick,
+        fixList,
+        onDisbandButtonClick
     } = props;
 
     function departureDate(date) {
@@ -63,50 +64,22 @@ function Route(props) {
                     <button className='route__disband-button' type="button" onClick={() => onDisbandButtonClick(box.id)}>Расформировать</button>
                 )}
             </div>
-            <div className='route__steps-container'>
-                <div className="route__steps-numbers-container">
-                    <div className="route__step-container">
-                        <div className="route__step-check-icon" />
+            <div className='fixation-moving__steps-container'>
+                {fixList.map((fix, index) => (
+                    <div key={index} className="fixation-moving__step-container">
+                        <div className="fixation-moving__step-number-container">
+                            {fixList.length - 1 === index ? (
+                                <div className="fixation-moving__step-check-icon" />
+                            ) : (
+                                <p className="fixation-moving__step-value">{index + 1}</p>
+                            )}
+                        </div>
+                        <div className="fixation-moving__step-info-container">
+                            <p className="fixation-moving__steps-info-status">{fix.status}</p>
+                            <p className="fixation-moving__steps-info-description">{fix.Location.name}</p>
+                        </div>
                     </div>
-                    <div className="route__step-line" />
-                    <div className="route__step-container">
-                        <p className="route__step-value">2</p>
-                    </div>
-                    <div className="route__step-line" />
-                    <div className="route__step-container">
-                        <p className="route__step-value">3</p>
-                    </div>
-                    <div className="route__step-line" />
-                    <div className="route__step-container">
-                        <p className="route__step-value">4</p>
-                    </div>
-                    <div className="route__step-line" />
-                    <div className="route__step-container">
-                        <p className="route__step-value">5</p>
-                    </div>
-                </div>
-                <div className="route__steps-info-container">
-                    <div className="route__step-info-container">
-                        <p className="route__steps-info-status">Создано</p>
-                        <p className="route__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                    <div className="route__step-info-container">
-                        <p className="route__steps-info-status">Создано</p>
-                        <p className="route__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                    <div className="route__step-info-container">
-                        <p className="route__steps-info-status">Создано</p>
-                        <p className="route__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                    <div className="route__step-info-container">
-                        <p className="route__steps-info-status">Создано</p>
-                        <p className="route__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                    <div className="route__step-info-container">
-                        <p className="route__steps-info-status">Создано</p>
-                        <p className="route__steps-info-description">Объект упаковывается и готовятся документы</p>
-                    </div>
-                </div>
+                ))}
             </div>
         </section>
     );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { Validation } from '../../utils/Validation';
@@ -18,6 +19,7 @@ function FixationHistory(props) {
 
     const boxesSearchInput = Validation();
 
+    const history = useHistory();
     const [isBoxesTabActive, setBoxesTabActive] = useState(true);
     const [historyBoxesInput, setHistoryBoxesInput] = useState('');
     const [boxesHistory, setBoxesHistory] = useState([]);
@@ -31,19 +33,29 @@ function FixationHistory(props) {
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
-        FixationApi.getFixationHistory(currentUser.id)
-            .then((data) => {
-                console.log(data.fixesList);
-                setBoxesHistory(data.fixesList);
-            })
-            .catch((err) => {
-                console.log(`Ошибка при загрузке ящиков: ${err}`);
-            });
-    }, [currentUser.id])
+        if (currentUser.role === 'Администратор') {
+            history.push('/box-registration');
+        }
+    })
 
     useEffect(() => {
-        handleMobileHeaderNavText('История фиксаций');
-    });
+        if (currentUser.role === 'Оператор') {
+            FixationApi.getFixationHistory(currentUser.id)
+                .then((data) => {
+                    console.log(data.fixesList);
+                    setBoxesHistory(data.fixesList);
+                })
+                .catch((err) => {
+                    console.log(`Ошибка при загрузке ящиков: ${err}`);
+                });
+        }
+    }, [currentUser.id, currentUser.role])
+
+    useEffect(() => {
+        if (currentUser.role === 'Оператор') {
+            handleMobileHeaderNavText('История фиксаций');
+        }
+    }, [currentUser.role, handleMobileHeaderNavText]);
 
     function onBoxesTabClick() {
         setBoxesTabActive(true);
@@ -56,24 +68,27 @@ function FixationHistory(props) {
     }
 
     useEffect(() => {
-        if (isBoxesTabActive) {
-            if (historyBoxesInput === '') {
-                setBoxesHistoryForRender(boxesHistory);
-            } else {
-                const dataForRender = [];
-                boxesHistory.forEach((box) => {
-                    if (box.box.name.toLowerCase().includes(historyBoxesInput.toLowerCase())) {
-                        dataForRender.push(box);
-                    }
-                })
-                setBoxesHistoryForRender(dataForRender);
+        if (currentUser.role === 'Оператор') {
+            if (isBoxesTabActive) {
+                if (historyBoxesInput === '') {
+                    setBoxesHistoryForRender(boxesHistory);
+                } else {
+                    const dataForRender = [];
+                    boxesHistory.forEach((box) => {
+                        if (box.box.name.toLowerCase().includes(historyBoxesInput.toLowerCase())) {
+                            dataForRender.push(box);
+                        }
+                    })
+                    setBoxesHistoryForRender(dataForRender);
+                }
             }
         }
     },
         [
             historyBoxesInput,
             boxesHistory,
-            isBoxesTabActive
+            isBoxesTabActive,
+            currentUser.role
         ]
     );
 
@@ -85,7 +100,7 @@ function FixationHistory(props) {
         TrackingApi.getBoxArtObjects(boxData.box.id)
             .then((data) => {
                 console.log(data.fixes);
-                setComments(data.fixes)
+                setComments(data.fixes.reverse())
             })
             .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
     }

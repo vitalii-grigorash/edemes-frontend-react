@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import FixationGeneralInformation from "../FixationGeneralInformation/FixationGeneralInformation";
 import FixationMoving from "../FixationMoving/FixationMoving";
 import * as FixationApi from "../../Api/FixationApi";
 import { Validation } from '../../utils/Validation';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function Fixation(props) {
 
@@ -12,6 +14,9 @@ function Fixation(props) {
         fixationHash
     } = props;
 
+    const currentUser = React.useContext(CurrentUserContext);
+
+    const history = useHistory();
     const comment = Validation();
     const [isBoxShow, setBoxShow] = useState(false);
     const [isGeneralInformationActive, setGeneralInformationActive] = useState(true);
@@ -22,6 +27,12 @@ function Fixation(props) {
     const [comments, setComments] = useState([]);
 
     // http://localhost:3000/fixation/b6793d21-4744-48c2-a326-f1038b334eaf
+
+    useEffect(() => {
+        if (currentUser.role === 'Администратор') {
+            history.push('/box-registration');
+        }
+    })
 
     function handleShowMore() {
         setCurrentRow(currentRow + 1);
@@ -59,13 +70,17 @@ function Fixation(props) {
     }
 
     useEffect(() => {
-        getFixation();
+        if (currentUser.role === 'Оператор') {
+            getFixation();
+        }
         // eslint-disable-next-line
-    }, []);
+    }, [currentUser.role]);
 
     useEffect(() => {
-        handleMobileHeaderNavText('Фиксация');
-    });
+        if (currentUser.role === 'Оператор') {
+            handleMobileHeaderNavText('Фиксация');
+        }
+    }, [currentUser.role, handleMobileHeaderNavText]);
 
     function onGeneralInformationTabClick() {
         setMovingActive(false);

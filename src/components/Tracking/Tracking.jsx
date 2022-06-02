@@ -166,7 +166,7 @@ function Tracking(props) {
         TrackingApi.getBoxArtObjects(boxData.id)
             .then((data) => {
                 setBoxArtObject(data.artObjects);
-                setComments(data.fixes)
+                setComments(data.fixes.reverse())
                 console.log(data);
             })
             .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
@@ -366,6 +366,7 @@ function Tracking(props) {
                             <Route
                                 onDisbandButtonClick={onDisbandButtonClick}
                                 box={box}
+                                fixList={comments}
                             />
                         )}
                         {isArtObjectsTabActive && (
