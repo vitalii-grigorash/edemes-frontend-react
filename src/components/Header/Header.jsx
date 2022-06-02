@@ -8,7 +8,8 @@ function Header(props) {
         logout,
         onOpenMobileSideBar,
         mobileHeaderNavText,
-        userName
+        userName,
+        removeFixationHash
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -21,6 +22,11 @@ function Header(props) {
         } else {
             setUserOptionsShow(true);
         }
+    }
+
+    function onLogoutClick() {
+        logout();
+        removeFixationHash();
     }
 
     return (
@@ -36,7 +42,7 @@ function Header(props) {
                     <Link to={'/profile'} className='header__user-my-profile-container'>
                         <p className="header__user-my-profile">Мой профиль</p>
                     </Link>
-                    <div className="header__user-option-container" onClick={logout}>
+                    <div className="header__user-option-container" onClick={onLogoutClick}>
                         <div className="header__user-logout-icon" />
                         <p className="header__user-logout">Выйти</p>
                     </div>

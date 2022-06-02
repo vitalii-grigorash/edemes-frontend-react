@@ -9,7 +9,8 @@ function SideBar(props) {
         isMobileSideBarOpen,
         onCloseMobileSideBar,
         userName,
-        fixationHash
+        fixationHash,
+        removeFixationHash
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -19,6 +20,7 @@ function SideBar(props) {
     function onLogoutClick() {
         logout();
         onCloseMobileSideBar();
+        removeFixationHash();
     }
 
     const handleOverlayClose = (evt) => {

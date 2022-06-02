@@ -308,6 +308,10 @@ function App() {
     }
   }
 
+  function removeFixationHash() {
+    setFixationHash('');
+  }
+
   useEffect(() => {
 
     const url = window.location.href.split('/');
@@ -421,6 +425,7 @@ function App() {
               isMobileSideBarOpen={isMobileSideBarOpen}
               userName={userName}
               fixationHash={fixationHash}
+              removeFixationHash={removeFixationHash}
             />
 
             <Header
@@ -428,6 +433,7 @@ function App() {
               onOpenMobileSideBar={handleOpenMobileSideBar}
               mobileHeaderNavText={mobileHeaderNavText}
               userName={userName}
+              removeFixationHash={removeFixationHash}
             />
           </>
         )}
