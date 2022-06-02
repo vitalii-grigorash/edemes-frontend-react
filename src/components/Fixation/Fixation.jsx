@@ -21,7 +21,7 @@ function Fixation(props) {
     const [box, setBox] = useState({});
     const [comments, setComments] = useState([]);
 
-    // http://localhost:3000/fixation/9662ac60-614d-4f0d-8a53-8a5058437341
+    // http://localhost:3000/fixation/b6793d21-4744-48c2-a326-f1038b334eaf
 
     function handleShowMore() {
         setCurrentRow(currentRow + 1);

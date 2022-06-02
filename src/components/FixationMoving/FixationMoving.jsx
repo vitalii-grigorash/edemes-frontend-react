@@ -8,8 +8,6 @@ function FixationMoving(props) {
         isFixationPage
     } = props;
 
-    console.log(box);
-
     function departureDate(date) {
         const dateArray = date.split(' ');
         return `${dateArray[0] + '.' + dateArray[1] + '.' + dateArray[2]}`;
@@ -105,8 +103,7 @@ function FixationMoving(props) {
                                 </div>
                                 <div className="fixation-moving__step-info-container">
                                     <p className="fixation-moving__steps-info-status">{fix.status}</p>
-                                    {/* Добавить сюда из API Location, а пока хардкод */}
-                                    <p className="fixation-moving__steps-info-description">г. Санкт-Петербург, ул. Пушкина, д. 7</p>
+                                    <p className="fixation-moving__steps-info-description">{fix.Location.name}</p>
                                 </div>
                             </div>
                         ))}

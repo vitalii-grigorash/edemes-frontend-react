@@ -142,6 +142,11 @@ function FixationHistory(props) {
         setCurrentRow(0);
     }
 
+    function onBackButtonClick() {
+        setBoxOpened(false);
+        setBoxesTabActive(true);
+    }
+
     return (
         <section className='fixation-history'>
             <Helmet
@@ -167,33 +172,51 @@ function FixationHistory(props) {
                     </div>
                 </>
             ) : (
-                <div className="fixation__main-container">
-                    <div className="fixation__nav-container">
-                        <p className={`fixation__nav-text ${isGeneralInformationActive && 'fixation__nav-text_active'}`} onClick={onGeneralInformationTabClick}>Общая информация</p>
-                        <p className={`fixation__nav-text ${isMovingActive && 'fixation__nav-text_active'}`} onClick={onMovingTabClick}>Маршрут</p>
-                        <p className={`fixation__nav-text ${isQrCodeTabActive && 'fixation__nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
+                <>
+                    <div className='fixation-history__heading-container'>
+                        <div className='fixation-history__text-container'>
+                            <p className='fixation-history__text'>История фиксаций</p>
+                            <div className='fixation-history__arrow' />
+                            <p className='fixation-history__name'>{box.box.name}</p>
+                        </div>
+                        <button type='button' className='fixation-history__back-button' onClick={onBackButtonClick}>Вернуться в историю</button>
                     </div>
-                    {isGeneralInformationActive && (
-                        <FixationGeneralInformation
-                            box={box}
-                            handleShowMore={handleShowMore}
-                            hideComments={hideComments}
-                            currentRow={currentRow}
-                            comments={comments}
-                            isFixationPage={false}
-                        />
-                    )}
-                    {isMovingActive && (
-                        <FixationMoving
-                            box={box}
-                            fixList={comments}
-                            isFixationPage={false}
-                        />
-                    )}
-                    {isQrCodeTabActive && (
-                        <img className='fixation__qr-code' src={box.box.qr} alt="qr код" />
-                    )}
-                </div>
+                    <div className="fixation__main-container">
+                        <div className='fixation-history__heading-container-mobile'>
+                            <div className='fixation-history__text-container'>
+                                <p className='fixation-history__text'>История фиксаций</p>
+                                <div className='fixation-history__arrow' />
+                                <p className='fixation-history__name'>{box.box.name}</p>
+                            </div>
+                            <button type='button' className='fixation-history__back-button' onClick={onBackButtonClick}>Вернуться в историю</button>
+                        </div>
+                        <div className="fixation__nav-container">
+                            <p className={`fixation__nav-text ${isGeneralInformationActive && 'fixation__nav-text_active'}`} onClick={onGeneralInformationTabClick}>Общая информация</p>
+                            <p className={`fixation__nav-text ${isMovingActive && 'fixation__nav-text_active'}`} onClick={onMovingTabClick}>Маршрут</p>
+                            <p className={`fixation__nav-text ${isQrCodeTabActive && 'fixation__nav-text_active'}`} onClick={onQrCodeTabClick}>QR код</p>
+                        </div>
+                        {isGeneralInformationActive && (
+                            <FixationGeneralInformation
+                                box={box}
+                                handleShowMore={handleShowMore}
+                                hideComments={hideComments}
+                                currentRow={currentRow}
+                                comments={comments}
+                                isFixationPage={false}
+                            />
+                        )}
+                        {isMovingActive && (
+                            <FixationMoving
+                                box={box}
+                                fixList={comments}
+                                isFixationPage={false}
+                            />
+                        )}
+                        {isQrCodeTabActive && (
+                            <img className='fixation__qr-code' src={box.box.qr} alt="qr код" />
+                        )}
+                    </div>
+                </>
             )}
         </section>
     );
