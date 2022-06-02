@@ -34,6 +34,8 @@ function Tracking(props) {
     const [isQrCodeTabActive, setQrCodeTabActive] = useState(false);
     const [tabName, setTabName] = useState('');
     const [boxArtObject, setBoxArtObject] = useState([]);
+    const [currentRow, setCurrentRow] = useState(0);
+    const [comments, setComments] = useState([]);
 
     function onBackButtonClick() {
         setBoxOpened(false);
@@ -164,6 +166,7 @@ function Tracking(props) {
         TrackingApi.getBoxArtObjects(boxData.id)
             .then((data) => {
                 setBoxArtObject(data.artObjects);
+                setComments(data.fixes)
                 console.log(data);
             })
             .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
@@ -278,6 +281,14 @@ function Tracking(props) {
         return 'ящиков'
     }
 
+    function handleShowMore() {
+        setCurrentRow(currentRow + 1);
+    }
+
+    function hideComments() {
+        setCurrentRow(0);
+    }
+
     return (
         <section className="tracking">
             <Helmet
@@ -377,6 +388,10 @@ function Tracking(props) {
                             <Information
                                 box={box}
                                 boxArtObject={boxArtObject}
+                                handleShowMore={handleShowMore}
+                                hideComments={hideComments}
+                                currentRow={currentRow}
+                                comments={comments}
                             />
                         )}
                         {isQrCodeTabActive && (

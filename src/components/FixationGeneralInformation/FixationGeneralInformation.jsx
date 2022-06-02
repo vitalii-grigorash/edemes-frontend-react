@@ -175,27 +175,25 @@ function FixationGeneralInformation(props) {
                             </>
                         )}
                     </div>
-                    <div className='fixation-general-information__img-add-container' onClick={onAddPhotoButtonClick}>
-                        <div className='fixation-general-information__img-add-cross' />
-                        <p className='fixation-general-information__img-add-text'>Добавить фото</p>
-                    </div>
+                    {isFixationPage && (
+                        <div className='fixation-general-information__img-add-container' onClick={onAddPhotoButtonClick}>
+                            <div className='fixation-general-information__img-add-cross' />
+                            <p className='fixation-general-information__img-add-text'>Добавить фото</p>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="fixation-general-information__main-container">
                 <div className="fixation-general-information__comments-container">
                     <p className="fixation-general-information__comments-heading">Комментарии</p>
                     {commentsToRender.map((comment, index) => (
-                        <div key={index}>
-                            {comment.comment !== '' && (
-                                <div className="fixation-general-information__comment-container">
-                                    <div className="fixation-general-information__comment-heading-container">
-                                        <img src={avatar} alt="Аватар" className="fixation-general-information__comment-avatar" />
-                                        <p className="fixation-general-information__comment-name">{userFixName(comment.Users)}</p>
-                                        <p className="fixation-general-information__comment-date">{fixDate(comment.createdAt)}</p>
-                                    </div>
-                                    <p className="fixation-general-information__comment">{comment.comment}</p>
-                                </div>
-                            )}
+                        <div key={index} className="fixation-general-information__comment-container">
+                            <div className="fixation-general-information__comment-heading-container">
+                                <img src={avatar} alt="Аватар" className="fixation-general-information__comment-avatar" />
+                                <p className="fixation-general-information__comment-name">{userFixName(comment.Users)}</p>
+                                <p className="fixation-general-information__comment-date">{fixDate(comment.createdAt)}</p>
+                            </div>
+                            <p className="fixation-general-information__comment">{comment.comment === '' ? ('Отправитель') : (comment.comment)}</p>
                         </div>
                     ))}
                     {isMoreComments ? (

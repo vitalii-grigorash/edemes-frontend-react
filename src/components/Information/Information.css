@@ -1,6 +1,14 @@
 .information {
     display: flex;
+    flex-direction: column;
     margin: 32px 0 0;
+}
+.information__main-container {
+    display: flex;
+    margin: 0 auto 0 0;
+}
+.information__main-container:last-of-type {
+    margin: 24px auto 0 0;
 }
 .information__table-container {
     display: flex;
@@ -83,26 +91,6 @@
 .information__img-overlay_active:hover {
     cursor: default;
 }
-.information__img-add-container {
-    display: flex;
-    margin: 16px auto 0 0;
-    cursor: pointer;
-}
-.information__img-add-cross {
-    background-image: url('../../images/add-cross.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-    margin: auto 8px auto 0;
-}
-.information__img-add-text {
-    font-size: 16px;
-    line-height: 24px;
-    color: #333333;
-    opacity: 0.9;
-    margin: auto 0;
-}
 @media screen and (max-width: 1400px) {
     .information__table-container {
         margin: 0 20px auto 0;
@@ -117,6 +105,17 @@
     }
     .information__img-container {
         margin: 32px auto 0 0;
+    }
+    .information__main-container {
+        flex-direction: column;
+        margin: 0 auto 0 0;
+    }
+    .information__main-container:last-of-type {
+        margin: 32px auto 0 0;
+    }
+    .information__img-main {
+        width: 482px;
+        height: 360px;
     }
 }
 @media screen and (max-width: 740px) {
