@@ -17,6 +17,8 @@ function FixationGeneralInformation(props) {
         isFixationPage
     } = props;
 
+    console.log(box)
+
     const currentUser = React.useContext(CurrentUserContext);
 
     const [restrictions, setRestrictions] = useState('');
@@ -25,6 +27,7 @@ function FixationGeneralInformation(props) {
     const [temperatureRangeOf, setTemperatureRangeOf] = useState('');
     const [mainPhoto, setMainPhoto] = useState('');
     const [status, setStatus] = useState('В пути, промежуточный пункт');
+    const [photos, setPhotos] = useState([]);
 
     const commentsPerRow = 3;
     const commentsToRender = comments.slice(0, (currentRow + 1) * commentsPerRow);
@@ -76,18 +79,16 @@ function FixationGeneralInformation(props) {
         setMainPhoto(photo);
     }
 
-    function onAddPhotoButtonClick() {
-        console.log('on add photo click');
-    }
-
     function onFixBoxClick() {
         comment.setValue('');
+
+        console.log(photos);
 
         const fixData = {
             userId: currentUser.id,
             boxId: box.box.id,
             comment: comment.value,
-            photo: [''],
+            photo: photos,
             status: status
         }
 
@@ -120,6 +121,41 @@ function FixationGeneralInformation(props) {
         })
         return `${userName.lastName + ' ' + userName.firstName}`
     }
+
+    function onSelectImageHandler(files) {
+        if (files.length !== 0) {
+            setPhotos([]);
+            const reader = [];
+            for (var i in files) {
+                if (files.hasOwnProperty(i)) {
+                    reader[i] = new FileReader();
+                    reader[i].readAsDataURL(files[i]);
+                    reader[i].onload = function (e) {
+                        setPhotos(photos => [...photos, e.target.result]);
+                    }
+                }
+            }
+        }
+    }
+
+    // ОТАВИТЬ, потом пригодится для выбора одной фотки аватарки. Только в инпуте убрать multiple
+
+    // const onSelectImageHandler = (files) => {
+
+    //     var file = files[0];
+    //     var reader = new FileReader();
+
+    //     reader.onloadend = function () {
+    //         setFoto(reader.result)
+    //     }
+
+    //     if (file) {
+    //         reader.readAsDataURL(file);
+    //     } else {
+    //         setFoto('');
+    //     }
+
+    // }
 
     return (
         <section className="fixation-general-information">
@@ -176,10 +212,33 @@ function FixationGeneralInformation(props) {
                         )}
                     </div>
                     {isFixationPage && (
-                        <div className='fixation-general-information__img-add-container' onClick={onAddPhotoButtonClick}>
-                            <div className='fixation-general-information__img-add-cross' />
-                            <p className='fixation-general-information__img-add-text'>Добавить фото</p>
-                        </div>
+                        <>
+                            <div className='fixation-general-information__img-add-container'>
+                                <input
+                                    className="fixation-general-information__img-add-input"
+                                    id="input__file"
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={(e) => onSelectImageHandler(e.target.files)}
+                                />
+                                <label htmlFor="input__file" className="fixation-general-information__img-add-input-button">
+                                    <div className='fixation-general-information__img-add-cross' />
+                                    <p className='fixation-general-information__img-add-text'>Добавить фотографии</p>
+                                </label>
+                            </div>
+                            <div className='fixation-general-information__grid-container'>
+                                {photos.length !== 0 && (
+                                    <>
+                                        {photos.map((photo, index) => (
+                                            <div key={index} className='fixation-general-information__grid-img-container'>
+                                                <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

@@ -93,7 +93,16 @@
 }
 .fixation-general-information__img-add-container {
     display: flex;
+    position: relative;
     margin: 16px auto 0 0;
+}
+.fixation-general-information__img-add-input {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+}
+.fixation-general-information__img-add-input-button {
+    display: flex;
     cursor: pointer;
 }
 .fixation-general-information__img-add-cross {
@@ -109,7 +118,7 @@
     line-height: 24px;
     color: #333333;
     opacity: 0.9;
-    margin: auto 0;
+    margin: auto auto auto 0;
 }
 .fixation-general-information__comments-container {
     display: flex;
