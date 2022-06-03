@@ -77,6 +77,21 @@
     object-fit: cover;
     margin: 0;
 }
+.fixation-general-information__img-remove-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    display: flex;
+    background: #336699;
+    border-radius: 4px;
+}
+.fixation-general-information__img-remove-text {
+    margin: 2px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #FFFFFF;
+}
 .fixation-general-information__img-overlay {
     position: absolute;
     left: 0;
@@ -284,6 +299,10 @@
         width: 482px;
         height: 360px;
     }
+    .fixation-general-information__img {
+        width: 108.5px;
+        height: 82px;
+    }
     .fixation-general-information__comments-container {
         margin: 0 auto 0 0;
     }
@@ -320,8 +339,8 @@
         grid-column-gap: 20px;
     }
     .fixation-general-information__img {
-        width: 101px;
-        height: 101px;
+        width: 101.6px;
+        height: 101.6px;
     }
     .fixation-general-information__comments-container {
         width: 343px;

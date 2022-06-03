@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import defaultBoxPhoto from '../../images/box-img.svg';
+import Preloader from '../Preloader/Preloader';
 import avatar from '../../images/avatar.svg';
 
 function Information(props) {
@@ -11,6 +12,7 @@ function Information(props) {
         hideComments,
         comments,
         currentRow,
+        isBoxLoading
     } = props;
 
     const [restrictions, setRestrictions] = useState('');
@@ -18,10 +20,30 @@ function Information(props) {
     const [temperatureRangeIn, setTemperatureRangeIn] = useState('');
     const [temperatureRangeOf, setTemperatureRangeOf] = useState('');
     const [mainPhoto, setMainPhoto] = useState('');
+    const [photosForRender, setPhotosForRender] = useState([]);
 
     const commentsPerRow = 3;
     const commentsToRender = comments.slice(0, (currentRow + 1) * commentsPerRow);
     const isMoreComments = commentsToRender.length !== comments.length;
+
+    useEffect(() => {
+        console.log(comments);
+        setPhotosForRender([]);
+        if (box.photo !== null) {
+            setPhotosForRender(box.photo)
+        }
+        if (comments.length !== 0) {
+            comments.forEach((comment) => {
+                if (comment.photo.length !== 0) {
+                    comment.photo.forEach((photo) => {
+                        if (photo !== '') {
+                            setPhotosForRender(photosForRender => [...photosForRender, photo]);
+                        }
+                    })
+                }
+            })
+        }
+    }, [box.photo, comments])
 
     useEffect(() => {
         if (box.requirementsList.length !== 0) {
@@ -39,12 +61,12 @@ function Information(props) {
     })
 
     useEffect(() => {
-        if (box.photo !== null) {
-            setMainPhoto(box.photo[0]);
+        if (photosForRender.length !== 0) {
+            setMainPhoto(photosForRender[0]);
         } else {
             setMainPhoto(defaultBoxPhoto);
         }
-    }, [box.photo])
+    }, [photosForRender])
 
     function showPhoto(photo) {
         setMainPhoto(photo);
@@ -105,24 +127,30 @@ function Information(props) {
                         <p className='information__table-value'>{humidity}</p>
                     </div>
                 </div>
-                <div className='information__img-container'>
-                    <img className='information__img-main' src={mainPhoto} alt="Фотография ящика" />
-                    <div className='information__grid-container'>
-                        {box.photo !== null && (
-                            <>
-                                {box.photo.map((photo, index) => (
-                                    <div key={index} className='information__grid-img-container'>
-                                        <img className='information__img' src={photo} alt="Фотография ящика" />
-                                        <div
-                                            className={`information__img-overlay ${photo === mainPhoto && 'information__img-overlay_active'}`}
-                                            onClick={() => showPhoto(photo)}
-                                        />
-                                    </div>
-                                ))}
-                            </>
-                        )}
+                {!isBoxLoading ? (
+                    <div className='information__img-container'>
+                        <img className='information__img-main' src={mainPhoto} alt="Фотография ящика" />
+                        <div className='information__grid-container'>
+                            {photosForRender !== null && (
+                                <>
+                                    {photosForRender.map((photo, index) => (
+                                        <div key={index} className='information__grid-img-container'>
+                                            <img className='information__img' src={photo} alt="Фотография ящика" />
+                                            <div
+                                                className={`information__img-overlay ${photo === mainPhoto && 'information__img-overlay_active'}`}
+                                                onClick={() => showPhoto(photo)}
+                                            />
+                                        </div>
+                                    ))}
+                                </>
+                            )}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div className='fixation-general-information__preloader-container'>
+                        <Preloader />
+                    </div>
+                )}
             </div>
             <div className='information__main-container'>
                 <div className="fixation-general-information__comments-container">

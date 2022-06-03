@@ -117,6 +117,10 @@
         width: 482px;
         height: 360px;
     }
+    .information__img {
+        width: 108.5px;
+        height: 82px;
+    }
 }
 @media screen and (max-width: 740px) {
     .information {
@@ -144,7 +148,7 @@
         grid-column-gap: 20px;
     }
     .information__img {
-        width: 101px;
-        height: 101px;
+        width: 101.6px;
+        height: 101.6px;
     }
 }

@@ -41,6 +41,7 @@ function Tracking(props) {
     const [boxArtObject, setBoxArtObject] = useState([]);
     const [currentRow, setCurrentRow] = useState(0);
     const [comments, setComments] = useState([]);
+    const [isBoxLoading, setBoxLoading] = useState(false);
 
     useEffect(() => {
         if (currentUser.role === 'Оператор') {
@@ -179,18 +180,21 @@ function Tracking(props) {
     }, [currentUser.role]);
 
     function onBoxClick(boxData) {
-        console.log(boxData);
         setBox(boxData);
         setBoxOpened(true);
         setBoxesTabActive(false);
         setExhibitsTabActive(false);
+        setBoxLoading(true);
         TrackingApi.getBoxArtObjects(boxData.id)
             .then((data) => {
                 setBoxArtObject(data.artObjects);
                 setComments(data.fixes.reverse())
                 console.log(data);
             })
-            .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
+            .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`))
+            .finally(() => {
+                setBoxLoading(false);
+            })
     }
 
     function onBoxesTabClick() {
@@ -414,6 +418,7 @@ function Tracking(props) {
                                 hideComments={hideComments}
                                 currentRow={currentRow}
                                 comments={comments}
+                                isBoxLoading={isBoxLoading}
                             />
                         )}
                         {isQrCodeTabActive && (

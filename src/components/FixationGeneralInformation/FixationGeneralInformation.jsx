@@ -101,8 +101,6 @@ function FixationGeneralInformation(props) {
     function onFixBoxClick() {
         comment.setValue('');
 
-        console.log(photos);
-
         const fixData = {
             userId: currentUser.id,
             boxId: box.box.id,
@@ -141,7 +139,6 @@ function FixationGeneralInformation(props) {
 
     function onSelectImageHandler(files) {
         if (files.length !== 0) {
-            setPhotos([]);
             const reader = [];
             for (var i in files) {
                 if (files.hasOwnProperty(i)) {
@@ -152,6 +149,15 @@ function FixationGeneralInformation(props) {
                     }
                 }
             }
+        }
+    }
+
+    function onRemovePhotoClick(photoForRemove) {
+        const filteredPhotos = photos.filter(photo => photo !== photoForRemove);
+        if (filteredPhotos.length === 0) {
+            setPhotos([]);
+        } else {
+            setPhotos(filteredPhotos);
         }
     }
 
@@ -251,6 +257,9 @@ function FixationGeneralInformation(props) {
                                             {photos.map((photo, index) => (
                                                 <div key={index} className='fixation-general-information__grid-img-container'>
                                                     <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
+                                                    <div className="fixation-general-information__img-remove-container">
+                                                        <p className="fixation-general-information__img-remove-text" onClick={() => onRemovePhotoClick(photo)}>Удалить</p>
+                                                    </div>
                                                 </div>
                                             ))}
                                         </>
