@@ -61,7 +61,7 @@ function Tracking(props) {
     }
 
     function onDisbandButtonClick(id) {
-        TrackingApi.disbandBox(id)
+        TrackingApi.disbandBox(id, currentUser.id)
             .then(() => {
                 TrackingApi.getAllBoxes()
                     .then((data) => {

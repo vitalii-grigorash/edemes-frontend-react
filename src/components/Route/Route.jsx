@@ -8,6 +8,8 @@ function Route(props) {
         onDisbandButtonClick
     } = props;
 
+    console.log(fixList);
+
     function departureDate(date) {
         const dateArray = date.split(' ');
         return `${dateArray[0] + '.' + dateArray[1] + '.' + dateArray[2]}`;
@@ -76,7 +78,7 @@ function Route(props) {
                         </div>
                         <div className="fixation-moving__step-info-container">
                             <p className="fixation-moving__steps-info-status">{fix.status}</p>
-                            <p className="fixation-moving__steps-info-description">{fix.Location.name}</p>
+                            <p className="fixation-moving__steps-info-description">{fix.Location !== null ? (fix.Location.name) : ('Отправка была отменена')}</p>
                         </div>
                     </div>
                 ))}

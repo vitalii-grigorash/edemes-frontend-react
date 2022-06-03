@@ -27,11 +27,8 @@ function Fixation(props) {
     const [comments, setComments] = useState([]);
     const [isBoxLoading, setBoxLoading] = useState(false);
 
-    // http://localhost:3000/fixation/83fba6a1-9e5a-4909-8f19-23007848bfd0
-    // http://localhost:3000/fixation/127e7e77-381c-4038-a66b-c560b3ce4f85
-    // http://localhost:3000/fixation/77af183c-3b2c-4f7b-97f2-c6fb8d8812a9
-    // http://localhost:3000/fixation/8647fcc3-81d6-4f83-9407-af300f7ec140
-    // http://localhost:3000/fixation/5d326ca4-b471-44c9-94bb-92cb9742c61c
+    // http://localhost:3000/fixation/3be2685b-a085-4ab7-aaf9-ff29d905f417
+    // http://localhost:3000/fixation/6d9bd406-2644-47f6-845f-1e6827e99cbf
 
     useEffect(() => {
         if (currentUser.role === 'Администратор') {

@@ -19,6 +19,8 @@ function FixationGeneralInformation(props) {
         isBoxLoading
     } = props;
 
+    console.log(box);
+
     const currentUser = React.useContext(CurrentUserContext);
 
     const [restrictions, setRestrictions] = useState('');
@@ -122,7 +124,8 @@ function FixationGeneralInformation(props) {
     function fixDate(date) {
         const dateArray = date.split(' ');
         const time = dateArray[3].split(':');
-        return `${dateArray[0] + '.' + dateArray[1] + '.' + dateArray[2] + ' ' + time[0] + ':' + time[1]}`;
+        const hours = +time[0] + 3
+        return `${dateArray[0] + '.' + dateArray[1] + '.' + dateArray[2] + ' ' + hours + ':' + time[1]}`;
     }
 
     function userFixName(userArray) {
@@ -237,34 +240,38 @@ function FixationGeneralInformation(props) {
                         </div>
                         {isFixationPage && (
                             <>
-                                <div className='fixation-general-information__img-add-container'>
-                                    <input
-                                        className="fixation-general-information__img-add-input"
-                                        id="input__file"
-                                        type="file"
-                                        accept="image/*"
-                                        multiple
-                                        onChange={(e) => onSelectImageHandler(e.target.files)}
-                                    />
-                                    <label htmlFor="input__file" className="fixation-general-information__img-add-input-button">
-                                        <div className='fixation-general-information__img-add-cross' />
-                                        <p className='fixation-general-information__img-add-text'>Добавить фотографии</p>
-                                    </label>
-                                </div>
-                                <div className='fixation-general-information__grid-container'>
-                                    {photos.length !== 0 && (
-                                        <>
-                                            {photos.map((photo, index) => (
-                                                <div key={index} className='fixation-general-information__grid-img-container'>
-                                                    <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
-                                                    <div className="fixation-general-information__img-remove-container">
-                                                        <p className="fixation-general-information__img-remove-text" onClick={() => onRemovePhotoClick(photo)}>Удалить</p>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </>
-                                    )}
-                                </div>
+                                {box.box.status !== 'Отмена отправки' && (
+                                    <>
+                                        <div className='fixation-general-information__img-add-container'>
+                                            <input
+                                                className="fixation-general-information__img-add-input"
+                                                id="input__file"
+                                                type="file"
+                                                accept="image/*"
+                                                multiple
+                                                onChange={(e) => onSelectImageHandler(e.target.files)}
+                                            />
+                                            <label htmlFor="input__file" className="fixation-general-information__img-add-input-button">
+                                                <div className='fixation-general-information__img-add-cross' />
+                                                <p className='fixation-general-information__img-add-text'>Добавить фотографии</p>
+                                            </label>
+                                        </div>
+                                        <div className='fixation-general-information__grid-container'>
+                                            {photos.length !== 0 && (
+                                                <>
+                                                    {photos.map((photo, index) => (
+                                                        <div key={index} className='fixation-general-information__grid-img-container'>
+                                                            <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
+                                                            <div className="fixation-general-information__img-remove-container">
+                                                                <p className="fixation-general-information__img-remove-text" onClick={() => onRemovePhotoClick(photo)}>Удалить</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            )}
+                                        </div>
+                                    </>
+                                )}
                             </>
                         )}
                     </div>
@@ -297,45 +304,57 @@ function FixationGeneralInformation(props) {
                         </>
                     )}
                     {isFixationPage && (
-                        <input
-                            type="text"
-                            className='fixation-general-information__comment-imput'
-                            name="comment"
-                            placeholder='Напишите текст здесь...'
-                            value={comment.value}
-                            onChange={comment.onChange}
-                        />
+                        <>
+                            {box.box.status !== 'Отмена отправки' && (
+                                <input
+                                    type="text"
+                                    className='fixation-general-information__comment-imput'
+                                    name="comment"
+                                    placeholder='Напишите текст здесь...'
+                                    value={comment.value}
+                                    onChange={comment.onChange}
+                                />
+                            )}
+                        </>
                     )}
                 </div>
                 {isFixationPage && (
-                    <div className="fixation-general-information__status-container">
-                        <p className="fixation-general-information__status-heading">Статус</p>
-                        <div className="fixation-general-information__status-radio">
-                            <input
-                                id="onWay"
-                                type="radio"
-                                name="status"
-                                value="В пути, промежуточный пункт"
-                                onChange={onRadioСhange}
-                                defaultChecked
-                            />
-                            <label htmlFor="onWay">В пути, промежуточный пункт</label>
-                        </div>
-                        <div className="fixation-general-information__status-radio">
-                            <input
-                                id="arrival"
-                                type="radio"
-                                name="status"
-                                value="Прибытие в пункт назначения"
-                                onChange={onRadioСhange}
-                            />
-                            <label htmlFor="arrival">Прибытие в пункт назначения</label>
-                        </div>
-                    </div>
+                    <>
+                        {box.box.status !== 'Отмена отправки' && (
+                            <div className="fixation-general-information__status-container">
+                                <p className="fixation-general-information__status-heading">Статус</p>
+                                <div className="fixation-general-information__status-radio">
+                                    <input
+                                        id="onWay"
+                                        type="radio"
+                                        name="status"
+                                        value="В пути, промежуточный пункт"
+                                        onChange={onRadioСhange}
+                                        defaultChecked
+                                    />
+                                    <label htmlFor="onWay">В пути, промежуточный пункт</label>
+                                </div>
+                                <div className="fixation-general-information__status-radio">
+                                    <input
+                                        id="arrival"
+                                        type="radio"
+                                        name="status"
+                                        value="Прибытие в пункт назначения"
+                                        onChange={onRadioСhange}
+                                    />
+                                    <label htmlFor="arrival">Прибытие в пункт назначения</label>
+                                </div>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
             {isFixationPage && (
-                <button className="fixation-general-information__save-button" onClick={onFixBoxClick}>Сохранить изменения</button>
+                <>
+                    {box.box.status !== 'Отмена отправки' && (
+                        <button className="fixation-general-information__save-button" onClick={onFixBoxClick}>Сохранить изменения</button>
+                    )}
+                </>
             )}
         </section>
     );

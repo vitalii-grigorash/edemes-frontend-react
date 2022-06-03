@@ -40,12 +40,16 @@ export const getBoxArtObjects = (id) => {
         });
 };
 
-export const disbandBox = (id) => {
-    return fetch(`${API_URL}/boxes/${id}`, {
+export const disbandBox = (id, userId) => {
+    return fetch(`${API_URL}/boxes`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+            boxId: id,
+            userId: userId
+        })
     })
         .then(res => res.ok ? res : Promise.reject(res))
         .then((res) => {

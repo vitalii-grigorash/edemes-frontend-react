@@ -34,12 +34,14 @@ function Information(props) {
         }
         if (comments.length !== 0) {
             comments.forEach((comment) => {
-                if (comment.photo.length !== 0) {
-                    comment.photo.forEach((photo) => {
-                        if (photo !== '') {
-                            setPhotosForRender(photosForRender => [...photosForRender, photo]);
-                        }
-                    })
+                if (comment.photo !== null) {
+                    if (comment.photo.length !== 0) {
+                        comment.photo.forEach((photo) => {
+                            if (photo !== '') {
+                                setPhotosForRender(photosForRender => [...photosForRender, photo]);
+                            }
+                        })
+                    }
                 }
             })
         }
@@ -75,7 +77,8 @@ function Information(props) {
     function fixDate(date) {
         const dateArray = date.split(' ');
         const time = dateArray[3].split(':');
-        return `${dateArray[0] + '.' + dateArray[1] + '.' + dateArray[2] + ' ' + time[0] + ':' + time[1]}`;
+        const hours = +time[0] + 3
+        return `${dateArray[0] + '.' + dateArray[1] + '.' + dateArray[2] + ' ' + hours + ':' + time[1]}`;
     }
 
     function userFixName(userArray) {
@@ -162,7 +165,7 @@ function Information(props) {
                                 <p className="fixation-general-information__comment-name">{userFixName(comment.Users)}</p>
                                 <p className="fixation-general-information__comment-date">{fixDate(comment.createdAt)}</p>
                             </div>
-                            <p className="fixation-general-information__comment">{comment.comment === '' ? ('Отправитель') : (comment.comment)}</p>
+                            <p className="fixation-general-information__comment">{comment.comment === null ? ('Отправитель') : (comment.comment === '' ? ('Отправитель') : (comment.comment))}</p>
                         </div>
                     ))}
                     {isMoreComments ? (
