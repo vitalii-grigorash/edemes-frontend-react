@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import defaultBoxPhoto from '../../images/box-img.svg';
 import * as FixationApi from "../../Api/FixationApi";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Preloader from '../Preloader/Preloader';
@@ -19,8 +18,6 @@ function FixationGeneralInformation(props) {
         isBoxLoading
     } = props;
 
-    console.log(box);
-
     const currentUser = React.useContext(CurrentUserContext);
 
     const [restrictions, setRestrictions] = useState('');
@@ -31,6 +28,7 @@ function FixationGeneralInformation(props) {
     const [status, setStatus] = useState('В пути, промежуточный пункт');
     const [photos, setPhotos] = useState([]);
     const [photosForRender, setPhotosForRender] = useState([]);
+    const [isPhotoAdded, setPhotoAdded] = useState(true);
 
     const commentsPerRow = 3;
     const commentsToRender = comments.slice(0, (currentRow + 1) * commentsPerRow);
@@ -91,8 +89,9 @@ function FixationGeneralInformation(props) {
     useEffect(() => {
         if (photosForRender.length !== 0) {
             setMainPhoto(photosForRender[0]);
+            setPhotoAdded(true);
         } else {
-            setMainPhoto(defaultBoxPhoto);
+            setPhotoAdded(false);
         }
     }, [photosForRender])
 
@@ -222,7 +221,13 @@ function FixationGeneralInformation(props) {
                 </div>
                 {!isBoxLoading ? (
                     <div className='fixation-general-information__img-container'>
-                        <img className='fixation-general-information__img-main' src={mainPhoto} alt="Фотография ящика" />
+                        {isPhotoAdded ? (
+                            <img className='fixation-general-information__img-main' src={mainPhoto} alt="Фотография ящика" />
+                        ) : (
+                            <div className="fixation-general-information__no-photo-container">
+                                <p className="fixation-general-information__no-photo-text">Нет добавленных фотографий</p>
+                            </div>
+                        )}
                         <div className='fixation-general-information__grid-container'>
                             {photosForRender !== null && (
                                 <>

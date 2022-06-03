@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import defaultBoxPhoto from '../../images/box-img.svg';
 import Preloader from '../Preloader/Preloader';
 import avatar from '../../images/avatar.svg';
 
@@ -21,13 +20,13 @@ function Information(props) {
     const [temperatureRangeOf, setTemperatureRangeOf] = useState('');
     const [mainPhoto, setMainPhoto] = useState('');
     const [photosForRender, setPhotosForRender] = useState([]);
+    const [isPhotoAdded, setPhotoAdded] = useState(true);
 
     const commentsPerRow = 3;
     const commentsToRender = comments.slice(0, (currentRow + 1) * commentsPerRow);
     const isMoreComments = commentsToRender.length !== comments.length;
 
     useEffect(() => {
-        console.log(comments);
         setPhotosForRender([]);
         if (box.photo !== null) {
             setPhotosForRender(box.photo)
@@ -65,8 +64,9 @@ function Information(props) {
     useEffect(() => {
         if (photosForRender.length !== 0) {
             setMainPhoto(photosForRender[0]);
+            setPhotoAdded(true);
         } else {
-            setMainPhoto(defaultBoxPhoto);
+            setPhotoAdded(false);
         }
     }, [photosForRender])
 
@@ -132,7 +132,13 @@ function Information(props) {
                 </div>
                 {!isBoxLoading ? (
                     <div className='information__img-container'>
-                        <img className='information__img-main' src={mainPhoto} alt="Фотография ящика" />
+                        {isPhotoAdded ? (
+                            <img className='information__img-main' src={mainPhoto} alt="Фотография ящика" />
+                        ) : (
+                            <div className="fixation-general-information__no-photo-container">
+                                <p className="fixation-general-information__no-photo-text">Нет добавленных фотографий</p>
+                            </div>
+                        )}
                         <div className='information__grid-container'>
                             {photosForRender !== null && (
                                 <>

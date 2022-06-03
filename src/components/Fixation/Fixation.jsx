@@ -27,8 +27,7 @@ function Fixation(props) {
     const [comments, setComments] = useState([]);
     const [isBoxLoading, setBoxLoading] = useState(false);
 
-    // http://localhost:3000/fixation/3be2685b-a085-4ab7-aaf9-ff29d905f417
-    // http://localhost:3000/fixation/6d9bd406-2644-47f6-845f-1e6827e99cbf
+    // http://localhost:3000/fixation/e6bdeaef-4a4a-4c81-9fef-a65989818c01
 
     useEffect(() => {
         if (currentUser.role === 'Администратор') {

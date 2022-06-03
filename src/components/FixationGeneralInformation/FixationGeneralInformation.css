@@ -58,6 +58,20 @@
     margin: 0;
     object-fit: cover;
 }
+.fixation-general-information__no-photo-container {
+    display: flex;
+    width: 376px;
+    height: 360px;
+    margin: 0;
+    background: rgba(51, 51, 51, 0.1);
+}
+.fixation-general-information__no-photo-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: 0.0025em;
+    margin: auto;
+}
 .fixation-general-information__grid-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -299,6 +313,10 @@
         width: 482px;
         height: 360px;
     }
+    .fixation-general-information__no-photo-container {
+        width: 482px;
+        height: 200px;
+    }
     .fixation-general-information__img {
         width: 108.5px;
         height: 82px;
@@ -332,6 +350,10 @@
     .fixation-general-information__img-main {
         width: 343px;
         height: 327px;
+    }
+    .fixation-general-information__no-photo-container {
+        width: 343px;
+        height: 200px;
     }
     .fixation-general-information__grid-container {
         grid-template-columns: repeat(3, 1fr);

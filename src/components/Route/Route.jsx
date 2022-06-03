@@ -8,8 +8,6 @@ function Route(props) {
         onDisbandButtonClick
     } = props;
 
-    console.log(fixList);
-
     function departureDate(date) {
         const dateArray = date.split(' ');
         return `${dateArray[0] + '.' + dateArray[1] + '.' + dateArray[2]}`;

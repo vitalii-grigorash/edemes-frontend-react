@@ -45,7 +45,6 @@ function FixationHistory(props) {
             setHistoryLoading(true);
             FixationApi.getFixationHistory(currentUser.id)
                 .then((data) => {
-                    console.log(data.fixesList);
                     setBoxesHistory(data.fixesList);
                 })
                 .catch((err) => {

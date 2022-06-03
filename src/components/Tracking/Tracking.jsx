@@ -173,7 +173,6 @@ function Tracking(props) {
             setTableLoading(true);
             TrackingApi.getAllBoxes()
                 .then((data) => {
-                    console.log(data);
                     setArtObjectsData(data.artObjects);
                     setBoxesData(data.boxes);
                 })
@@ -194,7 +193,6 @@ function Tracking(props) {
             .then((data) => {
                 setBoxArtObject(data.artObjects);
                 setComments(data.fixes.reverse())
-                console.log(data);
             })
             .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`))
             .finally(() => {
