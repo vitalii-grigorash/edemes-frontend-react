@@ -29,6 +29,9 @@ function Fixation(props) {
 
     // http://localhost:3000/fixation/83fba6a1-9e5a-4909-8f19-23007848bfd0
     // http://localhost:3000/fixation/127e7e77-381c-4038-a66b-c560b3ce4f85
+    // http://localhost:3000/fixation/77af183c-3b2c-4f7b-97f2-c6fb8d8812a9
+    // http://localhost:3000/fixation/8647fcc3-81d6-4f83-9407-af300f7ec140
+    // http://localhost:3000/fixation/5d326ca4-b471-44c9-94bb-92cb9742c61c
 
     useEffect(() => {
         if (currentUser.role === 'Администратор') {

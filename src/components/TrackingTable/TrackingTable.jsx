@@ -15,7 +15,8 @@ function TrackingTable(props) {
         boxesSearchInput,
         artObjectsSearchInput,
         boxArtObjectsSearchInput,
-        trackingSearchInput
+        trackingSearchInput,
+        isTableLoading
     } = props;
 
     const [showResultsFrom, setShowResultsFrom] = useState(0);
@@ -164,7 +165,7 @@ function TrackingTable(props) {
                     </>
                 ) : (
                     <div className='tracking-table__rows'>
-                        <p className='tracking-table__no-results-text'>Нет данных для отображения</p>
+                        <p className='tracking-table__no-results-text'>{isTableLoading ? 'Загрузка...' : 'Нет данных для отображения'}</p>
                     </div>
                 )}
                 <TablePagination

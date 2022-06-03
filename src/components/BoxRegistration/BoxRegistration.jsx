@@ -72,6 +72,7 @@ function BoxRegistration(props) {
     const [condition, setCondition] = useState('Выберите условие');
     const [isConditionSelected, setConditionSelected] = useState(false);
     const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
+    const [photos, setPhotos] = useState([]);
 
     useEffect(() => {
         if (currentUser.role === 'Оператор') {
@@ -379,6 +380,7 @@ function BoxRegistration(props) {
             depth: generalInformation.depth,
             weight: generalInformation.weight,
             price: generalInformation.price,
+            photo: photos,
             requirements: [
                 {
                     type: generalInformation.condition,
@@ -403,10 +405,35 @@ function BoxRegistration(props) {
                 clearAllBoxRegistrationInputs();
                 getCatalogs();
                 openQrCodeModal(res);
+                setPhotos([]);
             })
             .catch((err) => {
                 console.log(err.message);
             })
+    }
+
+    function onSelectImageHandler(files) {
+        if (files.length !== 0) {
+            const reader = [];
+            for (var i in files) {
+                if (files.hasOwnProperty(i)) {
+                    reader[i] = new FileReader();
+                    reader[i].readAsDataURL(files[i]);
+                    reader[i].onload = function (e) {
+                        setPhotos(photos => [...photos, e.target.result]);
+                    }
+                }
+            }
+        }
+    }
+
+    function onRemovePhotoClick(photoForRemove) {
+        const filteredPhotos = photos.filter(photo => photo !== photoForRemove);
+        if (filteredPhotos.length === 0) {
+            setPhotos([]);
+        } else {
+            setPhotos(filteredPhotos);
+        }
     }
 
     return (
@@ -567,6 +594,36 @@ function BoxRegistration(props) {
                                         />
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div className='fixation-general-information__img-container'>
+                            <div className='fixation-general-information__img-add-container'>
+                                <input
+                                    className="fixation-general-information__img-add-input"
+                                    id="input__file"
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={(e) => onSelectImageHandler(e.target.files)}
+                                />
+                                <label htmlFor="input__file" className="fixation-general-information__img-add-input-button">
+                                    <div className='fixation-general-information__img-add-cross' />
+                                    <p className='fixation-general-information__img-add-text'>Добавить фотографии</p>
+                                </label>
+                            </div>
+                            <div className='fixation-general-information__grid-container'>
+                                {photos.length !== 0 && (
+                                    <>
+                                        {photos.map((photo, index) => (
+                                            <div key={index} className='fixation-general-information__grid-img-container'>
+                                                <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
+                                                <div className="fixation-general-information__img-remove-container">
+                                                    <p className="fixation-general-information__img-remove-text" onClick={() => onRemovePhotoClick(photo)}>Удалить</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

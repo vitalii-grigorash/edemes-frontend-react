@@ -42,6 +42,7 @@ function Tracking(props) {
     const [currentRow, setCurrentRow] = useState(0);
     const [comments, setComments] = useState([]);
     const [isBoxLoading, setBoxLoading] = useState(false);
+    const [isTableLoading, setTableLoading] = useState(false);
 
     useEffect(() => {
         if (currentUser.role === 'Оператор') {
@@ -169,13 +170,17 @@ function Tracking(props) {
 
     useEffect(() => {
         if (currentUser.role === 'Администратор') {
+            setTableLoading(true);
             TrackingApi.getAllBoxes()
                 .then((data) => {
                     console.log(data);
                     setArtObjectsData(data.artObjects);
                     setBoxesData(data.boxes);
                 })
-                .catch((err) => console.log(`Ошибка при загрузке ящиков: ${err}`));
+                .catch((err) => console.log(`Ошибка при загрузке ящиков: ${err}`))
+                .finally(() => {
+                    setTableLoading(false);
+                })
         }
     }, [currentUser.role]);
 
@@ -341,6 +346,7 @@ function Tracking(props) {
                                 artObjectsSearchInput={artObjectsSearchInput}
                                 boxArtObjectsSearchInput={boxArtObjectsSearchInput}
                                 trackingSearchInput={trackingSearchInput}
+                                isTableLoading={isTableLoading}
                             />
                         )}
                         {isExhibitsTabActive && (
@@ -357,6 +363,7 @@ function Tracking(props) {
                                 artObjectsSearchInput={artObjectsSearchInput}
                                 boxArtObjectsSearchInput={boxArtObjectsSearchInput}
                                 trackingSearchInput={trackingSearchInput}
+                                isTableLoading={isTableLoading}
                             />
                         )}
                     </div>
@@ -408,6 +415,7 @@ function Tracking(props) {
                                 artObjectsSearchInput={artObjectsSearchInput}
                                 boxArtObjectsSearchInput={boxArtObjectsSearchInput}
                                 trackingSearchInput={trackingSearchInput}
+                                isTableLoading={isTableLoading}
                             />
                         )}
                         {isInformationTabActive && (
