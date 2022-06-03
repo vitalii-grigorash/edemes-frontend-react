@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import defaultBoxPhoto from '../../images/box-img.svg';
 import * as FixationApi from "../../Api/FixationApi";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import Preloader from '../Preloader/Preloader';
 import avatar from '../../images/avatar.svg';
 
 function FixationGeneralInformation(props) {
@@ -14,10 +15,9 @@ function FixationGeneralInformation(props) {
         comments,
         comment,
         getFixation,
-        isFixationPage
+        isFixationPage,
+        isBoxLoading
     } = props;
-
-    console.log(box)
 
     const currentUser = React.useContext(CurrentUserContext);
 
@@ -28,10 +28,29 @@ function FixationGeneralInformation(props) {
     const [mainPhoto, setMainPhoto] = useState('');
     const [status, setStatus] = useState('В пути, промежуточный пункт');
     const [photos, setPhotos] = useState([]);
+    const [photosForRender, setPhotosForRender] = useState([]);
 
     const commentsPerRow = 3;
     const commentsToRender = comments.slice(0, (currentRow + 1) * commentsPerRow);
     const isMoreComments = commentsToRender.length !== comments.length;
+
+    useEffect(() => {
+        setPhotosForRender([]);
+        if (box.box.photo !== null) {
+            setPhotosForRender(box.box.photo)
+        }
+        if (comments.length !== 0) {
+            comments.forEach((comment) => {
+                if (comment.photo.length !== 0) {
+                    comment.photo.forEach((photo) => {
+                        if (photo !== '') {
+                            setPhotosForRender(photosForRender => [...photosForRender, photo]);
+                        }
+                    })
+                }
+            })
+        }
+    }, [box.box.photo, comments])
 
     function onRadioСhange(evt) {
         setStatus(evt.target.value);
@@ -68,12 +87,12 @@ function FixationGeneralInformation(props) {
     })
 
     useEffect(() => {
-        if (box.box.photo !== null) {
-            setMainPhoto(box.box.photo[0]);
+        if (photosForRender.length !== 0) {
+            setMainPhoto(photosForRender[0]);
         } else {
             setMainPhoto(defaultBoxPhoto);
         }
-    }, [box.box.photo])
+    }, [photosForRender])
 
     function showPhoto(photo) {
         setMainPhoto(photo);
@@ -92,12 +111,10 @@ function FixationGeneralInformation(props) {
             status: status
         }
 
-        console.log(fixData);
-
         FixationApi.addFixation(fixData)
-            .then((data) => {
-                console.log(data);
+            .then(() => {
                 getFixation();
+                setPhotos([]);
             })
             .catch((err) => {
                 console.log(`Ошибка при загрузке ящиков: ${err}`);
@@ -194,53 +211,59 @@ function FixationGeneralInformation(props) {
                         <p className='fixation-general-information__table-value'>{humidity}</p>
                     </div>
                 </div>
-                <div className='fixation-general-information__img-container'>
-                    <img className='fixation-general-information__img-main' src={mainPhoto} alt="Фотография ящика" />
-                    <div className='fixation-general-information__grid-container'>
-                        {box.box.photo !== null && (
+                {!isBoxLoading ? (
+                    <div className='fixation-general-information__img-container'>
+                        <img className='fixation-general-information__img-main' src={mainPhoto} alt="Фотография ящика" />
+                        <div className='fixation-general-information__grid-container'>
+                            {photosForRender !== null && (
+                                <>
+                                    {photosForRender.map((photo, index) => (
+                                        <div key={index} className='fixation-general-information__grid-img-container'>
+                                            <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
+                                            <div
+                                                className={`fixation-general-information__img-overlay ${photo === mainPhoto && 'fixation-general-information__img-overlay_active'}`}
+                                                onClick={() => showPhoto(photo)}
+                                            />
+                                        </div>
+                                    ))}
+                                </>
+                            )}
+                        </div>
+                        {isFixationPage && (
                             <>
-                                {box.box.photo.map((photo, index) => (
-                                    <div key={index} className='fixation-general-information__grid-img-container'>
-                                        <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
-                                        <div
-                                            className={`fixation-general-information__img-overlay ${photo === mainPhoto && 'fixation-general-information__img-overlay_active'}`}
-                                            onClick={() => showPhoto(photo)}
-                                        />
-                                    </div>
-                                ))}
+                                <div className='fixation-general-information__img-add-container'>
+                                    <input
+                                        className="fixation-general-information__img-add-input"
+                                        id="input__file"
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        onChange={(e) => onSelectImageHandler(e.target.files)}
+                                    />
+                                    <label htmlFor="input__file" className="fixation-general-information__img-add-input-button">
+                                        <div className='fixation-general-information__img-add-cross' />
+                                        <p className='fixation-general-information__img-add-text'>Добавить фотографии</p>
+                                    </label>
+                                </div>
+                                <div className='fixation-general-information__grid-container'>
+                                    {photos.length !== 0 && (
+                                        <>
+                                            {photos.map((photo, index) => (
+                                                <div key={index} className='fixation-general-information__grid-img-container'>
+                                                    <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
+                                                </div>
+                                            ))}
+                                        </>
+                                    )}
+                                </div>
                             </>
                         )}
                     </div>
-                    {isFixationPage && (
-                        <>
-                            <div className='fixation-general-information__img-add-container'>
-                                <input
-                                    className="fixation-general-information__img-add-input"
-                                    id="input__file"
-                                    type="file"
-                                    accept="image/*"
-                                    multiple
-                                    onChange={(e) => onSelectImageHandler(e.target.files)}
-                                />
-                                <label htmlFor="input__file" className="fixation-general-information__img-add-input-button">
-                                    <div className='fixation-general-information__img-add-cross' />
-                                    <p className='fixation-general-information__img-add-text'>Добавить фотографии</p>
-                                </label>
-                            </div>
-                            <div className='fixation-general-information__grid-container'>
-                                {photos.length !== 0 && (
-                                    <>
-                                        {photos.map((photo, index) => (
-                                            <div key={index} className='fixation-general-information__grid-img-container'>
-                                                <img className='fixation-general-information__img' src={photo} alt="Фотография ящика" />
-                                            </div>
-                                        ))}
-                                    </>
-                                )}
-                            </div>
-                        </>
-                    )}
-                </div>
+                ) : (
+                    <div className='fixation-general-information__preloader-container'>
+                        <Preloader />
+                    </div>
+                )}
             </div>
             <div className="fixation-general-information__main-container">
                 <div className="fixation-general-information__comments-container">

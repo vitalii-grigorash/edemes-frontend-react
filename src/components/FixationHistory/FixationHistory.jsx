@@ -31,6 +31,8 @@ function FixationHistory(props) {
     const [isQrCodeTabActive, setQrCodeTabActive] = useState(false);
     const [currentRow, setCurrentRow] = useState(0);
     const [comments, setComments] = useState([]);
+    const [isHistoryLoading, setHistoryLoading] = useState(false);
+    const [isBoxLoading, setBoxLoading] = useState(false);
 
     useEffect(() => {
         if (currentUser.role === 'Администратор') {
@@ -40,6 +42,7 @@ function FixationHistory(props) {
 
     useEffect(() => {
         if (currentUser.role === 'Оператор') {
+            setHistoryLoading(true);
             FixationApi.getFixationHistory(currentUser.id)
                 .then((data) => {
                     console.log(data.fixesList);
@@ -47,7 +50,10 @@ function FixationHistory(props) {
                 })
                 .catch((err) => {
                     console.log(`Ошибка при загрузке ящиков: ${err}`);
-                });
+                })
+                .finally(() => {
+                    setHistoryLoading(false);
+                })
         }
     }, [currentUser.id, currentUser.role])
 
@@ -93,7 +99,7 @@ function FixationHistory(props) {
     );
 
     function onBoxClick(boxData) {
-        console.log(boxData);
+        setBoxLoading(true);
         setBox(boxData);
         setBoxOpened(true);
         setBoxesTabActive(false);
@@ -102,7 +108,10 @@ function FixationHistory(props) {
                 console.log(data.fixes);
                 setComments(data.fixes.reverse())
             })
-            .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`));
+            .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`))
+            .finally(() => {
+                setBoxLoading(false);
+            })
     }
 
     const foundText = (array) => {
@@ -182,6 +191,7 @@ function FixationHistory(props) {
                                 foundText={foundText}
                                 boxesText={boxesText}
                                 boxesSearchInput={boxesSearchInput}
+                                isLoading={isHistoryLoading}
                             />
                         )}
                     </div>
@@ -218,6 +228,7 @@ function FixationHistory(props) {
                                 currentRow={currentRow}
                                 comments={comments}
                                 isFixationPage={false}
+                                isBoxLoading={isBoxLoading}
                             />
                         )}
                         {isMovingActive && (

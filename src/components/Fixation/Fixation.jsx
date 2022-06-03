@@ -25,8 +25,9 @@ function Fixation(props) {
     const [currentRow, setCurrentRow] = useState(0);
     const [box, setBox] = useState({});
     const [comments, setComments] = useState([]);
+    const [isBoxLoading, setBoxLoading] = useState(false);
 
-    // http://localhost:3000/fixation/b6793d21-4744-48c2-a326-f1038b334eaf
+    // http://localhost:3000/fixation/83fba6a1-9e5a-4909-8f19-23007848bfd0
 
     useEffect(() => {
         if (currentUser.role === 'Администратор') {
@@ -52,10 +53,10 @@ function Fixation(props) {
 
     function getFixation() {
         if (fixationHash !== '') {
+            setBoxLoading(true);
             FixationApi.getFixationBox(fixationHash)
                 .then((data) => {
                     if (data !== undefined) {
-                        console.log(data);
                         setBox(data);
                         setComments(data.fixList);
                         handleBoxShow();
@@ -65,7 +66,10 @@ function Fixation(props) {
                 })
                 .catch((err) => {
                     console.log(`Ошибка при загрузке ящика: ${err}`);
-                });
+                })
+                .finally(() => {
+                    setBoxLoading(false);
+                })
         }
     }
 
@@ -125,7 +129,7 @@ function Fixation(props) {
                             comment={comment}
                             getFixation={getFixation}
                             isFixationPage={true}
-
+                            isBoxLoading={isBoxLoading}
                         />
                     )}
                     {isMovingActive && (

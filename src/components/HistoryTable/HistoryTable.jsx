@@ -9,7 +9,8 @@ function HistoryTable(props) {
         foundText,
         boxesText,
         boxesSearchInput,
-        historySearchInput
+        historySearchInput,
+        isLoading
     } = props;
 
     const [showResultsFrom, setShowResultsFrom] = useState(0);
@@ -92,7 +93,7 @@ function HistoryTable(props) {
                     </>
                 ) : (
                     <div className='history-table__rows history-table__rows_no-results'>
-                        <p className='history-table__no-results-text'>Нет данных для отображения</p>
+                        <p className='history-table__no-results-text'>{isLoading ? 'Загрузка истории...' : 'Нет данных для отображения'}</p>
                     </div>
                 )}
                 <TablePagination
