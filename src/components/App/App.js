@@ -59,6 +59,15 @@ function App() {
   const [qrCodeData, setQrCodeData] = useState({});
   const [fixationHash, setFixationHash] = useState('');
 
+  function printQr(qrCode) {
+    var imgHtml = "<img style='padding:50px 50px;display:block;margin-left:auto;margin-right:auto;width:500px;height:auto;' src='" + qrCode + "'></img>";
+    var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=150,left=150,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+    var strHtml = "<html>\n<head>\n <link rel=\"stylesheet\" type=\"text/css\" href=\"test.css\">\n</head><body onload='window.print();window.close()'><div style=\"testStyle\">\n" + imgHtml + "\n</div>\n</body>\n</html>";
+    WindowObject.document.writeln(strHtml);
+    WindowObject.document.close();
+    WindowObject.focus();
+  }
+
   function openQrCodeModal(data) {
     setQrCodeData(data);
     setQrCodeModalOpen(true);
@@ -297,11 +306,13 @@ function App() {
       setAuthError('');
       setAuthValidate(true);
       setCurrentUser(user);
-      if (user.role === "Администратор") {
-        history.push('/box-registration');
-      }
-      if (user.role === "Оператор") {
-        history.push('/fixation');
+      if (pathname !== '/profile') {
+        if (user.role === "Администратор") {
+          history.push('/box-registration');
+        }
+        if (user.role === "Оператор") {
+          history.push('/fixation');
+        }
       }
     } else {
       logout();
@@ -339,11 +350,9 @@ function App() {
         }
       }
 
-    } else {
-      logout();
     }
     // eslint-disable-next-line
-  }, [history]);
+  }, []);
 
   function handleLogin(email, password) {
     Auth.authorize(email, password)
@@ -358,6 +367,14 @@ function App() {
           setAuthValidate(false);
         }
       })
+  }
+
+  function handleOpenSuccessPopupClick() {
+    if (isSuccessPopupOpen) {
+      setSuccessPopupOpen(false);
+    } else {
+      setSuccessPopupOpen(true);
+    }
   }
 
   function handleRegister(registerData) {
@@ -375,7 +392,7 @@ function App() {
     Auth.addNewUser(newUser)
       .then(() => {
         setAddNewUserError('');
-        // Добавить Модалку подтверждения добавления нового пользователя
+        handleOpenSuccessPopupClick();
       })
       .catch((err) => {
         setAddNewUserError(err.message);
@@ -389,6 +406,7 @@ function App() {
         setCurrentUser(res.user);
         localStorage.setItem('user', JSON.stringify(res.user));
         login(res.user);
+        handleOpenSuccessPopupClick();
       })
       .catch((err) => {
         console.log(err);
@@ -400,14 +418,6 @@ function App() {
       setCatalogPopupOpen(false);
     } else {
       setCatalogPopupOpen(true);
-    }
-  }
-
-  function handleOpenSuccessPopupClick() {
-    if (isSuccessPopupOpen) {
-      setSuccessPopupOpen(false);
-    } else {
-      setSuccessPopupOpen(true);
     }
   }
 
@@ -482,6 +492,7 @@ function App() {
             <Route exact path="/tracking">
               <Tracking
                 handleMobileHeaderNavText={handleMobileHeaderNavText}
+                printQr={printQr}
               />
             </Route>
           )}
@@ -547,6 +558,7 @@ function App() {
               <Fixation
                 handleMobileHeaderNavText={handleMobileHeaderNavText}
                 fixationHash={fixationHash}
+                printQr={printQr}
               />
             </Route>
           )}
@@ -555,6 +567,7 @@ function App() {
             <Route exact path="/fixation-history">
               <FixationHistory
                 handleMobileHeaderNavText={handleMobileHeaderNavText}
+                printQr={printQr}
               />
             </Route>
           )}
@@ -574,11 +587,7 @@ function App() {
             />
           </Route>
 
-          {/* <Route>
-            {!isLoggedIn && <Redirect from='/' to='/login' />}
-          </Route>
-
-          <Switch>
+          {/* <Switch>
             <Route exact path="/404" component={NotFound} />
             <Redirect from='*' to='/404' />
           </Switch> */}
@@ -594,18 +603,17 @@ function App() {
           />
         )}
 
-        {pathname === "/register" && (
-          <SuccessPopup
-            isOpen={isSuccessPopupOpen}
-            onClosePopupClick={handleOpenSuccessPopupClick}
-          />
-        )}
+        <SuccessPopup
+          isOpen={isSuccessPopupOpen}
+          onClosePopupClick={handleOpenSuccessPopupClick}
+        />
 
         {pathname === "/box-registration" && isQrCodeModalOpen && (
           <QrCodePopup
             isOpen={isQrCodeModalOpen}
             onClosePopupClick={closeQrCodeModal}
             data={qrCodeData}
+            printQr={printQr}
           />
         )}
 

@@ -11,7 +11,8 @@ function Fixation(props) {
 
     const {
         handleMobileHeaderNavText,
-        fixationHash
+        fixationHash,
+        printQr
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -104,6 +105,10 @@ function Fixation(props) {
         setQrCodeTabActive(true);
     }
 
+    function onPrintButtonClick() {
+        printQr(box.box.qr);
+    }
+
     return (
         <div className='fixation'>
             <Helmet
@@ -139,7 +144,10 @@ function Fixation(props) {
                         />
                     )}
                     {isQrCodeTabActive && (
-                        <img className='fixation__qr-code' src={box.box.qr} alt="qr код" />
+                        <div className="fixation__qr-code-container">
+                            <img className='fixation__qr-code' src={box.box.qr} alt="qr код" />
+                            <button className='fixation__qr-code-button-print' onClick={onPrintButtonClick}>Печать</button>
+                        </div>
                     )}
                 </div>
             )}

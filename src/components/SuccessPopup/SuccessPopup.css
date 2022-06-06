@@ -46,7 +46,13 @@
     line-height: 21px;
     letter-spacing: 0.1px;
     color: #666666;
-
+}
+.success-popup__user-message {
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: #333333;
+    margin: 0 auto;
 }
 .success-popup__login-button {
     width: 94px;
@@ -59,4 +65,15 @@
     color: #FFFFFF;
     cursor: pointer;
 }
-
+.success-popup__close-button {
+    width: 113px;
+    height: 46px;
+    background: #FFFFFF;
+    border: 1px solid #336699;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 24px auto 0;
+    font-size: 16px;
+    line-height: 22px;
+    color: #336699;
+}

@@ -30,27 +30,50 @@
     box-sizing: border-box;
 }
 .qr-code-popup__heading {
-    font-size: 18px;
-    line-height: 20px;
-    letter-spacing: 0.1px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
     color: #333333;
     margin: 0 auto;
 }
-.qr-code-popup__qr-code {
-    margin: 32px auto 0;
-    min-width: 270px;
-    min-height: 270px;
+.qr-code-popup__text {
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.1px;
+    color: #666666;
+    margin: 8px auto 0;
 }
-.qr-code-popup__button {
-    width: 270px;
+.qr-code-popup__qr-code {
+    margin: 16px auto 0;
+    min-width: 240px;
+    min-height: 240px;
+    object-fit: cover;
+}
+.qr-code-popup__buttons-container {
+    display: flex;
+    margin: 24px 0 0;
+}
+.qr-code-popup__button-print {
+    width: 102px;
     height: 46px;
     background: #336699;
     border-radius: 4px;
-    margin: 32px auto 0;
-    border: none;
     cursor: pointer;
-    font-weight: 400;
+    margin: 0 auto 0 0;
+    border: none;
     font-size: 16px;
     line-height: 22px;
     color: #FFFFFF;
+}
+.qr-code-popup__button-close {
+    width: 113px;
+    height: 46px;
+    background: #FFFFFF;
+    border: 1px solid #336699;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 0 0 auto;
+    font-size: 16px;
+    line-height: 22px;
+    color: #336699;
 }

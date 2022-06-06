@@ -12,7 +12,8 @@ import * as TrackingApi from "../../Api/TrackingApi";
 function FixationHistory(props) {
 
     const {
-        handleMobileHeaderNavText
+        handleMobileHeaderNavText,
+        printQr
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -104,7 +105,6 @@ function FixationHistory(props) {
         setBoxesTabActive(false);
         TrackingApi.getBoxArtObjects(boxData.box.id)
             .then((data) => {
-                console.log(data.fixes);
                 setComments(data.fixes.reverse())
             })
             .catch((err) => console.log(`Ошибка при загрузке экспонатов: ${err}`))
@@ -168,6 +168,10 @@ function FixationHistory(props) {
     function onBackButtonClick() {
         setBoxOpened(false);
         setBoxesTabActive(true);
+    }
+
+    function onPrintButtonClick() {
+        printQr(box.box.qr);
     }
 
     return (
@@ -238,7 +242,10 @@ function FixationHistory(props) {
                             />
                         )}
                         {isQrCodeTabActive && (
-                            <img className='fixation__qr-code' src={box.box.qr} alt="qr код" />
+                            <div className="fixation__qr-code-container">
+                                <img className='fixation__qr-code' src={box.box.qr} alt="qr код" />
+                                <button className='fixation__qr-code-button-print' onClick={onPrintButtonClick}>Печать</button>
+                            </div>
                         )}
                     </div>
                 </>

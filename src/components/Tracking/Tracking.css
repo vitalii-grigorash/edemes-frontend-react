@@ -155,11 +155,29 @@
     width: 343px;
     margin: 0;
 }
+.tracking__qr-code-container {
+    display: flex;
+    flex-direction: column;
+    margin: 32px auto 0 0;
+}
 .tracking__qr-code {
     width: 343px;
     height: 343px;
     object-fit: contain;
-    margin: 32px auto 0 0;
+    margin: 0 auto 0 0;
+}
+.tracking__qr-code-button-print {
+    width: 290px;
+    height: 46px;
+    background: #336699;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    color: #FFFFFF;
+    margin: 24px auto 0;
 }
 @media screen and (max-width: 1020px) {
     .tracking {
@@ -212,5 +230,15 @@
     }
     .tracking__box-buttons-container {
         display: flex;
+    }
+    .tracking__qr-code-container {
+        margin: 16px auto 0 0;
+    }
+    .tracking__qr-code {
+        margin: 0 auto;
+    }
+    .tracking__qr-code-button-print {
+        width: 343px;
+        margin: 24px auto 0;
     }
 }

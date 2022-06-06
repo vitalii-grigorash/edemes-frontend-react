@@ -11,7 +11,8 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 function Tracking(props) {
 
     const {
-        handleMobileHeaderNavText
+        handleMobileHeaderNavText,
+        printQr
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -317,6 +318,10 @@ function Tracking(props) {
         setCurrentRow(0);
     }
 
+    function onPrintButtonClick() {
+        printQr(box.qr);
+    }
+
     return (
         <section className="tracking">
             <Helmet
@@ -428,7 +433,10 @@ function Tracking(props) {
                             />
                         )}
                         {isQrCodeTabActive && (
-                            <img className='tracking__qr-code' src={box.qr} alt="qr код" />
+                            <div className='tracking__qr-code-container'>
+                                <img className='tracking__qr-code' src={box.qr} alt="qr код" />
+                                <button className='tracking__qr-code-button-print' onClick={onPrintButtonClick}>Печать</button>
+                            </div>
                         )}
                         <div className='tracking__box-buttons-container'>
                             {isRouteTabActive && (
