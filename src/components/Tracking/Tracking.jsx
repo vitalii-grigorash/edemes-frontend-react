@@ -238,6 +238,14 @@ function Tracking(props) {
         setQrCodeTabActive(true);
     }
 
+    function onArtObjectClick(artObject) {
+        if (!isArtObjectsTabActive) {
+            const boxData = boxesData.find((box) => box.id === artObject.boxId);
+            onBoxClick(boxData);
+            onArtObjectsTabClick();
+        }
+    }
+
     function onPrevTabClick() {
         if (isArtObjectsTabActive) {
             setArtObjectsTabActive(false);
@@ -342,6 +350,7 @@ function Tracking(props) {
                                 isExhibitsTabActive={isExhibitsTabActive}
                                 isArtObjectsTabActive={isArtObjectsTabActive}
                                 onBoxClick={onBoxClick}
+                                onArtObjectClick={onArtObjectClick}
                                 foundText={foundText}
                                 exhibitsText={exhibitsText}
                                 boxesText={boxesText}
@@ -359,6 +368,7 @@ function Tracking(props) {
                                 isExhibitsTabActive={isExhibitsTabActive}
                                 isArtObjectsTabActive={isArtObjectsTabActive}
                                 onBoxClick={onBoxClick}
+                                onArtObjectClick={onArtObjectClick}
                                 foundText={foundText}
                                 exhibitsText={exhibitsText}
                                 boxesText={boxesText}
@@ -411,6 +421,7 @@ function Tracking(props) {
                                 isExhibitsTabActive={isExhibitsTabActive}
                                 isArtObjectsTabActive={isArtObjectsTabActive}
                                 onBoxClick={onBoxClick}
+                                onArtObjectClick={onArtObjectClick}
                                 foundText={foundText}
                                 exhibitsText={exhibitsText}
                                 boxesText={boxesText}

@@ -65,9 +65,7 @@ function CatalogPopup(props) {
     }
 
     function onDownloadButtonClick() {
-        setDownloadedExhibitsContainerOpened(true);
         setSaveButtonActive(true);
-        setSelectCatalogListActive(false);
     }
 
     function onAddCatalogButtonClick() {

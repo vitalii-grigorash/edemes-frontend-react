@@ -60,7 +60,7 @@ function App() {
   const [fixationHash, setFixationHash] = useState('');
 
   function printQr(qrCode) {
-    var imgHtml = "<img style='padding:50px 50px;display:block;margin-left:auto;margin-right:auto;width:500px;height:auto;' src='" + qrCode + "'></img>";
+    var imgHtml = "<img style='padding:50px 50px;display:block;margin-left:auto;margin-right:auto;width:300px;height:auto;' src='" + qrCode + "'></img>";
     var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=150,left=150,toolbars=no,scrollbars=yes,status=no,resizable=yes');
     var strHtml = "<html>\n<head>\n <link rel=\"stylesheet\" type=\"text/css\" href=\"test.css\">\n</head><body onload='window.print();window.close()'><div style=\"testStyle\">\n" + imgHtml + "\n</div>\n</body>\n</html>";
     WindowObject.document.writeln(strHtml);
