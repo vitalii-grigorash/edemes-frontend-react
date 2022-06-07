@@ -61,6 +61,8 @@ function App() {
   const [isBoxRegistrationReload, setBoxRegistrationReload] = useState(false);
   const [isTrackingReload, setTrackingReload] = useState(false);
   const [isUsersReload, setUsersReload] = useState(false);
+  const [isFixationReload, setFixationReload] = useState(false);
+  const [isFixationHistoryReload, setFixationHistoryReload] = useState(false);
 
   function printQr(qrCode) {
     var imgHtml = "<img style='padding:50px 50px;display:block;margin-left:auto;margin-right:auto;width:300px;height:auto;' src='" + qrCode + "'></img>";
@@ -297,6 +299,14 @@ function App() {
     setUsersReload(false);
   }
 
+  function fixationRealoadCancel() {
+    setFixationReload(false);
+  }
+
+  function fixationHistoryRealoadCancel() {
+    setFixationHistoryReload(false);
+  }
+
   function handleOpenMobileSideBar(selectedPathname) {
     if (selectedPathname !== '') {
       if (selectedPathname === '/box-registration') {
@@ -318,6 +328,10 @@ function App() {
         setTrackingReload(true);
       } else if (selectedPathname === '/users') {
         setUsersReload(true);
+      } else if (selectedPathname === '/fixation') {
+        setFixationReload(true);
+      } else if (selectedPathname === '/fixation-history') {
+        setFixationHistoryReload(true);
       }
     }
     if (isMobileSideBarOpen) {
@@ -602,6 +616,8 @@ function App() {
                 handleMobileHeaderNavText={handleMobileHeaderNavText}
                 fixationHash={fixationHash}
                 printQr={printQr}
+                isFixationReload={isFixationReload}
+                fixationRealoadCancel={fixationRealoadCancel}
               />
             </Route>
           )}
@@ -611,6 +627,8 @@ function App() {
               <FixationHistory
                 handleMobileHeaderNavText={handleMobileHeaderNavText}
                 printQr={printQr}
+                isFixationHistoryReload={isFixationHistoryReload}
+                fixationHistoryRealoadCancel={fixationHistoryRealoadCancel}
               />
             </Route>
           )}

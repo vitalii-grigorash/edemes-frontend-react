@@ -70,7 +70,7 @@ function SideBar(props) {
                 )}
                 {currentUser.role === 'Оператор' && (
                     <nav className='side-bar__container'>
-                        <Link to={'/fixation'} className='side-bar__logo-container'>
+                        <Link to={'/fixation'} className='side-bar__logo-container' onClick={() => onCloseMobileSideBar('/fixation')}>
                             <div className='side-bar__logo' />
                             <p className='side-bar__logo-text'>эдемес</p>
                         </Link>

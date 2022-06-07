@@ -12,7 +12,9 @@ function Fixation(props) {
     const {
         handleMobileHeaderNavText,
         fixationHash,
-        printQr
+        printQr,
+        isFixationReload,
+        fixationRealoadCancel
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -80,6 +82,24 @@ function Fixation(props) {
         }
         // eslint-disable-next-line
     }, [currentUser.role]);
+
+    useEffect(() => {
+        if (currentUser.role === 'Оператор') {
+            if (isFixationReload) {
+                setBoxShow(false);
+                setGeneralInformationActive(true);
+                setMovingActive(false);
+                setQrCodeTabActive(false);
+                hideComments();
+                setBox({});
+                setComments([]);
+                setBoxLoading(false);
+                getFixation();
+                fixationRealoadCancel();
+            }
+        }
+        // eslint-disable-next-line
+    }, [currentUser.role, isFixationReload, fixationRealoadCancel]);
 
     useEffect(() => {
         if (currentUser.role === 'Оператор') {

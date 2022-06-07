@@ -13,7 +13,9 @@ function FixationHistory(props) {
 
     const {
         handleMobileHeaderNavText,
-        printQr
+        printQr,
+        isFixationHistoryReload,
+        fixationHistoryRealoadCancel
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -34,6 +36,21 @@ function FixationHistory(props) {
     const [comments, setComments] = useState([]);
     const [isHistoryLoading, setHistoryLoading] = useState(false);
     const [isBoxLoading, setBoxLoading] = useState(false);
+
+    useEffect(() => {
+        if (currentUser.role === 'Оператор') {
+            if (isFixationHistoryReload) {
+                setBoxesTabActive(true);
+                setBoxOpened(false);
+                setGeneralInformationActive(true);
+                setMovingActive(false);
+                setQrCodeTabActive(false);
+                hideComments();
+                boxesSearchInput.setValue('');
+                fixationHistoryRealoadCancel();
+            }
+        }
+    }, [currentUser.role, isFixationHistoryReload, fixationHistoryRealoadCancel, boxesSearchInput]);
 
     useEffect(() => {
         if (currentUser.role === 'Администратор') {
