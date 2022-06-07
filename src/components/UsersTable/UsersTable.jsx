@@ -128,7 +128,7 @@ function UsersTable(props) {
                                         <div className={`users__table-button-container ${!user.active && 'users__table-button-container_disabled'}`} onClick={() => handleUserActive(user)}>
                                             <div className={`users__table-button ${!user.active && 'users__table-button_disabled'}`} />
                                         </div>
-                                        <p className={`users__table-button-text ${!user.active && 'users__table-button-text_disabled'}`}>Заблокировать</p>
+                                        <p className={`users__table-button-text ${!user.active && 'users__table-button-text_disabled'}`}>{user.active ? 'Заблокировать' : 'Разблокировать'}</p>
                                     </div>
                                 ))}
                             </>
@@ -155,7 +155,7 @@ function UsersTable(props) {
                                         <div className={`users__table-button-container ${!user.active && 'users__table-button-container_disabled'}`} onClick={() => handleUserActive(user)}>
                                             <div className={`users__table-button ${!user.active && 'users__table-button_disabled'}`} />
                                         </div>
-                                        <p className={`users__table-button-text ${!user.active && 'users__table-button-text_disabled'}`}>Заблокировать</p>
+                                        <p className={`users__table-button-text ${!user.active && 'users__table-button-text_disabled'}`}>{user.active ? 'Заблокировать' : 'Разблокировать'}</p>
                                     </div>
                                 ))}
                             </>

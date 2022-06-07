@@ -127,17 +127,17 @@
         line-height: 14px;
     }
     .users__table-name {
-        min-width: 101px;
-        max-width: 101px;
+        min-width: 80px;
+        max-width: 80px;
         margin: auto 9px;
     }
     .users__table-email {
-        min-width: 80px;
-        max-width: 80px;
+        min-width: 115px;
+        max-width: 115px;
         margin: auto 9px auto 0;
     }
     .users__table-role {
-        min-width: 85px;
+        min-width: 70px;
         margin: auto 9px auto 0;
     }
     .users__table-button-container {

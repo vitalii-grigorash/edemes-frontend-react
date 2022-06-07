@@ -152,7 +152,7 @@ function TrackingTable(props) {
                                         <p className={`tracking-table__status ${statusText(list.status) === 'Прибыл' ? 'tracking-table__status_green' : `${statusText(list.status) === 'Отменен' && 'tracking-table__status_red'}`}`}>{statusText(list.status)}</p>
                                     </div>
                                 ) : (
-                                    <div key={list.id} className='tracking-table__rows' onClick={() => onArtObjectClick(list)}>
+                                    <div className={`tracking-table__rows ${isExhibitsTabActive && 'tracking-table__rows_boxes'}`} onClick={() => onArtObjectClick(list)}>
                                         <img className='tracking-table__picture' alt={list.name} src={list.photo} />
                                         <p className='tracking-table__name tracking-table__name_exhibits'>{list.name}</p>
                                         <p className='tracking-table__route tracking-table__route_exhibits'>{routeConvert(list.locationFrom, list.locationTo)}</p>

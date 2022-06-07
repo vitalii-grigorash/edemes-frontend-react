@@ -11,7 +11,9 @@ function Users(props) {
     const {
         handleMobileHeaderNavText,
         addUser,
-        addNewUserError
+        addNewUserError,
+        isUsersReload,
+        usersRealoadCancel
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -40,6 +42,32 @@ function Users(props) {
     const [isFilterActive, setFilterActive] = useState(false);
     const [isApplyClicked, setApplyClicked] = useState(false);
     const [isReloadUsersList, setReloadUsersList] = useState(false);
+
+    useEffect(() => {
+        if (currentUser.role === 'Администратор') {
+            if (isUsersReload) {
+                setAddUserTabActive(true);
+                setListTabActive(false);
+                setRoleOptionsContainerOpen(false);
+                setFilterOpen(false);
+                setOptionsOpen(false);
+                setOptionSelected(false);
+                setSelectedOption('Выберите тип сортировки');
+                setStateMethod('Все');
+                setRoleMethod('Все');
+                setStateAllChecked(true);
+                setStateBlocketChecked(false);
+                setStateUnblocketChecked(false);
+                setRoleAllChecked(true);
+                setRoleOperatorChecked(false);
+                setRoleAdminChecked(false);
+                setFilterActive(false);
+                setApplyClicked(false);
+                setReloadUsersList(false);
+                usersRealoadCancel();
+            }
+        }
+    }, [isUsersReload, currentUser.role, usersRealoadCancel])
 
     useEffect(() => {
         if (currentUser.role === 'Оператор') {
@@ -256,11 +284,13 @@ function Users(props) {
     function onAddUserTabClick() {
         setListTabActive(false);
         setAddUserTabActive(true);
+        setFilterOpen(false);
     }
 
     function onListTabClick() {
         setAddUserTabActive(false);
         setListTabActive(true);
+        setApplyClicked(true);
     }
 
     function onRoleOptionClick(value) {

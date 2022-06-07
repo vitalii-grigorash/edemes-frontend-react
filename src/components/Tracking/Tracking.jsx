@@ -12,7 +12,9 @@ function Tracking(props) {
 
     const {
         handleMobileHeaderNavText,
-        printQr
+        printQr,
+        trackingRealoadCancel,
+        isTrackingReload
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -44,6 +46,31 @@ function Tracking(props) {
     const [comments, setComments] = useState([]);
     const [isBoxLoading, setBoxLoading] = useState(false);
     const [isTableLoading, setTableLoading] = useState(false);
+
+    useEffect(() => {
+        if (currentUser.role === 'Администратор') {
+            if (isTrackingReload) {
+                setBoxesTabActive(true);
+                setExhibitsTabActive(false);
+                setBoxOpened(false);
+                setRouteTabActive(true);
+                setArtObjectsTabActive(false);
+                setInformationTabActive(false);
+                setQrCodeTabActive(false);
+                boxesSearchInput.setValue('');
+                artObjectsSearchInput.setValue('');
+                boxArtObjectsSearchInput.setValue('');
+                trackingRealoadCancel();
+            }
+        }
+    }, [
+        isTrackingReload,
+        currentUser.role,
+        trackingRealoadCancel,
+        boxesSearchInput,
+        artObjectsSearchInput,
+        boxArtObjectsSearchInput
+    ])
 
     useEffect(() => {
         if (currentUser.role === 'Оператор') {

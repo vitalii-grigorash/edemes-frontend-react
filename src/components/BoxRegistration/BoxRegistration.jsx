@@ -40,7 +40,9 @@ function BoxRegistration(props) {
         searchInputCatalogs,
         searchInputArtObjects,
         searchInputSelectedArtObjects,
-        openQrCodeModal
+        openQrCodeModal,
+        boxReagistrationRealoadCancel,
+        isBoxRegistrationReload
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -73,6 +75,21 @@ function BoxRegistration(props) {
     const [isConditionSelected, setConditionSelected] = useState(false);
     const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
     const [photos, setPhotos] = useState([]);
+
+    useEffect(() => {
+        if (currentUser.role === 'Администратор') {
+            if (isBoxRegistrationReload) {
+                setBoxRegistrationRouteActive(true);
+                setBoxRegistrationGeneralInformationActive(false);
+                setBoxRegistrationExhibitsActive(false);
+                setConditionsActive(false);
+                setSelectRouteFromActive(false);
+                setSelectRouteToActive(false);
+                setSelectAddressActive(false);
+                boxReagistrationRealoadCancel();
+            }
+        }
+    }, [isBoxRegistrationReload, currentUser.role, boxReagistrationRealoadCancel])
 
     useEffect(() => {
         if (currentUser.role === 'Оператор') {

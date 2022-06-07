@@ -58,6 +58,9 @@ function App() {
   const [isQrCodeModalOpen, setQrCodeModalOpen] = useState(false);
   const [qrCodeData, setQrCodeData] = useState({});
   const [fixationHash, setFixationHash] = useState('');
+  const [isBoxRegistrationReload, setBoxRegistrationReload] = useState(false);
+  const [isTrackingReload, setTrackingReload] = useState(false);
+  const [isUsersReload, setUsersReload] = useState(false);
 
   function printQr(qrCode) {
     var imgHtml = "<img style='padding:50px 50px;display:block;margin-left:auto;margin-right:auto;width:300px;height:auto;' src='" + qrCode + "'></img>";
@@ -282,7 +285,41 @@ function App() {
     setMobileHeaderNavText(text);
   }
 
-  function handleOpenMobileSideBar() {
+  function boxReagistrationRealoadCancel() {
+    setBoxRegistrationReload(false);
+  }
+
+  function trackingRealoadCancel() {
+    setTrackingReload(false);
+  }
+
+  function usersRealoadCancel() {
+    setUsersReload(false);
+  }
+
+  function handleOpenMobileSideBar(selectedPathname) {
+    if (selectedPathname !== '') {
+      if (selectedPathname === '/box-registration') {
+        setBoxRegistrationReload(true);
+        setCardActive(true);
+        setTableActive(false);
+        setCatalogsActive(true);
+        setArtObjectsActive(false);
+        setSelectedArtObjectsActive(false);
+        setArtObjectInfoOpen(false);
+      } else if (selectedPathname === '/catalog') {
+        setCardActive(true);
+        setTableActive(false);
+        setCatalogsActive(true);
+        setArtObjectsActive(false);
+        setSelectedArtObjectsActive(false);
+        setArtObjectInfoOpen(false);
+      } else if (selectedPathname === '/tracking') {
+        setTrackingReload(true);
+      } else if (selectedPathname === '/users') {
+        setUsersReload(true);
+      }
+    }
     if (isMobileSideBarOpen) {
       setMobileSideBarOpen(false);
     } else {
@@ -484,6 +521,8 @@ function App() {
                 searchInputArtObjects={searchInputArtObjects}
                 searchInputSelectedArtObjects={searchInputSelectedArtObjects}
                 openQrCodeModal={openQrCodeModal}
+                boxReagistrationRealoadCancel={boxReagistrationRealoadCancel}
+                isBoxRegistrationReload={isBoxRegistrationReload}
               />
             </Route>
           )}
@@ -493,6 +532,8 @@ function App() {
               <Tracking
                 handleMobileHeaderNavText={handleMobileHeaderNavText}
                 printQr={printQr}
+                trackingRealoadCancel={trackingRealoadCancel}
+                isTrackingReload={isTrackingReload}
               />
             </Route>
           )}
@@ -540,6 +581,8 @@ function App() {
                 handleMobileHeaderNavText={handleMobileHeaderNavText}
                 addUser={addUser}
                 addNewUserError={addNewUserError}
+                isUsersReload={isUsersReload}
+                usersRealoadCancel={usersRealoadCancel}
               />
             </Route>
           )}

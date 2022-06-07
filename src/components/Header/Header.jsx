@@ -49,7 +49,7 @@ function Header(props) {
                 </div>
             </div>
             <div className="header__mobile-container">
-                <div className="header__burger-menu-button" onClick={onOpenMobileSideBar} />
+                <div className="header__burger-menu-button" onClick={() => onOpenMobileSideBar('')} />
                 <h2 className="header__mobile-nav-text">{mobileHeaderNavText}</h2>
             </div>
         </div>
