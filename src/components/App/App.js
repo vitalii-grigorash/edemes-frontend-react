@@ -369,7 +369,7 @@ function App() {
           history.push('/box-registration');
         }
         if (user.role === "Оператор") {
-          history.push('/fixation');
+          history.push(`${fixationHash ? `/fixation/${fixationHash}` : '/fixation'}`);
         }
       }
     } else {
@@ -382,32 +382,31 @@ function App() {
   }
 
   useEffect(() => {
-
     const url = window.location.href.split('/');
-
     if (url[4]) {
       setFixationHash(`${url[4]}`);
     }
-
     if (localStorage.getItem('user')) {
-
       const userData = localStorage.getItem('user');
       const user = JSON.parse(userData);
-
-      setLoggedIn(true);
-      createUserName(user);
-      setAuthError('');
-      setAuthValidate(true);
-      setCurrentUser(user);
-
-      if (`/${url[3]}` === '/') {
-        if (user.role === "Администратор") {
-          history.push('/box-registration');
-        } else if (user.role === "Оператор") {
-          history.push('/fixation');
+      if (user.isAuth) {
+        setLoggedIn(true);
+        createUserName(user);
+        setAuthError('');
+        setAuthValidate(true);
+        setCurrentUser(user);
+        if (`/${url[3]}` === '/') {
+          if (user.role === "Администратор") {
+            history.push('/box-registration');
+          } else if (user.role === "Оператор") {
+            history.push('/fixation');
+          }
         }
+      } else {
+        logout();
       }
-
+    } else {
+      logout();
     }
     // eslint-disable-next-line
   }, []);
