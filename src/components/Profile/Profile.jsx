@@ -7,7 +7,9 @@ function Profile(props) {
 
     const {
         handleMobileHeaderNavText,
-        editUser
+        editUser,
+        isProfileReload,
+        profileRealoadCancel,
     } = props;
 
     const currentUser = React.useContext(CurrentUserContext);
@@ -26,6 +28,36 @@ function Profile(props) {
     const [isRepeatNewPasswordValue, setRepeatNewPasswordValue] = useState(false);
 
     useEffect(() => {
+        if (isProfileReload) {
+            setNewPasswordShow(false);
+            setNewPassword('password');
+            setNewPasswordValue(false);
+            setRepeatNewPasswordShow(false);
+            setRepeatNewPassword('password');
+            setRepeatNewPasswordValue(false);
+            firstName.setValue(currentUser.firstName);
+            lastName.setValue(currentUser.lastName);
+            middleName.setValue(currentUser.middleName);
+            newPassword.setValue('');
+            repeatNewPassword.setValue('');
+            newPassword.setErrorMessage('');
+            repeatNewPassword.setErrorMessage('');
+            profileRealoadCancel();
+        }
+    }, [
+        isProfileReload,
+        profileRealoadCancel,
+        currentUser.firstName,
+        currentUser.lastName,
+        currentUser.middleName,
+        firstName,
+        lastName,
+        middleName,
+        newPassword,
+        repeatNewPassword
+    ]);
+
+    useEffect(() => {
         handleMobileHeaderNavText('Профиль');
     });
 
@@ -40,7 +72,7 @@ function Profile(props) {
         newPassword.setValue('');
         repeatNewPassword.setValue('');
         newPassword.setErrorMessage('');
-            repeatNewPassword.setErrorMessage('');
+        repeatNewPassword.setErrorMessage('');
     }
 
     function isFormValid() {

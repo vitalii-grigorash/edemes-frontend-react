@@ -39,7 +39,7 @@ function Header(props) {
                 <div className='header__avatar' />
                 <div className={`header__arrow ${isUserOptionsShow && 'header__arrow_close'}`} />
                 <div className={`header__user-options-container ${isUserOptionsShow && 'header__user-options-container_active'}`}>
-                    <Link to={'/profile'} className='header__user-my-profile-container'>
+                    <Link to={'/profile'} className='header__user-my-profile-container' onClick={() => onOpenMobileSideBar('/profile')}>
                         <p className="header__user-my-profile">Мой профиль</p>
                     </Link>
                     <div className="header__user-option-container" onClick={onLogoutClick}>

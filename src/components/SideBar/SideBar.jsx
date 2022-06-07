@@ -70,7 +70,7 @@ function SideBar(props) {
                 )}
                 {currentUser.role === 'Оператор' && (
                     <nav className='side-bar__container'>
-                        <Link to={'/fixation'} className='side-bar__logo-container' onClick={() => onCloseMobileSideBar('/fixation')}>
+                        <Link to={`${fixationHash ? `/fixation/${fixationHash}` : '/fixation'}`} className='side-bar__logo-container' onClick={() => onCloseMobileSideBar('/fixation')}>
                             <div className='side-bar__logo' />
                             <p className='side-bar__logo-text'>эдемес</p>
                         </Link>
@@ -78,7 +78,7 @@ function SideBar(props) {
                             <div className='side-bar__link-icon side-bar__link-icon_profile' />
                             <p className='side-bar__link-text'>Мой профиль</p>
                         </Link>
-                        <Link to={'/fixation'} className={pathname === '/fixation' || pathname === `/fixation/${fixationHash}` ? 'side-bar__link-container side-bar__link-container_active' : 'side-bar__link-container'} onClick={() => onCloseMobileSideBar('/fixation')}>
+                        <Link to={`${fixationHash ? `/fixation/${fixationHash}` : '/fixation'}`} className={pathname === '/fixation' || pathname === `/fixation/${fixationHash}` ? 'side-bar__link-container side-bar__link-container_active' : 'side-bar__link-container'} onClick={() => onCloseMobileSideBar('/fixation')}>
                             <div className='side-bar__link-icon side-bar__link-icon_fixation' />
                             <p className='side-bar__link-text'>Фиксация</p>
                         </Link>

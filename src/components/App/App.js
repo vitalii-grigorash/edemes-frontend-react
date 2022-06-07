@@ -63,6 +63,7 @@ function App() {
   const [isUsersReload, setUsersReload] = useState(false);
   const [isFixationReload, setFixationReload] = useState(false);
   const [isFixationHistoryReload, setFixationHistoryReload] = useState(false);
+  const [isProfileReload, setProfileReload] = useState(false);
 
   function printQr(qrCode) {
     var imgHtml = "<img style='padding:50px 50px;display:block;margin-left:auto;margin-right:auto;width:300px;height:auto;' src='" + qrCode + "'></img>";
@@ -307,6 +308,10 @@ function App() {
     setFixationHistoryReload(false);
   }
 
+  function profileRealoadCancel() {
+    setProfileReload(false);
+  }
+
   function handleOpenMobileSideBar(selectedPathname) {
     if (selectedPathname !== '') {
       if (selectedPathname === '/box-registration') {
@@ -332,6 +337,8 @@ function App() {
         setFixationReload(true);
       } else if (selectedPathname === '/fixation-history') {
         setFixationHistoryReload(true);
+      } else if (selectedPathname === '/profile') {
+        setProfileReload(true);
       }
     }
     if (isMobileSideBarOpen) {
@@ -606,6 +613,8 @@ function App() {
               <Profile
                 handleMobileHeaderNavText={handleMobileHeaderNavText}
                 editUser={editUser}
+                isProfileReload={isProfileReload}
+                profileRealoadCancel={profileRealoadCancel}
               />
             </Route>
           )}
