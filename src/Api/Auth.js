@@ -117,7 +117,8 @@ export const editUser = (userData) => {
             firstName: userData.firstName,
             lastName: userData.lastName,
             middleName: userData.middleName,
-            password: userData.password
+            password: userData.password,
+            avatar: userData.avatar
         })
     })
         .then(res => res.ok ? res : Promise.reject(res))

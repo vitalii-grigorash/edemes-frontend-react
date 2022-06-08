@@ -358,7 +358,7 @@ function App() {
   }
 
   function login(user) {
-    if (user.isAuth) {
+    if (user.active) {
       setLoggedIn(true);
       createUserName(user);
       setAuthError('');
@@ -373,6 +373,7 @@ function App() {
         }
       }
     } else {
+      setAuthError('Вы были заблокированы администратором');
       logout();
     }
   }
@@ -389,7 +390,8 @@ function App() {
     if (localStorage.getItem('user')) {
       const userData = localStorage.getItem('user');
       const user = JSON.parse(userData);
-      if (user.isAuth) {
+      console.log(user)
+      if (user.active) {
         setLoggedIn(true);
         createUserName(user);
         setAuthError('');
@@ -403,6 +405,7 @@ function App() {
           }
         }
       } else {
+        setAuthError('Вы были заблокированы администратором');
         logout();
       }
     } else {
@@ -416,9 +419,9 @@ function App() {
       .then((res) => {
         localStorage.setItem('user', JSON.stringify(res.user));
         login(res.user);
+        console.log(res.user)
       })
       .catch((err) => {
-        console.log(err);
         setAuthError(err.message);
         if (err.message === 'Неправильная почта или пароль') {
           setAuthValidate(false);
@@ -435,6 +438,7 @@ function App() {
   }
 
   function handleRegister(registerData) {
+    console.log(registerData);
     Auth.registration(registerData)
       .then(() => {
         setRegisterError('');
@@ -463,7 +467,9 @@ function App() {
         setCurrentUser(res.user);
         localStorage.setItem('user', JSON.stringify(res.user));
         login(res.user);
-        handleOpenSuccessPopupClick();
+        if (res.user.active) {
+          handleOpenSuccessPopupClick();
+        }
       })
       .catch((err) => {
         console.log(err);

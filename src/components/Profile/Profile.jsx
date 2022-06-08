@@ -26,6 +26,7 @@ function Profile(props) {
     const [isRepeatNewPasswordShow, setRepeatNewPasswordShow] = useState(false);
     const [isRepeatNewPassword, setRepeatNewPassword] = useState('password');
     const [isRepeatNewPasswordValue, setRepeatNewPasswordValue] = useState(false);
+    const [avatar, setAvatar] = useState('');
 
     useEffect(() => {
         if (isProfileReload) {
@@ -85,10 +86,12 @@ function Profile(props) {
                 firstName: `${firstName.value === '' ? currentUser.firstName : firstName.value}`,
                 lastName: `${lastName.value === '' ? currentUser.lastName : lastName.value}`,
                 middleName: middleName.value,
-                password: newPassword.value
+                password: newPassword.value,
+                avatar: avatar
             }
             editUser(userData);
             clearPasswordInputs();
+            setAvatar('');
         }
     }
 
@@ -136,6 +139,23 @@ function Profile(props) {
             setRepeatNewPasswordValue(true);
         }
     }, [repeatNewPassword.value]);
+
+    const onSelectImageHandler = (files) => {
+        var file = files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            setAvatar(reader.result)
+        }
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            setAvatar('');
+        }
+    }
+
+    function onRemovePhotoClick() {
+        setAvatar('');
+    }
 
     return (
         <div className="profile">
@@ -241,6 +261,29 @@ function Profile(props) {
                             <span id="profile-repeat-new-password-input" className="profile__input_error-span">{repeatNewPassword.errorMessage}</span>
                         </div>
                     </div>
+                </div>
+                <div className='profile__avatar-add-container'>
+                    <div className='profile__avatar-add-button-container'>
+                        <input
+                            className="profile__avatar-add-input"
+                            id="avatar__input__file"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => onSelectImageHandler(e.target.files)}
+                        />
+                        <label htmlFor="avatar__input__file" className="profile__avatar-add-button">
+                            <div className='profile__avatar-add-button-cross' />
+                            <p className='profile__avatar-add-button-text'>Сменить аватар</p>
+                        </label>
+                    </div>
+                    {avatar !== '' && (
+                        <div className='profile__avatar-preview-container'>
+                            <img className='profile__preview-img' src={avatar} alt="Аватар" />
+                            <div className="profile__preview-img-remove-container">
+                                <p className="profile__preview-img-remove-container-text" onClick={onRemovePhotoClick}>Удалить</p>
+                            </div>
+                        </div>
+                    )}
                 </div>
                 <button type='submit' className='profile__save-button'>Сохранить</button>
             </form>

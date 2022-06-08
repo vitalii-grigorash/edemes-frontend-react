@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import avatar from '../../images/avatar.png';
 
 function SideBar(props) {
 
@@ -34,7 +35,7 @@ function SideBar(props) {
             <div className='side-bar__main-container'>
                 <div className="side-bar__user-container">
                     <div className="side-bar__user">
-                        <div className="side-bar__user-avatar" />
+                        <img src={currentUser.avatar !== '' ? currentUser.avatar : avatar} alt="Аватар" className="side-bar__user-avatar" />
                         <p className="side-bar__user-name">{userName}</p>
                         <p className="side-bar__user-role">{currentUser.role}</p>
                     </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as FixationApi from "../../Api/FixationApi";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Preloader from '../Preloader/Preloader';
-import avatar from '../../images/avatar.svg';
+import avatar from '../../images/avatar.png';
 
 function FixationGeneralInformation(props) {
 
@@ -139,6 +139,20 @@ function FixationGeneralInformation(props) {
         return `${userName.lastName + ' ' + userName.firstName}`
     }
 
+    function userFixAvatar(userArray) {
+        const userAvatar = {
+            avatar: ''
+        }
+        userArray.forEach((user) => {
+            if (user.avatar === '') {
+                userAvatar.avatar = avatar
+            } else {
+                userAvatar.avatar = user.avatar
+            }
+        })
+        return `${userAvatar.avatar}`
+    }
+
     function onSelectImageHandler(files) {
         if (files.length !== 0) {
             const reader = [];
@@ -162,25 +176,6 @@ function FixationGeneralInformation(props) {
             setPhotos(filteredPhotos);
         }
     }
-
-    // ОТАВИТЬ, потом пригодится для выбора одной фотки аватарки. Только в инпуте убрать multiple
-
-    // const onSelectImageHandler = (files) => {
-
-    //     var file = files[0];
-    //     var reader = new FileReader();
-
-    //     reader.onloadend = function () {
-    //         setFoto(reader.result)
-    //     }
-
-    //     if (file) {
-    //         reader.readAsDataURL(file);
-    //     } else {
-    //         setFoto('');
-    //     }
-
-    // }
 
     return (
         <section className="fixation-general-information">
@@ -292,7 +287,7 @@ function FixationGeneralInformation(props) {
                     {commentsToRender.map((comment, index) => (
                         <div key={index} className="fixation-general-information__comment-container">
                             <div className="fixation-general-information__comment-heading-container">
-                                <img src={avatar} alt="Аватар" className="fixation-general-information__comment-avatar" />
+                                <img src={userFixAvatar(comment.Users)} alt="Аватар" className="fixation-general-information__comment-avatar" />
                                 <p className="fixation-general-information__comment-name">{userFixName(comment.Users)}</p>
                                 <p className="fixation-general-information__comment-date">{fixDate(comment.createdAt)}</p>
                             </div>

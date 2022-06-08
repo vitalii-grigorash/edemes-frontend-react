@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { Link } from 'react-router-dom';
+import avatar from '../../images/avatar.png';
 
 function Header(props) {
 
@@ -36,7 +37,7 @@ function Header(props) {
                     <p className="header__user-name">{userName}</p>
                     <p className="header__user-role">{currentUser.role}</p>
                 </div>
-                <div className='header__avatar' />
+                <img src={currentUser.avatar !== '' ? currentUser.avatar : avatar} alt="Аватар" className="header__avatar" />
                 <div className={`header__arrow ${isUserOptionsShow && 'header__arrow_close'}`} />
                 <div className={`header__user-options-container ${isUserOptionsShow && 'header__user-options-container_active'}`}>
                     <Link to={'/profile'} className='header__user-my-profile-container' onClick={() => onOpenMobileSideBar('/profile')}>

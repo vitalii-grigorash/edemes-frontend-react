@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Preloader from '../Preloader/Preloader';
-import avatar from '../../images/avatar.svg';
+import avatar from '../../images/avatar.png';
 
 function Information(props) {
 
@@ -25,6 +25,8 @@ function Information(props) {
     const commentsPerRow = 3;
     const commentsToRender = comments.slice(0, (currentRow + 1) * commentsPerRow);
     const isMoreComments = commentsToRender.length !== comments.length;
+
+    console.log(commentsToRender);
 
     useEffect(() => {
         setPhotosForRender([]);
@@ -91,6 +93,20 @@ function Information(props) {
             userName.firstName = user.firstName
         })
         return `${userName.lastName + ' ' + userName.firstName}`
+    }
+
+    function userFixAvatar(userArray) {
+        const userAvatar = {
+            avatar: ''
+        }
+        userArray.forEach((user) => {
+            if (user.avatar === '') {
+                userAvatar.avatar = avatar
+            } else {
+                userAvatar.avatar = user.avatar
+            }
+        })
+        return `${userAvatar.avatar}`
     }
 
     return (
@@ -167,7 +183,7 @@ function Information(props) {
                     {commentsToRender.map((comment, index) => (
                         <div key={index} className="fixation-general-information__comment-container">
                             <div className="fixation-general-information__comment-heading-container">
-                                <img src={avatar} alt="Аватар" className="fixation-general-information__comment-avatar" />
+                                <img src={userFixAvatar(comment.Users)} alt="Аватар" className="fixation-general-information__comment-avatar" />
                                 <p className="fixation-general-information__comment-name">{userFixName(comment.Users)}</p>
                                 <p className="fixation-general-information__comment-date">{fixDate(comment.createdAt)}</p>
                             </div>
