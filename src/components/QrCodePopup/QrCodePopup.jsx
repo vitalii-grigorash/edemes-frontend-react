@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import * as BoxRegistrationApi from '../../Api/BoxRegistrationApi';
+import { options } from '../../config';
 
 function QrCodePopup(props) {
 
@@ -12,26 +13,27 @@ function QrCodePopup(props) {
     } = props;
 
     const [qrCodeSrc, setQrCodeSrc] = useState('');
+    const QR_CODE_URL = options.frontUrl;
 
     useEffect(() => {
         if (isOpen) {
-            console.log(data);
-            QRCode.toDataURL(`http://localhost:3000/fixation/${data.hashQr}`)
+            console.log(`${QR_CODE_URL}/fixation/${data.hashQr}`);
+            QRCode.toDataURL(`${QR_CODE_URL}/fixation/${data.hashQr}`)
                 .then((qr) => {
                     setQrCodeSrc(qr)
                     BoxRegistrationApi.addQr({
                         id: data.id,
                         qr: qr
                     })
-                        .then((res) => {
-                            console.log(res);
+                        .then(() => {
+                            
                         })
                         .catch((err) => {
                             console.log(err.message);
                         })
                 });
         }
-    }, [isOpen, data.url, data]);
+    }, [isOpen, data.url, data, QR_CODE_URL]);
 
     const handleOverlayClose = (evt) => {
         if (evt.target.classList.contains('qr-code-popup_opened')) {
@@ -39,7 +41,7 @@ function QrCodePopup(props) {
         }
     }
 
-    function onPrintButtonClick () {
+    function onPrintButtonClick() {
         printQr(qrCodeSrc);
     }
 

@@ -390,7 +390,6 @@ function App() {
     if (localStorage.getItem('user')) {
       const userData = localStorage.getItem('user');
       const user = JSON.parse(userData);
-      console.log(user)
       if (user.active) {
         setLoggedIn(true);
         createUserName(user);
@@ -419,7 +418,6 @@ function App() {
       .then((res) => {
         localStorage.setItem('user', JSON.stringify(res.user));
         login(res.user);
-        console.log(res.user)
       })
       .catch((err) => {
         setAuthError(err.message);
@@ -438,7 +436,6 @@ function App() {
   }
 
   function handleRegister(registerData) {
-    console.log(registerData);
     Auth.registration(registerData)
       .then(() => {
         setRegisterError('');

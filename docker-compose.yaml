@@ -1,0 +1,10 @@
+version: "2"
+
+services:
+  edemes-frontend:
+    container_name: edemes-frontend
+    restart: always
+    build: .
+    image: edemes-frontend:latest
+    ports:
+      - 3000:3000

@@ -44,6 +44,7 @@ function Profile(props) {
             newPassword.setErrorMessage('');
             repeatNewPassword.setErrorMessage('');
             profileRealoadCancel();
+            setAvatar('');
         }
     }, [
         isProfileReload,

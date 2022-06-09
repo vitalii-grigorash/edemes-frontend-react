@@ -76,7 +76,6 @@ function CatalogPopup(props) {
         }
         Catalogs.createNewCatalog(catalog)
             .then((data) => {
-                console.log(data);
                 catalogName.setValue('');
                 handleShowCatalogAddContainer();
                 setSelectedCategory('Выберете категорию');
@@ -93,7 +92,6 @@ function CatalogPopup(props) {
     }
 
     function onSelectCategoryClick(selectedCategory) {
-        console.log(selectedCategory)
         setCategorySelected(true);
         setSelectedCategoryId(selectedCategory.id);
         setSelectedCategory(selectedCategory.name);

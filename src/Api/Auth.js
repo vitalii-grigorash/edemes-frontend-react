@@ -1,6 +1,6 @@
-import { apiOptions } from '../config';
+import { options } from '../config';
 
-const API_URL = apiOptions.apiUrl;
+const API_URL = options.apiUrl;
 
 export const authorize = (email, password) => {
     return fetch(`${API_URL}/login`, {

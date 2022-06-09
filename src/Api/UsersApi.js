@@ -1,6 +1,6 @@
-import { apiOptions } from '../config';
+import { options } from '../config';
 
-const API_URL = apiOptions.apiUrl;
+const API_URL = options.apiUrl;
 
 export const getAllUsers = () => {
     return fetch(`${API_URL}/users`, {

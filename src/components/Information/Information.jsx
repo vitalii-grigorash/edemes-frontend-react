@@ -26,8 +26,6 @@ function Information(props) {
     const commentsToRender = comments.slice(0, (currentRow + 1) * commentsPerRow);
     const isMoreComments = commentsToRender.length !== comments.length;
 
-    console.log(commentsToRender);
-
     useEffect(() => {
         setPhotosForRender([]);
         if (box.photo !== null) {
