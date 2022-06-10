@@ -416,7 +416,6 @@ function App() {
   function handleLogin(email, password) {
     Auth.authorize(email, password)
       .then((res) => {
-        console.log(res);
         if (res === undefined) {
           setAuthError('Вы были заблокированы администратором');
         } else {

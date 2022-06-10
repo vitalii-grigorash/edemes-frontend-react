@@ -143,16 +143,64 @@ function Profile(props) {
         }
     }, [repeatNewPassword.value]);
 
+    // const onSelectImageHandler = (files) => {
+    //     var file = files[0];
+    //     var reader = new FileReader();
+    //     reader.onloadend = function () {
+    //         console.log(reader.result)
+    //         setAvatar(reader.result)
+    //     }
+    //     if (file) {
+    //         reader.readAsDataURL(file);
+    //     } else {
+    //         setAvatar('');
+    //     }
+    // }
+
     const onSelectImageHandler = (files) => {
         var file = files[0];
         var reader = new FileReader();
         reader.onloadend = function () {
-            setAvatar(reader.result)
+            compressImage(reader.result)
+            // Если не использовать сжатие, то расскомментировать setAvatar(reader.result) и закомментировать compressImage(reader.result)
+            // setAvatar(reader.result)
         }
         if (file) {
             reader.readAsDataURL(file);
         } else {
             setAvatar('');
+        }
+    }
+
+    function compressImage(base64) {
+        const canvas = document.createElement('canvas');
+        const img = document.createElement('img');
+        img.src = base64
+        img.onload = function () {
+            let width = img.width
+            let height = img.height
+            const maxHeight = 150
+            const maxWidth = 240
+            if (width > height) {
+                if (width > maxWidth) {
+                    height = Math.round((height *= maxWidth / width))
+                    width = maxWidth
+                }
+            } else {
+                if (height > maxHeight) {
+                    width = Math.round((width *= maxHeight / height))
+                    height = maxHeight
+                }
+            }
+            canvas.width = width
+            canvas.heght = height
+            const ctx = canvas.getContext('2d')
+            ctx.drawImage(img, 0, 0, width, height)
+            var comressData = canvas.toDataURL('image/jpeg', 0.7)
+            setAvatar(comressData);
+        }
+        img.onerror = function (err) {
+            console.log(err);
         }
     }
 
