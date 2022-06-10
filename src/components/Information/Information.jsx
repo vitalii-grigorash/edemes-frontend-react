@@ -117,7 +117,7 @@ function Information(props) {
                     </div>
                     <div className='information__table-row'>
                         <p className='information__table-heading'>Вес, кг</p>
-                        <p className='information__table-value'>{box.weight}</p>
+                        <p className='information__table-value'>{box.weight === 0 ? 'Не задано' : box.weight}</p>
                     </div>
                     <div className='information__table-row'>
                         <p className='information__table-heading'>Экспонаты, шт</p>
@@ -125,11 +125,11 @@ function Information(props) {
                     </div>
                     <div className='information__table-row'>
                         <p className='information__table-heading'>Габариты, cм</p>
-                        <p className='information__table-value'>{box.depth} * {box.width} * {box.height}</p>
+                        <p className='information__table-value'>{box.depth === 0 && box.width === 0 && box.height === 0 ? 'Не задано' : `${box.depth + ' * ' + box.width + ' * ' + box.height}`}</p>
                     </div>
                     <div className='information__table-row'>
                         <p className='information__table-heading'>Ограничения</p>
-                        <p className='information__table-value'>{restrictions}</p>
+                        <p className='information__table-value'>{restrictions === '' ? 'Не задано' : restrictions}</p>
                     </div>
                     <div className='information__table-row'>
                         <p className='information__table-heading'>Стоимость,  ₽</p>
@@ -137,11 +137,11 @@ function Information(props) {
                     </div>
                     <div className='information__table-row'>
                         <p className='information__table-heading'>Температура,  °С</p>
-                        <p className='information__table-value'>{temperatureRangeIn} {temperatureRangeOf}</p>
+                        <p className='information__table-value'>{temperatureRangeIn === 0 ? 'Не задано' : `${temperatureRangeIn + ' ' + temperatureRangeOf}`}</p>
                     </div>
                     <div className='information__table-row'>
                         <p className='information__table-heading'>Влажность,  %</p>
-                        <p className='information__table-value'>{humidity}</p>
+                        <p className='information__table-value'>{humidity === 0 ? 'Не задано' : humidity}</p>
                     </div>
                 </div>
                 {!isBoxLoading ? (

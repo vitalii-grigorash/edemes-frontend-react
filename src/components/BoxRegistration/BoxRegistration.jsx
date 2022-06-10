@@ -75,6 +75,7 @@ function BoxRegistration(props) {
     const [isConditionSelected, setConditionSelected] = useState(false);
     const [isMapWithCoordinatesActive, setMapWithCoordinatesActive] = useState(false);
     const [photos, setPhotos] = useState([]);
+    const [registerError, setRegisterError] = useState('');
 
     useEffect(() => {
         if (currentUser.role === 'Администратор') {
@@ -381,15 +382,16 @@ function BoxRegistration(props) {
         setBoxRegistrationGeneralInformationActive(false);
         setBoxRegistrationExhibitsActive(false);
         setBoxRegistrationRouteActive(true);
+        setRegisterError('');
     }
 
     function onRegisterButtonClick() {
         const dataToRegister = {
+            locationIdFrom: route.locationIdFrom,
+            locationIdTo: route.locationIdTo,
             companyIdTo: route.companyIdTo,
             companyIdFrom: currentUser.userCompanyInfo.id,
             userId: currentUser.id,
-            locationIdFrom: route.locationIdFrom,
-            locationIdTo: route.locationIdTo,
             artObjectsIdList: selectedArtObjects.map((artObject) => artObject.id),
             name: generalInformation.name,
             height: generalInformation.height,
@@ -417,16 +419,30 @@ function BoxRegistration(props) {
             ],
             qr: ""
         }
-        BoxRegistrationApi.addNewBox(dataToRegister)
-            .then((res) => {
-                clearAllBoxRegistrationInputs();
-                getCatalogs();
-                openQrCodeModal(res);
-                setPhotos([]);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            })
+        console.log(dataToRegister);
+        if (
+            dataToRegister.locationIdFrom === '' ||
+            dataToRegister.locationIdTo === '' ||
+            dataToRegister.companyIdTo === '' ||
+            dataToRegister.name === ''
+        ) {
+            setRegisterError('Заполните все поля помеченные звездочкой');
+        } else {
+            if (dataToRegister.artObjectsIdList.length === 0) {
+                setRegisterError('Необходимо добавить экспонаты');
+            } else {
+                BoxRegistrationApi.addNewBox(dataToRegister)
+                    .then((res) => {
+                        clearAllBoxRegistrationInputs();
+                        getCatalogs();
+                        openQrCodeModal(res);
+                        setPhotos([]);
+                    })
+                    .catch((err) => {
+                        console.log(err.message);
+                    })
+            }
+        }
     }
 
     function onSelectImageHandler(files) {
@@ -487,7 +503,7 @@ function BoxRegistration(props) {
                         <div className='box-registration-general-information__inputs-main-container'>
                             <div className='box-registration-general-information__inputs-container'>
                                 <div className='box-registration-general-information__input-container'>
-                                    <p className='box-registration-general-information__input-label box-registration-general-information__input-label_first'>Название ящика</p>
+                                    <p className='box-registration-general-information__input-label box-registration-general-information__input-label_first'>Название ящика*</p>
                                     <input
                                         type="text"
                                         className='box-registration-general-information__input'
@@ -678,7 +694,7 @@ function BoxRegistration(props) {
                     <div className='box-registration-route'>
                         <div className='box-registration-route__form-container'>
                             <div className='box-registration-route__input-container'>
-                                <p className='box-registration-route__input-label'>Откуда</p>
+                                <p className='box-registration-route__input-label'>Откуда*</p>
                                 <div className='box-registration-route__select-container' onClick={handleSelectRouteFrom}>
                                     <p className={`box-registration-route__select-route-name ${isRouteFromSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedRouteFrom}</p>
                                     <div className='box-registration-route__select-route-arrow' />
@@ -694,7 +710,7 @@ function BoxRegistration(props) {
                                 </div>
                             </div>
                             <div className='box-registration-route__input-container'>
-                                <p className='box-registration-route__input-label'>Куда</p>
+                                <p className='box-registration-route__input-label'>Куда*</p>
                                 <div className='box-registration-route__select-container' onClick={handleSelectRouteTo}>
                                     <p className={`box-registration-route__select-route-name ${isRouteToSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedRouteTo}</p>
                                     <div className='box-registration-route__select-route-arrow' />
@@ -711,7 +727,7 @@ function BoxRegistration(props) {
                             </div>
                             {isRouteToSelected && (
                                 <div className='box-registration-route__input-container'>
-                                    <p className='box-registration-route__input-label'>Адрес</p>
+                                    <p className='box-registration-route__input-label'>Адрес*</p>
                                     <div className='box-registration-route__select-container' onClick={handleSelectAddress}>
                                         <p className={`box-registration-route__select-route-name ${isAddressSelected && 'box-registration-route__select-route-name_selected'}`}>{selectedAddress}</p>
                                         <div className='box-registration-route__select-route-arrow' />
@@ -757,6 +773,11 @@ function BoxRegistration(props) {
                         </YMaps>
                     </div>
                 }
+                {isBoxRegistrationGeneralInformationActive ? (
+                    <p className='box-registration__error-message'>{registerError}</p>
+                ) : (
+                    <div className='box-registration__no-error' />
+                )}
                 <div className='box-registration__buttons-container'>
                     {isBoxRegistrationExhibitsActive ? (
                         <>

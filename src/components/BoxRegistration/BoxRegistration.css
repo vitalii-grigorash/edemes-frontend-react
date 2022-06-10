@@ -86,8 +86,18 @@
 .box-registration__form-nav-text:last-of-type {
     margin-right: 0;
 }
+.box-registration__error-message {
+    margin: 10px auto 0 0;
+    font-size: 14px;
+    line-height: 18px;
+    color: #E84747;
+    min-height: 18px;
+}
+.box-registration__no-error {
+    min-height: 18px;
+}
 .box-registration__buttons-container {
-    margin: 32px auto 0 0;
+    margin: 12px auto 0 0;
     display: flex;
 }
 .box-registration__button-prev {

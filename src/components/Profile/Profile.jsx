@@ -88,7 +88,9 @@ function Profile(props) {
                 lastName: `${lastName.value === '' ? currentUser.lastName : lastName.value}`,
                 middleName: middleName.value,
                 password: newPassword.value,
-                avatar: avatar
+            }
+            if (avatar !== '') {
+                userData.avatar = avatar;
             }
             editUser(userData);
             clearPasswordInputs();

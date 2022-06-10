@@ -112,14 +112,7 @@ export const editUser = (userData) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            id: userData.id,
-            firstName: userData.firstName,
-            lastName: userData.lastName,
-            middleName: userData.middleName,
-            password: userData.password,
-            avatar: userData.avatar
-        })
+        body: JSON.stringify(userData)
     })
         .then(res => res.ok ? res : Promise.reject(res))
         .then((res) => {
