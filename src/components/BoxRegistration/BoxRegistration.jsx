@@ -419,7 +419,6 @@ function BoxRegistration(props) {
             ],
             qr: ""
         }
-        console.log(dataToRegister);
         if (
             dataToRegister.locationIdFrom === '' ||
             dataToRegister.locationIdTo === '' ||

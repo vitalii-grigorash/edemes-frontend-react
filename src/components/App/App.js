@@ -416,8 +416,13 @@ function App() {
   function handleLogin(email, password) {
     Auth.authorize(email, password)
       .then((res) => {
-        localStorage.setItem('user', JSON.stringify(res.user));
-        login(res.user);
+        console.log(res);
+        if (res === undefined) {
+          setAuthError('Вы были заблокированы администратором');
+        } else {
+          localStorage.setItem('user', JSON.stringify(res.user));
+          login(res.user);
+        }
       })
       .catch((err) => {
         setAuthError(err.message);
